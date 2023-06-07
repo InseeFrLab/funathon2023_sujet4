@@ -82,14 +82,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#remarque" id="toc-remarque" class="nav-link active" data-scroll-target="#remarque">Remarque</a></li>
+  <li><a href="#objectif-et-approche-pédagogique" id="toc-objectif-et-approche-pédagogique" class="nav-link active" data-scroll-target="#objectif-et-approche-pédagogique">Objectif et approche pédagogique</a>
+  <ul class="collapse">
+  <li><a href="#etapes-du-projet" id="toc-etapes-du-projet" class="nav-link" data-scroll-target="#etapes-du-projet">Etapes du projet</a></li>
+  <li><a href="#remarques" id="toc-remarques" class="nav-link" data-scroll-target="#remarques">Remarques</a></li>
   <li><a href="#sources-et-packages-utilisés" id="toc-sources-et-packages-utilisés" class="nav-link" data-scroll-target="#sources-et-packages-utilisés">Sources et packages utilisés</a></li>
+  </ul></li>
+  <li><a href="#récupération-des-données-openfoodfacts" id="toc-récupération-des-données-openfoodfacts" class="nav-link" data-scroll-target="#récupération-des-données-openfoodfacts">1️⃣ Récupération des données <code>OpenFoodFacts</code></a>
+  <ul class="collapse">
   <li><a href="#préliminaire" id="toc-préliminaire" class="nav-link" data-scroll-target="#préliminaire">1.1. Préliminaire (🟡,🟢,🔵,🔴,⚫)</a></li>
   <li><a href="#télécharger-et-nettoyer-la-base-openfoodfacts" id="toc-télécharger-et-nettoyer-la-base-openfoodfacts" class="nav-link" data-scroll-target="#télécharger-et-nettoyer-la-base-openfoodfacts">1.2. Télécharger et nettoyer la base <code>OpenFoodFacts</code> (🟡,🟢,🔵,🔴,⚫)</a></li>
   <li><a href="#classification-automatique-dans-une-nomenclature-de-produits" id="toc-classification-automatique-dans-une-nomenclature-de-produits" class="nav-link" data-scroll-target="#classification-automatique-dans-une-nomenclature-de-produits">1.3. Classification automatique dans une nomenclature de produits (🟡,🟢,🔵,🔴,⚫)</a></li>
   <li><a href="#bis-version-alternative-via-lapi-predicat" id="toc-bis-version-alternative-via-lapi-predicat" class="nav-link" data-scroll-target="#bis-version-alternative-via-lapi-predicat">1.3.bis Version alternative via l’API <code>predicat</code> (🟡,🟢,🔵,🔴,⚫)</a></li>
   <li><a href="#ter-entrainer-son-propre-classifieur" id="toc-ter-entrainer-son-propre-classifieur" class="nav-link" data-scroll-target="#ter-entrainer-son-propre-classifieur">1.3.ter Entrainer son propre classifieur (🔴,⚫)</a></li>
   <li><a href="#ecriture-de-la-base-sur-lespace-de-stockage-distant" id="toc-ecriture-de-la-base-sur-lespace-de-stockage-distant" class="nav-link" data-scroll-target="#ecriture-de-la-base-sur-lespace-de-stockage-distant">1.4. Ecriture de la base sur l’espace de stockage distant</a></li>
+  </ul></li>
+  <li><a href="#faire-des-statistiques-agrégées-par-catégories" id="toc-faire-des-statistiques-agrégées-par-catégories" class="nav-link" data-scroll-target="#faire-des-statistiques-agrégées-par-catégories">2️⃣ Faire des statistiques agrégées par catégories</a>
+  <ul class="collapse">
   <li><a href="#préliminaires" id="toc-préliminaires" class="nav-link" data-scroll-target="#préliminaires">2.1. Préliminaires (🟡,🟢,🔵,🔴,⚫)</a></li>
   <li><a href="#import-des-données-depuis-lespace-de-stockage-distant-avec-pandas" id="toc-import-des-données-depuis-lespace-de-stockage-distant-avec-pandas" class="nav-link" data-scroll-target="#import-des-données-depuis-lespace-de-stockage-distant-avec-pandas">2.2. Import des données depuis l’espace de stockage distant avec <code>Pandas</code> (🟡,🟢,🔵)</a>
   <ul class="collapse">
@@ -99,6 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#import-et-traitement-des-données-avec-duckdb-et" id="toc-import-et-traitement-des-données-avec-duckdb-et" class="nav-link" data-scroll-target="#import-et-traitement-des-données-avec-duckdb-et">2.4. Import et traitement des données avec <code>DuckDB</code> (🔴 et ⚫)</a></li>
   <li><a href="#sauvegarde-dans-lespace-de-stockage-distant" id="toc-sauvegarde-dans-lespace-de-stockage-distant" class="nav-link" data-scroll-target="#sauvegarde-dans-lespace-de-stockage-distant">2.5. Sauvegarde dans l’espace de stockage distant (🟡,🟢,🔵,🔴,⚫)</a></li>
   <li><a href="#création-dun-modèle-de-graphiques" id="toc-création-dun-modèle-de-graphiques" class="nav-link" data-scroll-target="#création-dun-modèle-de-graphiques">2.6. Création d’un modèle de graphiques (🟡,🟢,🔵,🔴,⚫)</a></li>
+  </ul></li>
   <li><a href="#comparer-un-produit-à-un-groupe-similaire" id="toc-comparer-un-produit-à-un-groupe-similaire" class="nav-link" data-scroll-target="#comparer-un-produit-à-un-groupe-similaire">3️⃣ Comparer un produit à un groupe similaire</a>
   <ul class="collapse">
   <li><a href="#détection-de-code-barre" id="toc-détection-de-code-barre" class="nav-link" data-scroll-target="#détection-de-code-barre">3.1. Détection de code barre (🟡,🟢,🔵,🔴,⚫)</a></li>
@@ -125,7 +135,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Mon Yuka 🥕 avec Python 🐍</h1>
+<div class="quarto-title-block"><div><h1 class="title">Mon Yuka 🥕 avec Python 🐍</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
 </div>
 
 
@@ -142,7 +152,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>Ce notebook vise à présenter pas à pas comment créer une application interactive avec <code>Streamlit</code> reproduisant celle proposée sur <a href="https://myyuka.lab.sspcloud.fr/">myyuka.lab.sspcloud.fr</a>.</p>
 <p>Cet exercice est proposé dans le cadre du <code>Funathon</code> (hackathon non compétitif) organisé en 2023 par l’Insee et le Ministère de l’Agriculture sur le thème <em>“Du champ à l’assiette”</em>. Les autres sujets sont disponibles sur le <a href="https://github.com/InseeFrLab/funathon2023"><code>Github InseeFrLab</code></a>.</p>
-<p>##&nbsp;Objectif et approche pédagogique</p>
+<section id="objectif-et-approche-pédagogique" class="level1">
+<h1>Objectif et approche pédagogique</h1>
 <p>L’objectif de ce projet est d’apprendre à utiliser <code>Python</code> pour créer des applications réactives avec <code>Streamlit</code> mais aussi de se familiariser à la manipulation de données avec <code>Python</code> et, au passage, à quelques bonnes pratiques utiles pour obtenir des projets plus lisibles et reproductibles.</p>
 <p>Pour parvenir à cet objectif, il est possible d’emprunter plusieurs voies, plus ou moins guidées. Celles-ci sont là pour permettre que ce sujet soit réalisable. Elles sont balisées de la manière suivante:</p>
 <table class="table">
@@ -197,7 +208,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Les étapes ne sont pas forcément de difficulté graduelle, il s’agit plutôt de séquencer de manière logique le projet pour vous faciliter la prise en main.</p>
 <p>Il est donc tout à fait possible de passer, selon les parties, d’une voie 🟢 à une voie 🔵 ou bien de tester les codes proposés dans la voie 🟡 d’abord puis, une fois que la logique a été comprise, essayer de les faire soit-même via la voie 🟢 ou encore essayer via la voie 🔵, ne pas y parvenir du fait du caractère plus succinct des instructions et regarder les instructions de la voie 🟢 ou la solution de la voie 🟡.</p>
 <p>Il est même tout à fait possible de sauter une étape et reprendre à partir de la suivante grâce aux <em>checkpoints</em> proposés.</p>
-<p>Les consignes sont encapsulées dans des boites dédiées, afin d’être séparées des explications générales. Par exemple, la boite verte prendra l’aspect suivant:</p>
+<p>Les consignes sont encapsulées dans des boites dédiées, afin d’être séparées des explications générales.</p>
+<p>Par exemple, la boite verte prendra l’aspect suivant:</p>
 <div class="cell markdown">
 <!----- boite 🟢 ----->
 
@@ -235,7 +247,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"toto"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>###&nbsp;Etapes du projet</p>
+<section id="etapes-du-projet" class="level2">
+<h2 class="anchored" data-anchor-id="etapes-du-projet">Etapes du projet</h2>
 <p>Le projet est séquencé de la manière suivante:</p>
 <table class="table">
 <colgroup>
@@ -273,16 +286,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <p>Le développement à proprement parler de l’application est donc assez tardif car un certain nombre d’étapes préalables sont nécessaires pour ne pas avoir une application monolithique (ce qui est une bonne pratique). Si vous n’êtes intéressés que par développer une application <code>Streamlit</code>, vous pouvez directement passer aux étapes concernées (à partir de la partie 3️).</p>
 <p>La première étape (1️⃣ <em>Récupération et nettoyage de la base <code>OpenFoodFacts</code></em>) peut être assez chronophage. Cela est assez représentatif des projets de <em>data science</em> où la majorité du temps est consacrée à la structuration et la manipulation de données. La deuxième étape (2️ <em>“Faire des statistiques agrégées par catégories”</em>) est la moins centrale de ce sujet: si vous manquez de temps vous pouvez la passer et utiliser directement les morceaux de code mis à disposition.</p>
-<section id="remarque" class="level3">
-<h3 class="anchored" data-anchor-id="remarque">Remarque</h3>
+</section>
+<section id="remarques" class="level2">
+<h2 class="anchored" data-anchor-id="remarques">Remarques</h2>
 <p>Cette page peut être consultée par différents canaux:</p>
 <ul>
 <li>Sur un site web, les codes faisant office de solution sont, par défauts, cachés. Cela peut être pratique de consulter cette page si vous êtes sur un parcours de couleur différente que le jaune et ne voulez pas voir la solution sans le vouloir ;</li>
 <li>Sur un notebook <code>Jupyter</code>, les solutions de la voie 🟡 sont affichées par défaut. Elles peuvent être cachées en faisant <code>View</code> &gt; <code>Collapse All Code</code></li>
 </ul>
 </section>
-<section id="sources-et-packages-utilisés" class="level3">
-<h3 class="anchored" data-anchor-id="sources-et-packages-utilisés">Sources et packages utilisés</h3>
+<section id="sources-et-packages-utilisés" class="level2">
+<h2 class="anchored" data-anchor-id="sources-et-packages-utilisés">Sources et packages utilisés</h2>
 <p>Notre source de référence sera <a href="https://fr.openfoodfacts.org/"><code>OpenFoodFacts</code></a>, une base contributive sur les produits alimentaires.</p>
 <div class="cell markdown">
 <div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #ffc10780;">
@@ -291,8 +305,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Ce modèle est là à des fins de démonstration du principe de la classification automatique et de la manière dont celle-ci peut être intégrée à un processus de production de données. Il ne s’agit pas d’un modèle officiel de l’Insee.</p>
 </div>
 </div>
-<p>#&nbsp;1️⃣ Récupération des données <code>OpenFoodFacts</code></p>
 </section>
+</section>
+<section id="récupération-des-données-openfoodfacts" class="level1">
+<h1>1️⃣ Récupération des données <code>OpenFoodFacts</code></h1>
 <section id="préliminaire" class="level2">
 <h2 class="anchored" data-anchor-id="préliminaire">1.1. Préliminaire (🟡,🟢,🔵,🔴,⚫)</h2>
 <p>Comme nous allons utiliser fréquemment certains paramètres, une bonne pratique consiste à les stocker dans un fichier dédié, au format <code>YAML</code> et d’importer celui-ci via <code>Python</code>. Ceci est expliqué dans <a href="https://ensae-reproductibilite.github.io/website/chapters/application.html#etape-3-gestion-des-param%C3%A8tres">ce cours de l’ENSAE</a></p>
@@ -845,11 +861,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p>https://minio.lab.sspcloud.fr/<username_sspcloud>/2023/sujet4/diffusion/openfood.parquet</username_sspcloud></p>
 </blockquote>
-<p>#&nbsp;2️⃣ Faire des statistiques agrégées par catégories</p>
+</section>
+</section>
+<section id="faire-des-statistiques-agrégées-par-catégories" class="level1">
+<h1>2️⃣ Faire des statistiques agrégées par catégories</h1>
 <p>Cette partie permet de calculer en amont de l’application des statistiques descriptives qui pourront être utilisées par celle-ci.</p>
 <p>Il est préférable de minimiser la quantité de calculs faits à la volée dans le cadre d’une application. Sinon, le risque est une latence embêtante pour l’utilisateur voire un crash du serveur à cause de besoins de ressources trop importants.</p>
 <p>Cette partie propose ainsi de créer en avance une base de données synthétisant le nombre de produits dans une catégorie donnée (par exemple les fromages à pâte crue) qui partagent la même note. Cela nous permettra d’afficher des statistiques personnalisées sur les produits similaires à celui qu’on scanne.</p>
-</section>
 <section id="préliminaires" class="level2">
 <h2 class="anchored" data-anchor-id="préliminaires">2.1. Préliminaires (🟡,🟢,🔵,🔴,⚫)</h2>
 <p>Sur le plan technique, cette partie propose deux cadres de manipulation de données différents, selon le balisage de la voie:</p>
@@ -1332,6 +1350,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+</section>
 </section>
 <section id="comparer-un-produit-à-un-groupe-similaire" class="level1">
 <h1>3️⃣ Comparer un produit à un groupe similaire</h1>
@@ -2239,6 +2258,8 @@ except:
 <h2 class="anchored" data-anchor-id="bonus-le-parcours">Bonus: le parcours 🟣</h2>
 <p>Un dernier <em>challenge</em> pour les amateurs de sensations fortes : créer la même application sur un site <em>web</em> statique grâce au <em>web assembly</em> (par exemple grâce à <code>Observable</code> et <code>Quarto</code>) !</p>
 <p>Pour avoir un site web statique, l’identification du code-barre devra être faite en dehors de l’application, par exemple par le moyen d’une API</p>
+<!-- -->
+
 </section>
 </section>
 
@@ -2323,6 +2344,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
   function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
@@ -2476,7 +2548,189 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb68" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Mon Yuka 🥕 avec Python 🐍"</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="an">eval:</span><span class="co"> false</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a><span class="co">  cache: true</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a><span class="co">  keep-ipynb: true</span></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>Ce notebook vise à présenter pas à pas comment créer une application interactive</span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>avec <span class="in">`Streamlit`</span> reproduisant celle proposée sur <span class="co">[</span><span class="ot">myyuka.lab.sspcloud.fr</span><span class="co">](https://myyuka.lab.sspcloud.fr/)</span>.</span>
+<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a>Cet exercice est proposé dans le cadre du <span class="in">`Funathon`</span> (hackathon non compétitif)</span>
+<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a>organisé en 2023 par l'Insee et le Ministère de l'Agriculture sur le thème _"Du champ à l'assiette"_. </span>
+<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a>Les autres sujets sont disponibles</span>
+<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a>sur le <span class="co">[</span><span class="ot">`Github InseeFrLab`</span><span class="co">](https://github.com/InseeFrLab/funathon2023)</span>. </span>
+<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a><span class="fu"># Objectif et approche pédagogique</span></span>
+<span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-20"><a href="#cb68-20" aria-hidden="true" tabindex="-1"></a>L'objectif de ce projet est d'apprendre à utiliser <span class="in">`Python`</span> pour créer des </span>
+<span id="cb68-21"><a href="#cb68-21" aria-hidden="true" tabindex="-1"></a>applications réactives avec <span class="in">`Streamlit`</span> mais aussi de se familiariser à</span>
+<span id="cb68-22"><a href="#cb68-22" aria-hidden="true" tabindex="-1"></a>la manipulation de données avec <span class="in">`Python`</span> et, au passage, à quelques bonnes</span>
+<span id="cb68-23"><a href="#cb68-23" aria-hidden="true" tabindex="-1"></a>pratiques utiles pour obtenir des projets plus lisibles et reproductibles. </span>
+<span id="cb68-24"><a href="#cb68-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-25"><a href="#cb68-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-26"><a href="#cb68-26" aria-hidden="true" tabindex="-1"></a>Pour parvenir à cet objectif, il est possible d'emprunter plusieurs voies,</span>
+<span id="cb68-27"><a href="#cb68-27" aria-hidden="true" tabindex="-1"></a>plus ou moins guidées. Celles-ci sont là pour permettre que ce sujet </span>
+<span id="cb68-28"><a href="#cb68-28" aria-hidden="true" tabindex="-1"></a>soit réalisable. Elles sont balisées de la manière suivante:</span>
+<span id="cb68-29"><a href="#cb68-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-30"><a href="#cb68-30" aria-hidden="true" tabindex="-1"></a>| Balisage | Approche | Prérequis de niveau | Objectif pédagogique |</span>
+<span id="cb68-31"><a href="#cb68-31" aria-hidden="true" tabindex="-1"></a>|--------|---------|----------------|-------------------|</span>
+<span id="cb68-32"><a href="#cb68-32" aria-hidden="true" tabindex="-1"></a>| 🟡 | Exécuter les cellules permet d'obtenir le résultat attendu | Capacité à installer des _packages_ | Découvrir de nouveaux _packages_ en suivant le fil conducteur du projet, découvrir les scripts <span class="in">`Python`</span>, se familiariser avec <span class="in">`Git`</span>  |</span>
+<span id="cb68-33"><a href="#cb68-33" aria-hidden="true" tabindex="-1"></a>| 🟢 | Des instructions détaillées sur la manière de procéder sont proposées | Connaître quelques manipulations avec <span class="in">`Pandas`</span> | Apprendre à utiliser certains _packages_ avec un projet guidé, se familiariser avec les projets `Python` plus conséquents que les _notebooks_ <span class="in">`Jupyter`</span> |</span>
+<span id="cb68-34"><a href="#cb68-34" aria-hidden="true" tabindex="-1"></a>| 🔵 | Instructions moins détaillées | Capacité à manipuler des données avec <span class="in">`Pandas`</span> | Apprendre à modulariser du code pour faciliter sa réutilisation dans une application, découvrir la récupation de données via des API |</span>
+<span id="cb68-35"><a href="#cb68-35" aria-hidden="true" tabindex="-1"></a>| 🔴 | Peu d'instructions | Expérience en développement de code <span class="in">`Python`</span> | Découvrir la création d'application ou se familiariser avec l'écosystème <span class="in">`DuckDB`</span> |</span>
+<span id="cb68-36"><a href="#cb68-36" aria-hidden="true" tabindex="-1"></a>| ⚫ | Autonomie | Bonne maîtrise de <span class="in">`Python`</span> et de la ligne de commande ̀<span class="in">`Linux`</span> | S'initier au déploiement d'une application ou à l'ingénieurie de données&nbsp;|</span>
+<span id="cb68-37"><a href="#cb68-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-38"><a href="#cb68-38" aria-hidden="true" tabindex="-1"></a>Le parcours vers la mise en oeuvre d'une application fonctionnelle se fait par étapes, en séquençant le projet</span>
+<span id="cb68-39"><a href="#cb68-39" aria-hidden="true" tabindex="-1"></a>pour permettre d'avoir un projet lisible, reproductible et modulaire. </span>
+<span id="cb68-40"><a href="#cb68-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-41"><a href="#cb68-41" aria-hidden="true" tabindex="-1"></a>Les étapes ne sont</span>
+<span id="cb68-42"><a href="#cb68-42" aria-hidden="true" tabindex="-1"></a>pas forcément de difficulté graduelle, il s'agit plutôt de séquencer de manière logique le projet</span>
+<span id="cb68-43"><a href="#cb68-43" aria-hidden="true" tabindex="-1"></a>pour vous faciliter la prise en main.</span>
+<span id="cb68-44"><a href="#cb68-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-45"><a href="#cb68-45" aria-hidden="true" tabindex="-1"></a>Il est donc tout à fait possible de passer, selon les parties, d'une voie 🟢 à une voie 🔵 ou bien de tester les codes proposés dans la voie 🟡 d'abord puis, une fois que la logique a été comprise, essayer de les faire soit-même via la voie 🟢 ou encore essayer via la voie 🔵, ne pas y parvenir du fait du caractère plus succinct des instructions et regarder les instructions de la voie 🟢 ou la solution de la voie 🟡.</span>
+<span id="cb68-46"><a href="#cb68-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-47"><a href="#cb68-47" aria-hidden="true" tabindex="-1"></a>Il est même tout à fait possible de sauter une étape et reprendre à partir de la suivante grâce aux _checkpoints_ proposés. </span>
+<span id="cb68-48"><a href="#cb68-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-49"><a href="#cb68-49" aria-hidden="true" tabindex="-1"></a>Les consignes sont encapsulées dans des boites dédiées, afin d'être séparées des explications générales. </span>
+<span id="cb68-50"><a href="#cb68-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-51"><a href="#cb68-51" aria-hidden="true" tabindex="-1"></a>Par exemple, la boite verte prendra l'aspect suivant:</span>
+<span id="cb68-52"><a href="#cb68-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-53"><a href="#cb68-53" aria-hidden="true" tabindex="-1"></a>::: {.cell .markdown}</span>
+<span id="cb68-54"><a href="#cb68-54" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!----- boite 🟢 -----&gt;</span></span>
+<span id="cb68-55"><a href="#cb68-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-56"><a href="#cb68-56" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb68-59"><a href="#cb68-59" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb68-60"><a href="#cb68-60" aria-hidden="true" tabindex="-1"></a><span class="in">#| echo: false</span></span>
+<span id="cb68-61"><a href="#cb68-61" aria-hidden="true" tabindex="-1"></a><span class="in">#| output: asis</span></span>
+<span id="cb68-62"><a href="#cb68-62" aria-hidden="true" tabindex="-1"></a><span class="in">#| eval: true</span></span>
+<span id="cb68-63"><a href="#cb68-63" aria-hidden="true" tabindex="-1"></a><span class="in">from utils_notebook import create_box_level</span></span>
+<span id="cb68-64"><a href="#cb68-64" aria-hidden="true" tabindex="-1"></a><span class="in">create_box_level(color = "🟢", title = "Exemple (🟢)")</span></span>
+<span id="cb68-65"><a href="#cb68-65" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb68-66"><a href="#cb68-66" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;details&gt;</span></span>
+<span id="cb68-67"><a href="#cb68-67" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;summary&gt;</span>Dérouler pour révéler les instructions<span class="kw">&lt;/summary&gt;</span></span>
+<span id="cb68-68"><a href="#cb68-68" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb68-69"><a href="#cb68-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-70"><a href="#cb68-70" aria-hidden="true" tabindex="-1"></a><span class="in">Utiliser la fonction `print` pour afficher le texte _"Toto"_</span></span>
+<span id="cb68-71"><a href="#cb68-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-72"><a href="#cb68-72" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb68-73"><a href="#cb68-73" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/details&gt;</span></span>
+<span id="cb68-74"><a href="#cb68-74" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb68-75"><a href="#cb68-75" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb68-76"><a href="#cb68-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-77"><a href="#cb68-77" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!----- end 🟢 -----&gt;</span></span>
+<span id="cb68-78"><a href="#cb68-78" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb68-79"><a href="#cb68-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-80"><a href="#cb68-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-81"><a href="#cb68-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-82"><a href="#cb68-82" aria-hidden="true" tabindex="-1"></a>alors que sur le même exercice, si plusieurs voies peuvent emprunter le même chemin, on </span>
+<span id="cb68-83"><a href="#cb68-83" aria-hidden="true" tabindex="-1"></a>utilisera une délimitation grise :</span>
+<span id="cb68-84"><a href="#cb68-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-85"><a href="#cb68-85" aria-hidden="true" tabindex="-1"></a>::: {.cell .markdown}</span>
+<span id="cb68-86"><a href="#cb68-86" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!----- boite 🔵 -----&gt;</span></span>
+<span id="cb68-87"><a href="#cb68-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-88"><a href="#cb68-88" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb68-91"><a href="#cb68-91" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb68-92"><a href="#cb68-92" aria-hidden="true" tabindex="-1"></a><span class="in">#| echo: false</span></span>
+<span id="cb68-93"><a href="#cb68-93" aria-hidden="true" tabindex="-1"></a><span class="in">#| output: asis</span></span>
+<span id="cb68-94"><a href="#cb68-94" aria-hidden="true" tabindex="-1"></a><span class="in">#| eval: true</span></span>
+<span id="cb68-95"><a href="#cb68-95" aria-hidden="true" tabindex="-1"></a><span class="in">from utils_notebook import create_box_level</span></span>
+<span id="cb68-96"><a href="#cb68-96" aria-hidden="true" tabindex="-1"></a><span class="in">create_box_level(color = "grey", title = "Exemple (🔵,🔴,⚫)")</span></span>
+<span id="cb68-97"><a href="#cb68-97" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb68-98"><a href="#cb68-98" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;details&gt;</span></span>
+<span id="cb68-99"><a href="#cb68-99" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;summary&gt;</span>Dérouler pour révéler les instructions<span class="kw">&lt;/summary&gt;</span></span>
+<span id="cb68-100"><a href="#cb68-100" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb68-101"><a href="#cb68-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-102"><a href="#cb68-102" aria-hidden="true" tabindex="-1"></a><span class="in">Afficher le texte _"Toto"_</span></span>
+<span id="cb68-103"><a href="#cb68-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-104"><a href="#cb68-104" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb68-105"><a href="#cb68-105" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/details&gt;</span></span>
+<span id="cb68-106"><a href="#cb68-106" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb68-107"><a href="#cb68-107" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb68-108"><a href="#cb68-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-109"><a href="#cb68-109" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!----- end 🔵 -----&gt;</span></span>
+<span id="cb68-110"><a href="#cb68-110" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb68-111"><a href="#cb68-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-112"><a href="#cb68-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-113"><a href="#cb68-113" aria-hidden="true" tabindex="-1"></a>La solution associée, visible pour les personnes sur la voie 🟡, sera:</span>
+<span id="cb68-114"><a href="#cb68-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-117"><a href="#cb68-117" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb68-118"><a href="#cb68-118" aria-hidden="true" tabindex="-1"></a><span class="co">#&nbsp;Solution pour voie 🟡</span></span>
+<span id="cb68-119"><a href="#cb68-119" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"toto"</span>)</span>
+<span id="cb68-120"><a href="#cb68-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb68-121"><a href="#cb68-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-122"><a href="#cb68-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-123"><a href="#cb68-123" aria-hidden="true" tabindex="-1"></a><span class="fu">## Etapes du projet</span></span>
+<span id="cb68-124"><a href="#cb68-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-125"><a href="#cb68-125" aria-hidden="true" tabindex="-1"></a>Le projet est séquencé de la manière suivante: </span>
+<span id="cb68-126"><a href="#cb68-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-127"><a href="#cb68-127" aria-hidden="true" tabindex="-1"></a>| Etape | Objectif |</span>
+<span id="cb68-128"><a href="#cb68-128" aria-hidden="true" tabindex="-1"></a>|--------|---------|</span>
+<span id="cb68-129"><a href="#cb68-129" aria-hidden="true" tabindex="-1"></a>| Récupération et nettoyage de la base <span class="in">`OpenFoodFacts`</span> | Lire des données avec <span class="in">`Pandas`</span> depuis un site web (🟡,🟢,🔵,🔴,⚫), appliquer des nettoyages de champs textuels (🟡,🟢,🔵,🔴,⚫), catégoriser ces données avec un classifieur automatique (🟡,🟢,🔵,🔴,⚫) voire entrainer un classifieur _ad hoc_ (🔴,⚫), écrire ces données sur un système de stockage distant (🟡,🟢,🔵,🔴,⚫) |</span>
+<span id="cb68-130"><a href="#cb68-130" aria-hidden="true" tabindex="-1"></a>| Faire des statistiques agrégées par catégories | Utiliser <span class="in">`Pandas`</span> (🟡,🟢,🔵) ou ̀<span class="in">`DuckDB`</span> (🔴,⚫) pour faire des statistiques par groupe |</span>
+<span id="cb68-131"><a href="#cb68-131" aria-hidden="true" tabindex="-1"></a>| Trouver un produit dans <span class="in">`OpenFoodFacts`</span> à partir d'un code barre | Détection visuelle d'un code barre (🟡,🟢,🔵, 🔴,⚫), rechercher des données avec des critères d'appariement exact comme le code barre via <span class="in">`Pandas`</span> (🟡,🟢,🔵) ou ̀<span class="in">`DuckDB`</span> (🔴,⚫)  ou via des distances textuelles (🔴,⚫)|</span>
+<span id="cb68-132"><a href="#cb68-132" aria-hidden="true" tabindex="-1"></a>| Encapsuler ces étapes dans une application <span class="in">`Streamlit`</span> | Tester une application <span class="in">`Streamlit`</span> minimale (🟡,🟢,🔵, 🔴,⚫), personnaliser celle-ci (🔴,⚫ ou 🟡,🟢,🔵 désirant se focaliser sur <span class="in">`Streamlit`</span>) |</span>
+<span id="cb68-133"><a href="#cb68-133" aria-hidden="true" tabindex="-1"></a>| Mettre en production cette application | Déployer grâce à des serveurs standardisés une application <span class="in">`Streamlit`</span> (🔴,⚫) ou proposer une version sans serveur (⚫ voulant se familiariser à <span class="in">`Observable`</span>) |</span>
+<span id="cb68-134"><a href="#cb68-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-135"><a href="#cb68-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-136"><a href="#cb68-136" aria-hidden="true" tabindex="-1"></a>Le développement à proprement parler de l'application est donc assez tardif car un certain nombre d'étapes préalables sont nécessaires pour ne pas avoir une application monolithique (ce qui est une bonne pratique). Si vous n'êtes intéressés que par développer une application <span class="in">`Streamlit`</span>, vous pouvez directement passer aux étapes concernées (à partir de la partie 3️). </span>
+<span id="cb68-137"><a href="#cb68-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-138"><a href="#cb68-138" aria-hidden="true" tabindex="-1"></a>La première étape (1️⃣ _Récupération et nettoyage de la base `OpenFoodFacts`_) peut être assez chronophage. Cela est assez représentatif des projets de _data science_ où la majorité du temps est consacrée</span>
+<span id="cb68-139"><a href="#cb68-139" aria-hidden="true" tabindex="-1"></a>à la structuration et la manipulation de données. La deuxième étape (2️ _"Faire des statistiques agrégées par catégories"_) est la moins centrale de ce sujet: si vous manquez de temps vous pouvez la passer</span>
+<span id="cb68-140"><a href="#cb68-140" aria-hidden="true" tabindex="-1"></a>et utiliser directement les morceaux de code mis à disposition. </span>
+<span id="cb68-141"><a href="#cb68-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-142"><a href="#cb68-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-143"><a href="#cb68-143" aria-hidden="true" tabindex="-1"></a><span class="fu">## Remarques</span></span>
+<span id="cb68-144"><a href="#cb68-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-145"><a href="#cb68-145" aria-hidden="true" tabindex="-1"></a>Cette page peut être consultée par différents canaux:</span>
+<span id="cb68-146"><a href="#cb68-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-147"><a href="#cb68-147" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sur un site web, les codes</span>
+<span id="cb68-148"><a href="#cb68-148" aria-hidden="true" tabindex="-1"></a>faisant office de solution sont, par défauts, cachés. Cela peut être pratique</span>
+<span id="cb68-149"><a href="#cb68-149" aria-hidden="true" tabindex="-1"></a>de consulter cette page si vous êtes sur un parcours de couleur différente que le </span>
+<span id="cb68-150"><a href="#cb68-150" aria-hidden="true" tabindex="-1"></a>jaune et ne voulez pas voir la solution sans le vouloir ;</span>
+<span id="cb68-151"><a href="#cb68-151" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sur un notebook <span class="in">`Jupyter`</span>, les solutions de la voie 🟡 sont affichées par défaut.</span>
+<span id="cb68-152"><a href="#cb68-152" aria-hidden="true" tabindex="-1"></a>Elles peuvent être cachées en faisant <span class="in">`View`</span> &gt; <span class="in">`Collapse All Code`</span></span>
+<span id="cb68-153"><a href="#cb68-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-154"><a href="#cb68-154" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sources et packages utilisés</span></span>
+<span id="cb68-155"><a href="#cb68-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-156"><a href="#cb68-156" aria-hidden="true" tabindex="-1"></a>Notre source de référence sera <span class="co">[</span><span class="ot">`OpenFoodFacts`</span><span class="co">](https://fr.openfoodfacts.org/)</span>, une </span>
+<span id="cb68-157"><a href="#cb68-157" aria-hidden="true" tabindex="-1"></a>base contributive sur les produits alimentaires. </span>
+<span id="cb68-158"><a href="#cb68-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-159"><a href="#cb68-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-160"><a href="#cb68-160" aria-hidden="true" tabindex="-1"></a>::: {.cell .markdown}</span>
+<span id="cb68-161"><a href="#cb68-161" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb68-162"><a href="#cb68-162" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #ffc10780;"&gt;</span></span>
+<span id="cb68-163"><a href="#cb68-163" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;h3 class="alert-heading"&gt;&lt;i class="fa fa-lightbulb-o"&gt;&lt;/i&gt; Hint&lt;/h3&gt;</span></span>
+<span id="cb68-164"><a href="#cb68-164" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb68-165"><a href="#cb68-165" aria-hidden="true" tabindex="-1"></a>Nous utiliserons également un classifieur automatique issu du projet <span class="co">[</span><span class="ot">`predicat`</span><span class="co">](https://github.com/InseeFrLab/predicat)</span>.</span>
+<span id="cb68-166"><a href="#cb68-166" aria-hidden="true" tabindex="-1"></a>Il s'agit d'un modèle qui utilise des noms de produits pour leur associer des catégories de la</span>
+<span id="cb68-167"><a href="#cb68-167" aria-hidden="true" tabindex="-1"></a>nomenclature <span class="co">[</span><span class="ot">COICOP (Classification des fonctions de consommation des ménages)</span><span class="co">](https://www.insee.fr/fr/information/2408172)</span>.</span>
+<span id="cb68-168"><a href="#cb68-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-169"><a href="#cb68-169" aria-hidden="true" tabindex="-1"></a>Ce modèle est là à des fins de démonstration du principe de la classification automatique et de la manière dont celle-ci</span>
+<span id="cb68-170"><a href="#cb68-170" aria-hidden="true" tabindex="-1"></a>peut être intégrée à un processus de production de données. Il ne s'agit pas d'un modèle</span>
+<span id="cb68-171"><a href="#cb68-171" aria-hidden="true" tabindex="-1"></a>officiel de l'Insee. </span>
+<span id="cb68-172"><a href="#cb68-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-173"><a href="#cb68-173" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb68-174"><a href="#cb68-174" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb68-175"><a href="#cb68-175" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb68-176"><a href="#cb68-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-177"><a href="#cb68-177" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb68-178"><a href="#cb68-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-179"><a href="#cb68-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-180"><a href="#cb68-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-181"><a href="#cb68-181" aria-hidden="true" tabindex="-1"></a>{{&lt; include _1_recup.qmd &gt;}}</span>
+<span id="cb68-182"><a href="#cb68-182" aria-hidden="true" tabindex="-1"></a>{{&lt; include _2_statistics.qmd &gt;}}</span>
+<span id="cb68-183"><a href="#cb68-183" aria-hidden="true" tabindex="-1"></a>{{&lt; include _3_match_barcode.qmd &gt;}}</span>
+<span id="cb68-184"><a href="#cb68-184" aria-hidden="true" tabindex="-1"></a>{{&lt; include _4_app.qmd &gt;}}</span>
+<span id="cb68-185"><a href="#cb68-185" aria-hidden="true" tabindex="-1"></a>{{&lt; include _5_deployment.qmd &gt;}}</span>
+<span id="cb68-186"><a href="#cb68-186" aria-hidden="true" tabindex="-1"></a></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 
 
