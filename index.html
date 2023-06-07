@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>draft</title>
+<title>Mon Yuka 🥕 avec Python 🐍</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,19 +20,53 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="draft_files/libs/clipboard/clipboard.min.js"></script>
-<script src="draft_files/libs/quarto-html/quarto.js"></script>
-<script src="draft_files/libs/quarto-html/popper.min.js"></script>
-<script src="draft_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="draft_files/libs/quarto-html/anchor.min.js"></script>
-<link href="draft_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="draft_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="draft_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="draft_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="draft_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/quarto.js"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -45,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">draft</h1>
+<h1 class="title">Mon Yuka 🥕 avec Python 🐍</h1>
 </div>
 
 
@@ -60,121 +94,1497 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="déploiement-de-lapplication-interactive" class="level1">
-<h1>4. Déploiement de l’application interactive</h1>
-<section id="préliminaires" class="level2">
-<h2 class="anchored" data-anchor-id="préliminaires">4.1. Préliminaires (🔵,🔴,⚫)</h2>
-<p>L’application construite dans la partie précédente reste pour le moment à un niveau local: elle n’est accessible que via l’utilisateur qui l’a déployée et ce sur la machine où elle a été déployée. L’objectif de cette dernière partie est de <strong>déployer</strong> l’application, c’est à dire de la rendre accessible en continu à n’importe quel utilisateur. Pour cela, on va devoir s’intéresser à la technologie des <strong>conteneurs</strong>, qui est à la base des infrastructures de production modernes.</p>
-<p>Le fait de lancer ce notebook via un simple <a href="LIEN%20A%20METTRE">lien de lancement</a> nous a permis de commencer à travailler directement, sans trop nous soucier de l’environnement de développement dans lequel on se trouvait.</p>
-<p>Mais dès lors que l’on souhaite passer de son environnement de développement à un environnement de production, il est nécessaire de se poser un ensemble de questions pour s’assurer que le projet fonctionne ailleurs que sur sa machine personnelle :</p>
-<ul>
-<li>quelle est la version de <code>Python</code> à installer pour que le projet fonctionne ?</li>
-<li>quels sont les packages <code>Python</code> utilisés par le projet et quelles sont leurs versions ?</li>
-<li>quelles sont les éventuelles librairies systèmes, i.e.&nbsp;dépendantes du système d’exploitation installé, nécessaires pour que les packages <code>Python</code> s’installent correctement ?</li>
-</ul>
-<p>La technologie standard pour assurer la <strong>portabilité</strong> d’un projet, c’est à dire de fonctionner sur différents environnements informatiques, est celle des <strong>conteneurs</strong>. Schématiquement, il s’agit de boîtes virtuelles qui contiennent l’ensemble de l’environnement (librairies systèmes, interpréteur <code>Python</code>, code applicatif, configuration…) permettant de faire tourner l’application, tout en restant légères et donc faciles à redistribuer. En fait, chaque service lancé sur le <code>SSP Cloud</code> est un conteneur, et ce notebook tourne donc lui-même… dans un conteneur !</p>
-<p>L’enjeu de cette partie est donc de dévoiler pas à pas la boîte noire afin de comprendre dans quel environnement on se trouve, et comment celui-ci va nous permettre de déployer notre application.</p>
-</section>
-<section id="conteneurisation-de-lapplication" class="level2">
-<h2 class="anchored" data-anchor-id="conteneurisation-de-lapplication">Conteneurisation de l’application (🔵,🔴,⚫)</h2>
+<p>Ce notebook vise à présenter pas à pas comment créer une application interactive avec <code>Streamlit</code> reproduisant celle proposée sur <a href="https://myyuka.lab.sspcloud.fr/">myyuka.lab.sspcloud.fr</a>.</p>
+<p>Cet exercice est proposé dans le cadre du <code>Funathon</code> (hackathon non compétitif) organisé en 2023 par l’Insee et le Ministère de l’Agriculture sur le thème <em>“Du champ à l’assiette”</em>. Les autres sujets sont disponibles sur le <a href="https://github.com/InseeFrLab/funathon2023"><code>Github InseeFrLab</code></a>.</p>
+<p>##&nbsp;Objectif et approche pédagogique</p>
+<p>L’objectif de ce projet est d’apprendre à utiliser <code>Python</code> pour créer des applications réactives avec <code>Streamlit</code> mais aussi de se familiariser à la manipulation de données avec <code>Python</code> et, au passage, à quelques bonnes pratiques utiles pour obtenir des projets plus lisibles et reproductibles.</p>
+<p>Pour parvenir à cet objectif, il est possible d’emprunter plusieurs voies, plus ou moins guidées. Celles-ci sont là pour permettre que ce sujet soit réalisable. Elles sont balisées de la manière suivante:</p>
+<table class="table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 17%">
+<col style="width: 30%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Balisage</th>
+<th>Approche</th>
+<th>Prérequis de niveau</th>
+<th>Objectif pédagogique</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>🟡</td>
+<td>Exécuter les cellules permet d’obtenir le résultat attendu</td>
+<td>Capacité à installer des <em>packages</em></td>
+<td>Découvrir de nouveaux <em>packages</em> en suivant le fil conducteur du projet, découvrir les scripts <code>Python</code>, se familiariser avec <code>Git</code></td>
+</tr>
+<tr class="even">
+<td>🟢</td>
+<td>Des instructions détaillées sur la manière de procéder sont proposées</td>
+<td>Connaître quelques manipulations avec <code>Pandas</code></td>
+<td>Apprendre à utiliser certains <em>packages</em> avec un projet guidé, se familiariser avec les projets <code>Python</code> plus conséquents que les <em>notebooks</em> <code>Jupyter</code></td>
+</tr>
+<tr class="odd">
+<td>🔵</td>
+<td>Instructions moins détaillées</td>
+<td>Capacité à manipuler des données avec <code>Pandas</code></td>
+<td>Apprendre à modulariser du code pour faciliter sa réutilisation dans une application, découvrir la récupation de données via des API</td>
+</tr>
+<tr class="even">
+<td>🔴</td>
+<td>Peu d’instructions</td>
+<td>Expérience en développement de code <code>Python</code></td>
+<td>Découvrir la création d’application ou se familiariser avec l’écosystème <code>DuckDB</code></td>
+</tr>
+<tr class="odd">
+<td>⚫</td>
+<td>Autonomie</td>
+<td>Bonne maîtrise de <code>Python</code> et de la ligne de commande ̀<code>Linux</code></td>
+<td>S’initier au déploiement d’une application ou à l’ingénieurie de données&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>Le parcours vers la mise en oeuvre d’une application fonctionnelle se fait par étapes, en séquençant le projet pour permettre d’avoir un projet lisible, reproductible et modulaire.</p>
+<p>Les étapes ne sont pas forcément de difficulté graduelle, il s’agit plutôt de séquencer de manière logique le projet pour vous faciliter la prise en main.</p>
+<p>Il est donc tout à fait possible de passer, selon les parties, d’une voie 🟢 à une voie 🔵 ou bien de tester les codes proposés dans la voie 🟡 d’abord puis, une fois que la logique a été comprise, essayer de les faire soit-même via la voie 🟢 ou encore essayer via la voie 🔵, ne pas y parvenir du fait du caractère plus succinct des instructions et regarder les instructions de la voie 🟢 ou la solution de la voie 🟡.</p>
+<p>Il est même tout à fait possible de sauter une étape et reprendre à partir de la suivante grâce aux <em>checkpoints</em> proposés.</p>
+<p>Les consignes sont encapsulées dans des boites dédiées, afin d’être séparées des explications générales. Par exemple, la boite verte prendra l’aspect suivant:</p>
 <div class="cell markdown">
-<!----- boite 🔵 ----->
+<!----- boite 🟢 ----->
 
-<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #1976d2;">
-<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Comprendre la création de l'image `Docker` de l'application (🔵)</h3>
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #7cb342;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Exemple (🟢)</h3>
 
 
 <details>
 <summary>Dérouler pour révéler les instructions</summary>
-<p>Le projet contient à la racine un fichier <code>Dockerfile</code>. Il s’agit de la “recette” de construction de l’image <code>Docker</code> de l’application, i.e.&nbsp;qui spécifie l’environnement nécessaire à son bon fonctionnement.</p>
-<p>En vous inspirant de la <a href="https://docs.streamlit.io/knowledge-base/tutorials/deploy/docker#create-a-dockerfile">documentation Streamlit</a> (en Anglais) ou bien de cette <a href="https://ensae-reproductibilite.github.io/website/chapters/portability.html#dockerfile">page de cours</a>, essayez de comprendre pas à pas les étapes de construction de l’image <code>Docker</code> de l’application.</p>
+<p>Utiliser la fonction <code>print</code> pour afficher le texte <em>“Toto”</em></p>
+</details>
+</div>
+<!----- end 🟢 ----->
+</div>
+<p>alors que sur le même exercice, si plusieurs voies peuvent emprunter le même chemin, on utilisera une délimitation grise :</p>
+<div class="cell markdown">
+<!----- boite 🔵 ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #9c9797;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Exemple (🔵,🔴,⚫)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<p>Afficher le texte <em>“Toto”</em></p>
+</details>
+</div>
+<!----- end 🔵 ----->
+</div>
+<p>La solution associée, visible pour les personnes sur la voie 🟡, sera:</p>
+<div class="cell" data-execution_count="3">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&nbsp;Solution pour voie 🟡</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"toto"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>###&nbsp;Etapes du projet</p>
+<p>Le projet est séquencé de la manière suivante:</p>
+<table class="table">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Etape</th>
+<th>Objectif</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Récupération et nettoyage de la base <code>OpenFoodFacts</code></td>
+<td>Lire des données avec <code>Pandas</code> depuis un site web (🟡,🟢,🔵,🔴,⚫), appliquer des nettoyages de champs textuels (🟡,🟢,🔵,🔴,⚫), catégoriser ces données avec un classifieur automatique (🟡,🟢,🔵,🔴,⚫) voire entrainer un classifieur <em>ad hoc</em> (🔴,⚫), écrire ces données sur un système de stockage distant (🟡,🟢,🔵,🔴,⚫)</td>
+</tr>
+<tr class="even">
+<td>Faire des statistiques agrégées par catégories</td>
+<td>Utiliser <code>Pandas</code> (🟡,🟢,🔵) ou ̀<code>DuckDB</code> (🔴,⚫) pour faire des statistiques par groupe</td>
+</tr>
+<tr class="odd">
+<td>Trouver un produit dans <code>OpenFoodFacts</code> à partir d’un code barre</td>
+<td>Détection visuelle d’un code barre (🟡,🟢,🔵, 🔴,⚫), rechercher des données avec des critères d’appariement exact comme le code barre via <code>Pandas</code> (🟡,🟢,🔵) ou ̀<code>DuckDB</code> (🔴,⚫) ou via des distances textuelles (🔴,⚫)</td>
+</tr>
+<tr class="even">
+<td>Encapsuler ces étapes dans une application <code>Streamlit</code></td>
+<td>Tester une application <code>Streamlit</code> minimale (🟡,🟢,🔵, 🔴,⚫), personnaliser celle-ci (🔴,⚫ ou 🟡,🟢,🔵 désirant se focaliser sur <code>Streamlit</code>)</td>
+</tr>
+<tr class="odd">
+<td>Mettre en production cette application</td>
+<td>Déployer grâce à des serveurs standardisés une application <code>Streamlit</code> (🔴,⚫) ou proposer une version sans serveur (⚫ voulant se familiariser à <code>Observable</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Le développement à proprement parler de l’application est donc assez tardif car un certain nombre d’étapes préalables sont nécessaires pour ne pas avoir une application monolithique (ce qui est une bonne pratique). Si vous n’êtes intéressés que par développer une application <code>Streamlit</code>, vous pouvez directement passer aux étapes concernées (à partir de la partie 3️).</p>
+<p>La première étape (1️⃣ <em>Récupération et nettoyage de la base <code>OpenFoodFacts</code></em>) peut être assez chronophage. Cela est assez représentatif des projets de <em>data science</em> où la majorité du temps est consacrée à la structuration et la manipulation de données. La deuxième étape (2️ <em>“Faire des statistiques agrégées par catégories”</em>) est la moins centrale de ce sujet: si vous manquez de temps vous pouvez la passer et utiliser directement les morceaux de code mis à disposition.</p>
+<section id="remarque" class="level3">
+<h3 class="anchored" data-anchor-id="remarque">Remarque</h3>
+<p>Cette page peut être consultée par différents canaux:</p>
+<ul>
+<li>Sur un site web, les codes faisant office de solution sont, par défauts, cachés. Cela peut être pratique de consulter cette page si vous êtes sur un parcours de couleur différente que le jaune et ne voulez pas voir la solution sans le vouloir ;</li>
+<li>Sur un notebook <code>Jupyter</code>, les solutions de la voie 🟡 sont affichées par défaut. Elles peuvent être cachées en faisant <code>View</code> &gt; <code>Collapse All Code</code></li>
+</ul>
+</section>
+<section id="sources-et-packages-utilisés" class="level3">
+<h3 class="anchored" data-anchor-id="sources-et-packages-utilisés">Sources et packages utilisés</h3>
+<p>Notre source de référence sera <a href="https://fr.openfoodfacts.org/"><code>OpenFoodFacts</code></a>, une base contributive sur les produits alimentaires.</p>
+<div class="cell markdown">
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #ffc10780;">
+<h3 class="alert-heading anchored"><i class="fa fa-lightbulb-o"></i> Hint</h3>
+<p>Nous utiliserons également un classifieur automatique issu du projet <a href="https://github.com/InseeFrLab/predicat"><code>predicat</code></a>. Il s’agit d’un modèle qui utilise des noms de produits pour leur associer des catégories de la nomenclature <a href="https://www.insee.fr/fr/information/2408172">COICOP (Classification des fonctions de consommation des ménages)</a>.</p>
+<p>Ce modèle est là à des fins de démonstration du principe de la classification automatique et de la manière dont celle-ci peut être intégrée à un processus de production de données. Il ne s’agit pas d’un modèle officiel de l’Insee.</p>
+</div>
+</div>
+<p>#&nbsp;1️⃣ Récupération des données <code>OpenFoodFacts</code></p>
+</section>
+<section id="préliminaire" class="level2">
+<h2 class="anchored" data-anchor-id="préliminaire">1.1. Préliminaire (🟡,🟢,🔵,🔴,⚫)</h2>
+<p>Comme nous allons utiliser fréquemment certains paramètres, une bonne pratique consiste à les stocker dans un fichier dédié, au format <code>YAML</code> et d’importer celui-ci via <code>Python</code>. Ceci est expliqué dans <a href="https://ensae-reproductibilite.github.io/website/chapters/application.html#etape-3-gestion-des-param%C3%A8tres">ce cours de l’ENSAE</a></p>
+<p>Nous proposons de créer le fichier suivant au nom <code>config.yaml</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">URL_OPENFOOD</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ENDPOINT_S3</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://minio.lab.sspcloud.fr"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">BUCKET</span><span class="kw">:</span><span class="at"> </span><span class="st">"projet-funathon"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">DESTINATION_DATA_S3</span><span class="kw">:</span><span class="at"> </span><span class="st">"/2023/sujet4/diffusion"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">URL_FASTTEXT_MINIO</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://minio.lab.sspcloud.fr/projet-funathon/2023/sujet4/diffusion/model_coicop10.bin"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">URL_COICOP_LABEL</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://www.insee.fr/fr/statistiques/fichier/2402696/coicop2016_liste_n5.xls"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>⚠️ Si vous désirez pouvoir reproduire tous les exemples de ce fichier, vous devez changer la variable <code>BUCKET</code> pour mettre votre nom d’utilisateur sur le <code>SSPCloud</code>.</p>
+<p>Nous allons lire ce fichier avec le package adapté pour transformer ces instructions en variables <code>Python</code> (stockées dans un dictionnaire)!,</p>
+<div class="cell markdown">
+<!----- boite 🟢 ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #7cb342;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Utiliser un fichier YAML (🟢)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<p>A partir des exemples présents dans <a href="https://stackoverflow.com/questions/1773805/how-can-i-parse-a-yaml-file-in-python">cette page</a>, importer les variables dans un objet <code>Python</code> nommé <code>config</code></p>
+</details>
+</div>
+<!----- end 🟢 ----->
+</div>
+<div class="cell markdown">
+<!----- boite 🔵 ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #1976d2;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Utiliser un fichier YAML (🔵)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<p>Utiliser le package <code>PyYAML</code> pour importer les éléments présents dans <code>config.yaml</code> dans un objet <code>Python</code> nommé <code>config</code></p>
 </details>
 </div>
 <!----- end 🔵 ----->
 </div>
 <div class="cell markdown">
-<!----- boite 🔴, ⚫ ----->
+<!----- boite 🔴,⚫ ----->
 
-<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #9c9797;">
-<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Créer le `Dockerfile` de l'application (🔴, ⚫)</h3>
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #f44336;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Utiliser un fichier YAML (🔴,⚫)</h3>
 
 
 <details>
 <summary>Dérouler pour révéler les instructions</summary>
-<p>Une image <code>Docker</code> est construite à partir d’un fichier spécifique généralement placé à la racine du projet, le <code>Dockerfile</code>. Sans regarder le <code>Dockerfile</code> existant dans le projet, et en vous inspirant de la <a href="https://docs.streamlit.io/knowledge-base/tutorials/deploy/docker#create-a-dockerfile">documentation Streamlit</a> (en Anglais), essayez de construire le <code>Dockerfile</code> pertinent pour l’application, puis comparez votre solution à l’existant.</p>
-<p>Quelques consignes supplémentaires : - on utilisera comme image de base <code>inseefrlab/onyxia-jupyter-python:py3.10.9</code> - on se mettra en utilisateur <em>root</em> via l’<a href="https://docs.docker.com/engine/reference/builder/#user">instruction USER</a> - on aura besoin d’installer les librairies système suivantes via <code>apt-get</code> : <code>ffmpeg, libsm6, libxext6, libzbar0</code> - on copiera tous les fichiers du projet local sur l’image <code>Docker</code> à l’aide de l’<a href="https://docs.docker.com/engine/reference/builder/#copy">instruction COPY</a> - on fera tourner l’application sur le port <code>8000</code> du conteneur (qu’il faudra donc prendre soin d’exposer) - on ne fera pas de <code>HEALTHCHECK</code></p>
+<p>Importer les éléments présents dans <code>config.yaml</code> dans un objet <code>Python</code> nommé <code>config</code></p>
 </details>
 </div>
-<!----- end 🔴, ⚫ ----->
+<!----- end 🔵 ----->
+</div>
+<div class="cell yellow-code" data-execution_count="7">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&nbsp;Solution pour voie 🟡</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yaml</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> import_yaml(filename: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Importer un fichier YAML</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">        filename (str): Emplacement du fichier</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">        dict: Le fichier YAML sous forme de dictionnaire Python</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(filename, <span class="st">"r"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> stream:</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        config <span class="op">=</span> yaml.safe_load(stream)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> config</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>import_yaml(<span class="st">"config.yaml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Il est recommandé pour la suite de copier-coller la fonction créée (ne pas oublier les imports associés) dans un fichier à l’emplacement <code>utils/import_yaml.py</code>. Cette approche modulaire est une bonne pratique, recommandée dans <a href="https://ensae-reproductibilite.github.io/website/">ce cours de l’ENSAE</a>.</p>
+<p>Pour la voie 🟡, ce fichier a déjà été créé pour vous. Le tester de la manière suivante:</p>
+<div class="cell yellow-code" data-execution_count="8">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&nbsp;Solution pour voie 🟡</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils.import_yaml <span class="im">import</span> import_yaml</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> import_yaml(<span class="st">"config.yaml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="télécharger-et-nettoyer-la-base-openfoodfacts" class="level2">
+<h2 class="anchored" data-anchor-id="télécharger-et-nettoyer-la-base-openfoodfacts">1.2. Télécharger et nettoyer la base <code>OpenFoodFacts</code> (🟡,🟢,🔵,🔴,⚫)</h2>
+<p>Un export quotidien de la base de données <code>OpenFoodFacts</code> est fourni au format <code>CSV</code>. L’URL est le suivant:</p>
+<div class="cell" data-execution_count="9">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>config[<span class="st">"URL_OPENFOOD"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Il est possible d’importer de plusieurs manières ce type de fichier avec <code>Python</code>. Ce qu’on propose ici, c’est de le faire en deux temps, afin d’avoir un contrôle des options mises en oeuvre lors de l’import (notamment le format de certaines variables) :</p>
+<ul>
+<li>Utiliser <code>requests</code> pour télécharger le fichier et l’écrire, de manière intermédiaire, sur le disque local ;</li>
+<li>Utiliser <code>pandas</code> avec quelques options pour importer le fichier puis le manipuler.</li>
+</ul>
+<div class="cell markdown">
+<!----- boite 🟢 ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #7cb342;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Télécharger et importer OpenFoodFacts (🟢)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<ol type="1">
+<li><p>Utiliser la fonction <code>requests.get</code> pour télécharger le fichier. Vous pouvez vous inspirer de réponses <a href="https://stackoverflow.com/questions/16694907/download-large-file-in-python-with-requests">ici</a></p></li>
+<li><p>Utiliser <code>pd.read_csv</code> avec les options suivantes: + Le fichier utilise <code>\t</code> comme tabulation + Utiliser l’argument <code>parse_dates=["created_datetime", "last_modified_datetime", "last_image_datetime"]</code> + Il est nécessaire de figer quelques types avec l’argument <code>dtype</code>. Voici le dictionnaire à passer</p></li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"code "</span>: <span class="st">"str"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"emb_codes"</span>: <span class="st">"str"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"emb_codes_tags"</span>: <span class="st">"str"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"energy_100g"</span>: <span class="st">"float"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"alcohol_100g"</span>: <span class="st">"float"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Forcer la colonne <code>code</code> à être de type <em>string</em> avec la méthode <code>.astype(str)</code></li>
+</ol>
+</details>
+</div>
+<!----- end 🟢 ----->
+</div>
+<div class="cell markdown">
+<!----- boite 🔵 ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #1976d2;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Télécharger et importer OpenFoodFacts (🔵)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<ol type="1">
+<li><p>Utiliser le <em>package</em> <code>requests</code> pour télécharger le fichier. Si vous voulez afficher une barre de progression, vous pouvez vous inspirer de la fonction <code>download_pb</code> du package <a href="https://github.com/InseeFrLab/cartiflette"><code>cartiflette</code></a></p></li>
+<li><p>Lire les données avec <code>pandas</code> avec les options suivantes: + Le fichier utilise <code>\t</code> comme tabulation + Utiliser l’argument <code>parse_dates = ["created_datetime", "last_modified_datetime", "last_image_datetime"]</code> + Il est nécessaire de figer, voici le dictionnaire à passer</p></li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"code "</span>: <span class="st">"str"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"emb_codes"</span>: <span class="st">"str"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"emb_codes_tags"</span>: <span class="st">"str"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"energy_100g"</span>: <span class="st">"float"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"alcohol_100g"</span>: <span class="st">"float"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Forcer la colonne <code>code</code> à être de type <em>string</em></li>
+</ol>
+</details>
+</div>
+<!----- end 🔵 ----->
+</div>
+<div class="cell markdown">
+<!----- boite 🔴,⚫ ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #9c9797;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Télécharger et importer OpenFoodFacts (🔴,⚫)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<ol type="1">
+<li><p>Télécharger le fichier avec <code>Python</code>. Pour s’assurer de la progression du téléchargement, utiliser également la librairie <code>tqdm</code>.</p></li>
+<li><p>Lire les données avec <code>pandas</code> avec les options suivantes: + Le fichier utilise <code>\t</code> comme tabulation + Utiliser l’argument <code>parse_dates = ["created_datetime", "last_modified_datetime", "last_image_datetime"]</code> + Il est nécessaire de figer, voici le dictionnaire à passer</p></li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"code "</span>: <span class="st">"str"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"emb_codes"</span>: <span class="st">"str"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"emb_codes_tags"</span>: <span class="st">"str"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"energy_100g"</span>: <span class="st">"float"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"alcohol_100g"</span>: <span class="st">"float"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Forcer la colonne <code>code</code> à être de type <em>string</em></li>
+</ol>
+</details>
+</div>
+<!----- end 🔴,⚫ ----->
+</div>
+<div id="import-openfood-solution" class="cell yellow-code" data-execution_count="13">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution pour voie 🟡</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils.preprocess_openfood <span class="im">import</span> download_openfood, import_openfood</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>download_openfood(destination <span class="op">=</span> <span class="st">"openfood.csv.gz"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>openfood <span class="op">=</span> import_openfood(<span class="st">"openfood.csv.gz"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>openfood.loc[:, [<span class="st">'code'</span>, <span class="st">'product_name'</span>, <span class="st">'energy-kcal_100g'</span>, <span class="st">'nutriscore_grade'</span>]].sample(<span class="dv">5</span>, random_state <span class="op">=</span> <span class="dv">12345</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>L’objectif de l’application est de proposer pour un produit donné quelques statistiques descriptives. On propose de se focaliser sur trois scores :</p>
+<ul>
+<li>Le <a href="https://www.santepubliquefrance.fr/determinants-de-sante/nutrition-et-activite-physique/articles/nutri-score"><strong>nutriscore</strong></a> ;</li>
+<li>Le <a href="https://fr.openfoodfacts.org/nova"><strong>score Nova</strong></a> indiquant le degré de transformation d’un produit ;</li>
+<li>L’<a href="https://docs.score-environnemental.com/"><strong>écoscore</strong></a>, une mesure de l’empreinte carbone d’un produit ;</li>
+</ul>
+<p>Ces scores ne sont pas systématiquement disponibles sur <code>OpenFoodFacts</code> mais une part croissante des données présente ces informations (directement renseignées ou imputées).</p>
+<div class="cell" data-execution_count="15">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>indices_synthetiques <span class="op">=</span> [<span class="st">'nutriscore_grade'</span>, <span class="st">'nova_group'</span>, <span class="st">'ecoscore_grade'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Le bloc de code ci-dessous propose d’harmoniser le format de ces scores pour faciliter la représentation graphique ultérieure.</p>
+<p>Comme il ne s’agit pas du coeur du sujet, il est donné directement à tous les parcours. Le code source de cette fonction est disponible dans le module <code>utils.pipeline</code>:</p>
+<div class="cell" data-execution_count="16">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils.pipeline <span class="im">import</span> clean_note</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>indices_synthetiques <span class="op">=</span> [<span class="st">'nutriscore_grade'</span>, <span class="st">'nova_group'</span>, <span class="st">'ecoscore_grade'</span>]</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>openfood.loc[:, indices_synthetiques] <span class="op">=</span> pd.concat(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        [clean_note(openfood, s, <span class="st">"wide"</span>) <span class="cf">for</span> s <span class="kw">in</span> indices_synthetiques],</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        axis <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="classification-automatique-dans-une-nomenclature-de-produits" class="level2">
+<h2 class="anchored" data-anchor-id="classification-automatique-dans-une-nomenclature-de-produits">1.3. Classification automatique dans une nomenclature de produits (🟡,🟢,🔵,🔴,⚫)</h2>
+<p>Pour proposer sur notre application quelques statistiques pertinentes sur le produit, nous allons associer chaque ligne d’<code>OpenFoodFacts</code> à un type de produit dans la <code>COICOP</code> pour pouvoir comparer un produit à des produits similaires.</p>
+<p>Nous allons ainsi utiliser le nom du produit pour inférer le type de bien dont il s’agit.</p>
+<p>Pour cela, dans les parcours 🟡,🟢 et 🔵, nous allons d’utiliser un classifieur expérimental proposé sur <a href="https://github.com/InseeFrLab/predicat"><code>Github InseeFrLab/predicat</code></a> qui a été entrainé sur cette tâche sur un grand volume de données (non spécifiquement alimentaires).</p>
+<p>Pour les parcours 🔴 et ⚫, nous proposons également d’utiliser ce classifieur. Néanmoins, une voie bis est possible pour entraîner soi-même un classifieur en utilisant la catégorisation des données disponible directement dans <code>OpenFoodFacts</code>. Il est proposé d’utiliser <code>Fasttext</code> (une librairie spécialisée open-source, développée par <code>Meta</code> il y a quelques années) dans le cadre de la voie 🔴. Les personnes suivant la voie ⚫ sont libres d’utiliser n’importe quel <em>framework</em> de classification, par exemple un modèle disponible sur <a href="https://huggingface.co/">HuggingFace</a>.</p>
+<div class="cell markdown">
+<!----- boite 🟢 ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #7cb342;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Nettoyer les données textuelles (🟢)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<ol type="1">
+<li>Récupérer le dictionnaire de règles dans <a href="https://raw.githubusercontent.com/InseeFrLab/predicat/master/app/utils_ddc.py">ce fichier</a></li>
+<li>Créer une colonne <code>preprocessed_labels</code> en appliquant la méthode <code>str.upper</code> à la colonne <code>product_name</code> afin de la mettre en majuscule</li>
+<li>Modifier le <code>DataFrame</code> avec la syntaxe prenant la forme <code>data.replace({variable: dict_rules_replacement}, regex=True)</code></li>
+<li>Observer les cas où il y a eu des changements, par exemple de la manière suivante</li>
+</ol>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>(openfood</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    .dropna(subset <span class="op">=</span> [<span class="st">"product_name"</span>, <span class="st">"preprocessed_labels"</span>])</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    .loc[</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        openfood[<span class="st">"product_name"</span>].<span class="bu">str</span>.upper() <span class="op">!=</span> openfood[<span class="st">"preprocessed_labels"</span>],</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"product_name"</span>, <span class="st">"preprocessed_labels"</span>]</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<!----- end 🟢 ----->
+</div>
+<div class="cell markdown">
+<!----- boite 🔵 ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #1976d2;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Nettoyer les données textuelles (🔵)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<ol type="1">
+<li>Récupérer le dictionnaire de règles dans <a href="https://raw.githubusercontent.com/InseeFrLab/predicat/master/app/utils_ddc.py">ce fichier</a></li>
+<li>Créer une colonne <code>preprocessed_labels</code> mettant en majuscule la colonne <code>product_name</code></li>
+<li>Modifier le <code>DataFrame</code> avec la syntaxe utilisant la méthode <code>replace</code> (celle qui s’applique aux <code>DataFrame</code>, pas celle s’appliquant à une <code>Serie</code>) et le dictionnaire adapté</li>
+<li>Observer les cas où il y a eu des changements,</li>
+</ol>
+</details>
+</div>
+<!----- end 🔵 ----->
+</div>
+<div class="cell markdown">
+<!----- boite 🔴 ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #f44336;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Nettoyer les données textuelles (🔴)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<ol type="1">
+<li>Récupérer le dictionnaire de règles dans <a href="https://raw.githubusercontent.com/InseeFrLab/predicat/master/app/utils_ddc.py">ce fichier</a></li>
+<li>Créer une colonne <code>preprocessed_labels</code> appliquant les remplacements à <code>product_name</code> grâce à la méthode <code>replace</code> (celle qui s’applique aux <code>DataFrame</code>, pas celle s’appliquant à une <code>Serie</code>)</li>
+<li>Observer les cas où il y a eu des changements</li>
+</ol>
+</details>
+</div>
+<!----- end 🔴 ----->
 </div>
 <div class="cell markdown">
 <!----- boite ⚫ ----->
 
 <div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #424242;">
-<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Construire l'image `Docker` de l'application par intégration continue (⚫)</h3>
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Nettoyer les données textuelles (⚫)</h3>
 
 
 <details>
 <summary>Dérouler pour révéler les instructions</summary>
-<p>Une fois le <code>Dockerfile</code> construit (du moins sa première version), on va l’utiliser pour construire une image <code>Docker</code> (la “boîte” virtuelle) et mettre celle-ci sur un registre (répertoire d’images) afin que celle-ci puisse être réutilisée dans un autre environnement que celui où on l’a développée.</p>
-<p>On pourrait faire cela “à la main” en ligne de commandes (cf.&nbsp;<a href="https://docs.docker.com/get-started/02_our_app/">documentation Docker</a>), mais on va plutôt automatiser le processus en passant par un <em>pipeline</em> (série d’étapes) d’intégration continue.</p>
-<p>Ainsi, à chaque mise à jour du code source de l’application (nouvelles fonctionnalités, correction de bugs, etc.), notre image sera automatiquement mise à jour.</p>
-<p>Les étapes à suivre sont les suivantes :</p>
+<ol type="1">
+<li>Récupérer le dictionnaire de règles dans <a href="https://raw.githubusercontent.com/InseeFrLab/predicat/master/app/utils_ddc.py">ce fichier</a></li>
+<li>Créer une colonne <code>preprocessed_labels</code> appliquant les remplacements à <code>product_name</code></li>
+<li>Observer les cas où il y a eu des changements</li>
+</ol>
+</details>
+</div>
+<!----- end ⚫ ----->
+</div>
+<p>Dans un premier temps, on récupère les fonctions permettant d’appliquer sur nos données le même <em>preprocessing</em> que celui qui a été mis en oeuvre lors de l’entraînement du modèle:</p>
+<div id="get-utils-ddc" class="cell yellow-code" data-execution_count="21">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution pour voie 🟡 et 🟢</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils.download_pb <span class="im">import</span> download_pb</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>download_pb(<span class="st">"https://raw.githubusercontent.com/InseeFrLab/predicat/master/app/utils_ddc.py"</span>, <span class="st">"utils/utils_ddc.py"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Pour observer les nettoyages de champs textuels mis en oeuvre, les lignes suivantes peuvent être exécutées:</p>
+<div class="cell" data-execution_count="22">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils.utils_ddc <span class="im">import</span> replace_values_ean</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>replace_values_ean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Pour effectuer des remplacements dans des champs textuels, le plus simple est d’utiliser les expressions régulières (<code>regex</code>). Vous pouvez trouver une ressource complète sur le sujet dans <a href="https://pythonds.linogaliana.fr/regex/">ce cours de <code>Python</code> de l’ENSAE</a>.</p>
+<p>Deux options s’offrent à nous:</p>
 <ul>
-<li>si nécessaire, créer un compte personnel sur <a href="https://github.com">GitHub</a> et sur le <a href="https://hub.docker.com/">DockerHub</a> (registre d’images open-source)</li>
-<li>bien s’assurer que le <code>Dockerfile</code> obtenu à l’étape précédente est identique à celui existant dans le projet</li>
-<li><a href="https://docs.github.com/fr/get-started/quickstart/fork-a-repo">forker</a> le <a href="https://github.com/InseeFrLab/funathon2023_sujet4">dépôt du projet</a> afin de l’avoir dans votre espace personnel sur <code>GitHub</code></li>
-<li><a href="https://docs.github.com/fr/repositories/creating-and-managing-repositories/cloning-a-repository">cloner</a> le dépôt forké (i.e.&nbsp;de la forme <code>votre_nom_utilisateur_gh/funathon2023_sujet4</code>) via un terminal</li>
-<li>créer un nouveau dépôt public sur le <code>DockerHub</code></li>
-<li>créer les secrets <code>DOCKERHUB_USERNAME</code> et <code>DOCKERHUB_TOKEN</code> (cf.&nbsp;<a href="https://docs.docker.com/build/ci/github-actions/#step-one-create-the-repository">documentation Docker</a>), nécessaires pour que le CI <code>GitHub</code> puisse pousser une image sur le <code>DockerHub</code></li>
-<li>ajuster le fichier d’intégration continue (<code>.github/workflows/docker.yaml</code>) pour que le dépôt sur lequel est envoyé l’image ne soit plus <code>inseefrlab/funathon2023_sujet4</code> mais <code>votre_nom_utilisateur_dh/funathon2023_sujet4</code></li>
-<li><em>commit</em>/<em>push</em> les changements sur <code>GitHub</code></li>
-<li>si tout s’est bien passé, une action devrait se lancer (cf.&nbsp;onglet <code>Actions</code> du dépôt) afin de construire l’image et de l’envoyer sur le <code>DockerHub</code></li>
-<li>si l’action s’est bien déroulée (flèche verte), aller vérifier que l’image est bien disponible dans votre espace sur le <code>DockerHub</code></li>
+<li>Utiliser le <em>package</em> <code>re</code> et boucler sur les lignes</li>
+<li>Utiliser les fonctionnalités très pratiques de <code>Pandas</code></li>
+</ul>
+<p>Nous privilégierons la deuxième approche, plus naturelle quand on utilise des <code>DataFrames</code> et plus efficace puisqu’elle est nativement intégrée à <code>Pandas</code>.</p>
+<p>La syntaxe prend la forme suivante :</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data.replace({variable: dict_rules_replacement}, regex<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>C’est celle qui est implémentée dans la fonction <em>ad hoc</em> du script <code>utils/preprocess_openfood.py</code>. Cette dernière s’utilise de la manière suivante:</p>
+<div class="cell" data-execution_count="23">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils.utils_ddc <span class="im">import</span> replace_values_ean</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils.preprocess_openfood <span class="im">import</span> clean_column_dataset</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>openfood <span class="op">=</span> clean_column_dataset(</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        openfood, replace_values_ean,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"product_name"</span>, <span class="st">"preprocessed_labels"</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Voici quelques cas où notre nettoyage de données a modifié le nom du produit :</p>
+<div class="cell" data-execution_count="24">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(openfood</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    .dropna(subset <span class="op">=</span> [<span class="st">"product_name"</span>, <span class="st">"preprocessed_labels"</span>])</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    .loc[</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        openfood[<span class="st">"product_name"</span>].<span class="bu">str</span>.upper() <span class="op">!=</span> openfood[<span class="st">"preprocessed_labels"</span>],</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"product_name"</span>, <span class="st">"preprocessed_labels"</span>]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>On peut remarquer que pour aller plus loin et améliorer la normalisation des champs, il serait pertinent d’appliquer un certain nombre de nettoyages supplémentaires, comme le retrait des mots de liaison (<em>stop words</em>). Des exemples de ce type de nettoyages sont présents dans le <a href="https://pythonds.linogaliana.fr/nlpintro/">cours de <code>Python</code> de l’ENSAE</a>.</p>
+<p>Cela est laissé comme exercice aux voies 🔴 et ⚫.</p>
+<div class="cell markdown">
+<!----- boite 🔴,⚫ ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #9c9797;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Normaliser les champs textuels (🔴,⚫)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<p>Utiliser <code>NLTK</code> ou <code>SpaCy</code> (solution préférable) pour ajouter des nettoyages de champs textuels</p>
+</details>
+</div>
+<!----- end 🔴,⚫ ----->
+</div>
+<p>On peut maintenant se tourner vers la classification à proprement parler. Pour celle-ci, on propose d’utiliser un modèle qui a été entrainé avec la librairie <a href="https://fasttext.cc/"><code>Fasttext</code></a>. Voici comment récupérer le modèle et le tester sur un exemple très basique:</p>
+<div class="cell" data-execution_count="26">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils.download_pb <span class="im">import</span> download_pb</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> fasttext</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> os.path.exists(<span class="st">"fasttext_coicop.bin"</span>) <span class="kw">is</span> <span class="va">False</span>:</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    download_pb(</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        url <span class="op">=</span> config[<span class="st">"URL_FASTTEXT_MINIO"</span>],</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        fname <span class="op">=</span> <span class="st">"fasttext_coicop.bin"</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> fasttext.load_model(<span class="st">"fasttext_coicop.bin"</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>model.predict(<span class="st">"RATATOUILLE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Le résultat est peu intelligible. En effet, cela demande une bonne connaissance de la COICOP pour savoir de manière intuitive que cela correspond à la catégorie <a href="https://www.insee.fr/fr/statistiques/serie/001764476"><em>“Autres plats cuisinés à base de légumes”</em></a>.</p>
+<p>Avant de généraliser le classifieur à l’ensemble de nos données, on se propose donc de récupérer les noms des COICOP depuis le site <a href="https://www.insee.fr/fr/metadonnees/coicop2016/division/01?champRecherche=true">insee.fr</a>. Comme cela ne présente pas de défi majeur, le code est directement proposé, quelle que soit la voie empruntée:</p>
+<div class="cell" data-execution_count="27">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> import_coicop_labels(url: <span class="bu">str</span>) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    coicop <span class="op">=</span> pd.read_excel(url, skiprows<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    coicop[<span class="st">'Code'</span>] <span class="op">=</span> coicop[<span class="st">'Code'</span>].<span class="bu">str</span>.replace(<span class="st">"'"</span>, <span class="st">""</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    coicop <span class="op">=</span> coicop.rename({<span class="st">"Libellé"</span>: <span class="st">"category"</span>}, axis <span class="op">=</span> <span class="st">"columns"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> coicop</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>coicop <span class="op">=</span> import_coicop_labels(</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://www.insee.fr/fr/statistiques/fichier/2402696/coicop2016_liste_n5.xls"</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Verification de la COICOP rencontrée plus haut</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>coicop.loc[coicop[<span class="st">"Code"</span>].<span class="bu">str</span>.contains(<span class="st">"01.1.7.3.2"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Maintenant nous avons tous les ingrédients pour généraliser notre approche. L’application en série de prédictions via <code>Fasttext</code> étant un peu fastidieuse et peu élégante (elle nécessite d’être à l’aise avec les listes <code>Python</code>) et n’étant pas le centre de notre sujet, la fonction suivante est fournie pour effectuer cette opération :</p>
+<div class="cell" data-execution_count="28">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> model_predict_coicop(data, model, product_column: <span class="bu">str</span> <span class="op">=</span> <span class="st">"preprocessed_labels"</span>, output_column: <span class="bu">str</span> <span class="op">=</span> <span class="st">"coicop"</span>):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    predictions <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        output_column: <span class="op">\</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>            [k[<span class="dv">0</span>] <span class="cf">for</span> k <span class="kw">in</span> model.predict(</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                [<span class="bu">str</span>(libel) <span class="cf">for</span> libel <span class="kw">in</span> data[product_column]], k <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                )[<span class="dv">0</span>]]</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    data[output_column] <span class="op">=</span> predictions[output_column].<span class="bu">str</span>.replace(<span class="vs">r'__label__'</span>, <span class="st">''</span>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> data</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>openfood <span class="op">=</span> model_predict_coicop(openfood, model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="bis-version-alternative-via-lapi-predicat" class="level2">
+<h2 class="anchored" data-anchor-id="bis-version-alternative-via-lapi-predicat">1.3.bis Version alternative via l’API <a href="https://github.com/InseeFrLab/predicat"><code>predicat</code></a> (🟡,🟢,🔵,🔴,⚫)</h2>
+<p>L’utilisation d’API pour accéder à des données devient de plus en plus fréquente. Si vous êtes peu familiers avec les API, vous pouvez consulter ce <a href="https://pythonds.linogaliana.fr/api/">chapitre du cours de <code>Python</code> de l’ENSAE</a> ou de la documentation <a href="https://www.book.utilitr.org/03_fiches_thematiques/fiche_api"><code>utilitR</code> (langage <code>R</code>)</a></p>
+<p>Les API peuvent servir à faire beaucoup plus que récupérer des données. Elles sont notamment de plus en plus utilisées pour récupérer des prédictions d’un modèle. La plateforme <a href="https://huggingface.co/"><code>HuggingFace</code></a> est très appréciée pour cela: elle a grandement facilité la réutilisation de modèles mis en disposition en <em>open source</em>. Cette approche a principalement deux avantages:</p>
+<ul>
+<li>Elle permet d’appliquer sur les données fournies en entrée exactement les mêmes pré-traitement que sur les données d’entrainement. Ceci renforce la fiabilité des prédictions.</li>
+<li>Elle facilite le travail des <em>data scientists</em> ou statisticiens car ils ne sont plus obligés de mettre en place des fonctions compliquées pour passer les prédictions dans une colonne de <code>DataFrame</code>.</li>
+</ul>
+<p>Ici, nous proposons de tester une API mise à disposition de manière expérimentale pour faciliter la réutilisation de notre modèle de classification dans la nomenclature COICOP.</p>
+<p>Cette API s’appelle <code>predicat</code> et son code source est disponible sur <a href="https://github.com/InseeFrLab/predicat"><code>Github</code></a>.</p>
+<p>Pour les parcours 🟡,🟢,🔵, nous suggérons de se cantonner à tester quelques exemples. Pour les parcours 🔴 et ⚫ qui voudraient se tester sur les API, nous proposons de généraliser ces appels à <a href="https://github.com/InseeFrLab/predicat"><code>predicat</code></a> pour classifier toutes nos données.</p>
+<div class="cell markdown">
+<!----- boite 🔴,⚫ ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #9c9797;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Consommer un modèle sous forme d'API (🔴,⚫)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<p>Appliquer l’API <a href="https://github.com/InseeFrLab/predicat"><code>predicat</code></a> en série pour catégoriser l’ensemble des données</p>
+</details>
+</div>
+<!----- end 🔴,⚫ ----->
+</div>
+<p>Voici, pour les parcours 🟡,🟢,🔵, un exemple d’utilisation:</p>
+<div class="cell" data-execution_count="30">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_from_api(product_name):</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    url_api <span class="op">=</span> <span class="ss">f"https://api.lab.sspcloud.fr/predicat/label?k=1&amp;q=%27</span><span class="sc">{</span>product_name<span class="sc">}</span><span class="ss">%27"</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    output_api_predicat <span class="op">=</span> requests.get(url_api).json()</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    coicop_found <span class="op">=</span> output_api_predicat[<span class="st">'coicop'</span>][<span class="ss">f"'</span><span class="sc">{</span>product_name<span class="sc">}</span><span class="ss">'"</span>][<span class="dv">0</span>][<span class="st">'label'</span>]</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> coicop_found</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>predict_from_api(<span class="st">"Ratatouille"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Pour le parcours 🔵, voici un exercice pour tester sur un échantillon des données de l’<code>OpenFoodFacts</code></p>
+<div class="cell markdown">
+<!----- boite 🔵 ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #1976d2;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Consommer un modèle sous forme d'API (🔵)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<p>A partir des exemples présents dans <a href="https://github.com/InseeFrLab/predicat/blob/master/help/example-request.ipynb">ce <em>notebook</em></a>, tester l’API sur une centaine de noms de produits pris aléatoirement (ceux avant <em>preprocessing</em>).</p>
+</details>
+</div>
+<!----- end 🔵 ----->
+</div>
+</section>
+<section id="ter-entrainer-son-propre-classifieur" class="level2">
+<h2 class="anchored" data-anchor-id="ter-entrainer-son-propre-classifieur">1.3.ter Entrainer son propre classifieur (🔴,⚫)</h2>
+<p>Les grimpeurs des voies 🔴 et ⚫ sont encouragés à essayer d’entraîner eux-mêmes un modèle de classification.</p>
+<div class="cell markdown">
+<!----- boite 🔴, ⚫ ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #9c9797;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Entrainer son propre modèle de classification (🔴, ⚫)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<p>A partir des exemples présents dans <a href="https://github.com/InseeFrLab/predicat/blob/master/help/example-request.ipynb">ce <em>notebook</em></a>, tester l’API sur une centaine de noms de produits pris aléatoirement (ceux avant <em>preprocessing</em>). L’apprentissage peut être fait à partir de la variable <code>category</code> disponible sur <code>OpenFoodFacts</code>.</p>
+<p>Voici la consigne:</p>
+<ul>
+<li>🔴 : utiliser <code>fasttext</code></li>
+<li>⚫ : liberté sur le <em>framework</em> utilisé</li>
+</ul>
+</details>
+</div>
+<!----- end 🔴, ⚫ ----->
+</div>
+</section>
+<section id="ecriture-de-la-base-sur-lespace-de-stockage-distant" class="level2">
+<h2 class="anchored" data-anchor-id="ecriture-de-la-base-sur-lespace-de-stockage-distant">1.4. Ecriture de la base sur l’espace de stockage distant</h2>
+<p>Le fait d’avoir effectué en amont ce type d’opération permettra d’économiser du temps par la suite puisqu’on s’évite des calculs à la volée coûteux en performance (rien de pire qu’une page <em>web</em> qui rame non ?).</p>
+<p>Pour facilement retrouver ces données, on propose de les écrire dans un espace de stockage accessible facilement. Pour cela, nous proposons d’utiliser celui du <code>SSP Cloud</code> pour les personnes ayant un compte dessus. Pour les personnes n’ayant pas de compte sur le <code>SSP Cloud</code>, vous pouvez passer cette étape et réutiliser le jeu de données que nous proposons pour la suite de ce parcours.</p>
+<p>Nous proposons ici d’utiliser le package <code>s3fs</code> qui est assez pratique pour traiter un espace distant comme on ferait d’un espace de stockage local. Pour en apprendre plus sur le système de stockage <code>S3</code> (la technologie utilisée par le SSP Cloud) ou sur le format <code>Parquet</code>, vous pouvez consulter ce chapitre du <a href="https://pythonds.linogaliana.fr/reads3/">cours de <code>Python</code> de l’ENSAE</a></p>
+<p>La première étape consiste à initialiser la connexion (créer un <em>file system</em> distant, via <code>s3fs.S3FileSystem</code>, qui pointe vers l’espace de stockage du SSP Cloud). La deuxième ressemble beaucoup à l’écriture d’un fichier en local, il y a seulement une couche d’abstraction supplémentaire avec <code>fs.open</code>:</p>
+<div class="cell" data-execution_count="33">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils.import_yaml <span class="im">import</span> import_yaml</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> s3fs</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> import_yaml(<span class="st">"config.yaml"</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>DESTINATION_OPENFOOD <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>config[<span class="st">'BUCKET'</span>]<span class="sc">}{</span>config[<span class="st">'DESTINATION_DATA_S3'</span>]<span class="sc">}</span><span class="ss">/openfood.parquet"</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialisation de la connexion</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>fs <span class="op">=</span> s3fs.S3FileSystem(</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    client_kwargs<span class="op">=</span>{<span class="st">"endpoint_url"</span>: config[<span class="st">"ENDPOINT_S3"</span>]}</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Ecriture au format parquet sur l'espace de stockage distant</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> fs.<span class="bu">open</span>(DESTINATION_OPENFOOD, <span class="st">"wb"</span>) <span class="im">as</span> file_location:</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    openfood.to_parquet(file_location)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>⚠️ <strong>Il faut avoir modifié la valeur de <code>BUCKET</code> dans le fichier <code>config.yaml</code> pour que cette commande fonctionne</strong>.</p>
+<p>Enfin, pour rendre ce fichier accessible à votre future application, il est nécessaire d’éditer la cellule ci-dessous pour remplacer <code>&lt;USERNAME_SSPCLOUD&gt;</code> par votre nom d’utilisateur sur le <code>SSPCloud</code> puis d’exécuter la cellule suivante:</p>
+<div class="cell" data-execution_count="34">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>mc anonymous <span class="bu">set</span> download s3<span class="op">/&lt;</span>USERNAME_SSPCLOUD<span class="op">&gt;/</span><span class="dv">2023</span><span class="op">/</span>sujet4<span class="op">/</span>diffusion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>qui rend ce fichier public.</p>
+<p>Le fichier sera ainsi disponible en téléchargement directement depuis un URL de la forme:</p>
+<blockquote class="blockquote">
+<p>https://minio.lab.sspcloud.fr/<username_sspcloud>/2023/sujet4/diffusion/openfood.parquet</username_sspcloud></p>
+</blockquote>
+<p>#&nbsp;2️⃣ Faire des statistiques agrégées par catégories</p>
+<p>Cette partie permet de calculer en amont de l’application des statistiques descriptives qui pourront être utilisées par celle-ci.</p>
+<p>Il est préférable de minimiser la quantité de calculs faits à la volée dans le cadre d’une application. Sinon, le risque est une latence embêtante pour l’utilisateur voire un crash du serveur à cause de besoins de ressources trop importants.</p>
+<p>Cette partie propose ainsi de créer en avance une base de données synthétisant le nombre de produits dans une catégorie donnée (par exemple les fromages à pâte crue) qui partagent la même note. Cela nous permettra d’afficher des statistiques personnalisées sur les produits similaires à celui qu’on scanne.</p>
+</section>
+<section id="préliminaires" class="level2">
+<h2 class="anchored" data-anchor-id="préliminaires">2.1. Préliminaires (🟡,🟢,🔵,🔴,⚫)</h2>
+<p>Sur le plan technique, cette partie propose deux cadres de manipulation de données différents, selon le balisage de la voie:</p>
+<ul>
+<li>🟡,🟢,🔵: utilisation de <code>Pandas</code></li>
+<li>🔴,⚫: requêtes SQL directement sur le fichier <code>Parquet</code> grâce à <code>DuckDB</code></li>
+</ul>
+<p>La deuxième approche permet de mettre en oeuvre des calculs plus efficaces (<code>DuckDB</code>) est plus rapide mais nécessite un peu plus d’expertise sur la manipulation de données, notamment des connaissances en SQL.</p>
+<p>Cette partie va fonctionner en trois temps:</p>
+<ol type="1">
+<li>Lecture des données <code>OpenFoodFacts</code> précédemment produites</li>
+<li>Construction de statistiques descriptives standardisées</li>
+<li>Construction de graphiques à partir de ces statistiques descriptives</li>
+</ol>
+<p>Les étapes 1 et 2 sont séparées conceptuellement pour les parcours 🟡,🟢,🔵. Pour les parcours 🔴 et ⚫, l’utilisation de requêtes SQL fait que ces deux étapes conceptuelles sont intriquées. Les parcours 🟡,🟢,🔵 peuvent observer les morceaux de code proposés dans le cadre 🔴 et ⚫, c’est assez instructif. L’étape 3 (production de graphiques) sera la même pour tous les parcours.</p>
+<div class="cell markdown">
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #ffc10780;">
+<h3 class="alert-heading anchored"><i class="fa fa-lightbulb-o"></i> Hint</h3>
+<p>Cette partie peut être faite sans avoir suivie la précédente. Il est alors recommandé d’effectuer deux actions:</p>
+<ol type="1">
+<li>Dans le fichier <code>config.yaml</code>, remplacer <code>"projet-funathon"</code> par votre nom d’utilisateur sur le <code>SSP Cloud</code></li>
+<li>Créer une cellule en copiant-collant le texte suivant et en remplacant <code>&lt;USERNAME_SSPCLOUD&gt;</code> par votre nom d’utilisateur sur le SSPCloud.</li>
+</ol>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># créer une cellule de code et copier dedans ce texte</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># remplacer `&lt;USERNAME_SSPCLOUD&gt;` par votre nom d'utilisateur sur le SSPCloud</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>mc cp s3<span class="op">/</span>projet<span class="op">-</span>funathon<span class="op">/</span><span class="dv">2023</span><span class="op">/</span>sujet4<span class="op">/</span>diffusion<span class="op">/</span>openfood.parquet s3<span class="op">/&lt;</span>USERNAME_SSPCLOUD<span class="op">&gt;/</span><span class="dv">2023</span><span class="op">/</span>sujet4<span class="op">/</span>diffusion<span class="op">/</span>openfood.parquet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>⚠️ <strong>Il faut avoir modifié la valeur de <code>USERNAME_SSPCLOUD</code> pour que cette commande fonctionne</strong>.</p>
+<p>Cette commande permet de copier le fichier d’exemple que nous avons mis à disposition vers votre espace personnel.</p>
+</div>
+</div>
+<p>Nous proposons d’importer à nouveau nos configurations:</p>
+<div class="cell" data-execution_count="35">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils.import_yaml <span class="im">import</span> import_yaml</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> import_yaml(<span class="st">"config.yaml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Les colonnes suivantes nous seront utiles dans cette partie:</p>
+<div class="cell" data-execution_count="36">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>indices_synthetiques <span class="op">=</span> [</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nutriscore_grade"</span>, <span class="st">"ecoscore_grade"</span>, <span class="st">"nova_group"</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>principales_infos <span class="op">=</span> [<span class="st">'product_name'</span>, <span class="st">'code'</span>, <span class="st">'preprocessed_labels'</span>, <span class="st">'coicop'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Voici, à nouveau, la configuration pour permettre à <code>Python</code> de communiquer avec l’espace de stockage distant:</p>
+<div class="cell" data-execution_count="37">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> s3fs</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> import_yaml(<span class="st">"config.yaml"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>INPUT_OPENFOOD <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>config[<span class="st">'BUCKET'</span>]<span class="sc">}{</span>config[<span class="st">'DESTINATION_DATA_S3'</span>]<span class="sc">}</span><span class="ss">/openfood.parquet"</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialisation de la connexion</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>fs <span class="op">=</span> s3fs.S3FileSystem(</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    client_kwargs<span class="op">=</span>{<span class="st">"endpoint_url"</span>: config[<span class="st">"ENDPOINT_S3"</span>]}</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="import-des-données-depuis-lespace-de-stockage-distant-avec-pandas" class="level2">
+<h2 class="anchored" data-anchor-id="import-des-données-depuis-lespace-de-stockage-distant-avec-pandas">2.2. Import des données depuis l’espace de stockage distant avec <code>Pandas</code> (🟡,🟢,🔵)</h2>
+<p>Il est recommandé pour les parcours 🟡, 🟢, 🔵 de travailler avec <code>Pandas</code> pour construire des statistiques descriptives. Cela se fera en deux étapes:</p>
+<ul>
+<li>Import des données directement depuis l’espace de stockage, sans écriture intermédiaire sur le disque local, puis nettoyage de celles-ci ;</li>
+<li>Construction de fonctions standardisées pour la production de statistiques descriptives.</li>
+</ul>
+<section id="import-et-nettoyage-des-données-openfoodfacts-et" class="level3">
+<h3 class="anchored" data-anchor-id="import-et-nettoyage-des-données-openfoodfacts-et">Import et nettoyage des données <code>OpenFoodFacts</code> (🟡, 🟢 et 🔵)</h3>
+<p>Il est possible de lire un CSV de plusieurs manières avec <code>Python</code>. L’une d’elle se fait à travers le <em><a href="https://book.pythontips.com/en/latest/context_managers.html#context-managers">context manager</a></em>. Le module <code>s3fs</code> permet d’utiliser ce <em>context manager</em> pour lire un fichier distant, de manière très similaire à la lecture d’un fichier local.</p>
+<div class="cell markdown">
+<!----- boite 🔵 ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #1976d2;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Lire les données depuis un espace distant (🔵)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<p>A partir du <em>context manager</em> intégré à <code>s3fs</code>, lire les données en suivant les consignes suivantes:</p>
+<ul>
+<li>la localisation des données est stockée dans la variable <code>INPUT_OPENFOOD</code></li>
+<li>Utiliser l’option <code>columns = principales_infos + indices_synthetiques</code> pour n’importer que les variables nécessaires.</li>
+</ul>
+</details>
+</div>
+<!----- end 🔵 ----->
+</div>
+<div class="cell markdown">
+<!----- boite 🟢 ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #7cb342;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Lire les données depuis un espace distant (🟢)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<p>Lors de l’écriture du fichier nous avons utilisé la commande suivante:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ecriture au format parquet sur l'espace de stockage distant</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> fs.<span class="bu">open</span>(DESTINATION_OPENFOOD, <span class="st">"wb"</span>) <span class="im">as</span> file_location:</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    openfood.to_parquet(file_location)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Nous proposons de suivre la même logique en changeant quelques éléments:</p>
+<ul>
+<li>La variable de chemin à utiliser ici est <code>INPUT_OPENFOOD</code> ;</li>
+<li>Le contexte n’est plus à l’écriture (<em>“wb”</em>) mais à la lecture (<em>“rb”</em>) ;</li>
+<li>La commande à exécuter dans ce contexte n’est plus l’écriture d’un fichier parquet mais <code>pd.read_parquet</code>. Utiliser l’option <code>columns = principales_infos + indices_synthetiques</code> pour n’importer que les variables nécessaires.</li>
+</ul>
+</details>
+</div>
+<!----- end 🟢 ----->
+</div>
+<div id="get-openfood-parquet-2" class="cell yellow-code" data-execution_count="40">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution pour voie 🟡, 🟢 et 🔵</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># methode 1: pandas</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> fs.<span class="bu">open</span>(INPUT_OPENFOOD, <span class="st">"rb"</span>) <span class="im">as</span> remote_file:</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    openfood <span class="op">=</span> pd.read_parquet(</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>        remote_file,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>        columns <span class="op">=</span> principales_infos <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>        indices_synthetiques</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Les données ont ainsi l’aspect suivant:</p>
+<div class="cell" data-execution_count="41">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>openfood.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="statistiques-descriptives-et" class="level2">
+<h2 class="anchored" data-anchor-id="statistiques-descriptives-et">2.3. Statistiques descriptives (🟡, 🟢 et 🔵)</h2>
+<p>On désire calculer pour chaque classe de produits - par exemple les boissons rafraichissantes - le nombre de produits qui partagent une même note pour chaque indicateur de qualité nutritionnelle ou environnementale.</p>
+<p>Nous allons utiliser le <code>DataFrame</code> suivant pour les calculs de notes:</p>
+<div class="cell" data-execution_count="42">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>openfood_notes <span class="op">=</span> openfood.loc[:,[<span class="st">"coicop"</span>] <span class="op">+</span> indices_synthetiques]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell markdown">
+<!----- boite 🔵 ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #1976d2;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Distribution des notes par catégorie de produit (🔵)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<ol type="1">
+<li><p>Pour chaque valeur de la variable <code>coicop</code>, avec la méthode <code>agg</code>, effectuer un décompte des notes (<code>value_counts</code> en <code>Pandas</code>) pour chaque variable de la liste <code>indices_synthetiques</code> grâce à la méthode <code>agg</code>. Renommer ensuite les deux variables d’index ‘coicop’ et ‘note’ grâce à la méthode <code>reset_index</code></p></li>
+<li><p>Pivoter les données vers un format <em>long</em> via les axes <code>coicop</code> et <code>note</code></p></li>
+<li><p>Dédupliquer les données en ne gardant que les paires uniques sur les variables <code>variable, note, coicop</code></p></li>
+</ol>
+</details>
+</div>
+<!----- end 🔵 ----->
+</div>
+<div class="cell markdown">
+<!----- boite 🟢 ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #7cb342;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Distribution des notes par catégorie de produit (🟢)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<ol type="1">
+<li>Après un <code>groupby("coicop")</code>, effectuer un décompte des notes (<code>value_counts</code> en <code>Pandas</code>) pour chaque variable de la liste <code>indices_synthetiques</code> grâce à la méthode <code>agg</code> puis renommer les deux variables d’index ‘coicop’ et ‘note’ grâce à la méthode <code>reset_index</code></li>
+</ol>
+<details>
+<summary>Réponse en cas de difficulté</summary>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>stats_notes <span class="op">=</span> (</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    openfood_notes</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    .groupby(<span class="st">"coicop"</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    .agg({i:<span class="st">'value_counts'</span> <span class="cf">for</span> i <span class="kw">in</span> indices_synthetiques})</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    .reset_index(names<span class="op">=</span>[<span class="st">'coicop'</span>, <span class="st">'note'</span>])</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+<ol start="2" type="1">
+<li><p>Utiliser <code>pd.melt</code> pour pivoter les données vers un format <em>long</em> via les axes <code>coicop</code> et <code>note</code></p></li>
+<li><p>Dédupliquer les données en ne gardant que les paires uniques sur les variables <code>variable, note, coicop</code> grâce à la méthode <code>drop_duplicates</code></p></li>
+</ol>
+</details>
+</div>
+<!----- end 🟢 ----->
+</div>
+<div class="cell" data-execution_count="45">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution pour voie 🟡, 🟢 et 🔵</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_stats_grades(data, indices_synthetiques):</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    stats_notes <span class="op">=</span> (</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>        data</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>        .groupby(<span class="st">"coicop"</span>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>        .agg({i:<span class="st">'value_counts'</span> <span class="cf">for</span> i <span class="kw">in</span> indices_synthetiques})</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>        .reset_index(names<span class="op">=</span>[<span class="st">'coicop'</span>, <span class="st">'note'</span>])</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    stats_notes <span class="op">=</span> pd.melt(stats_notes, id_vars <span class="op">=</span> [<span class="st">'coicop'</span>,<span class="st">'note'</span>])</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    stats_notes <span class="op">=</span> stats_notes.dropna().drop_duplicates(subset <span class="op">=</span> [<span class="st">'variable'</span>,<span class="st">'note'</span>,<span class="st">'coicop'</span>])</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    stats_notes[<span class="st">'value'</span>] <span class="op">=</span> stats_notes[<span class="st">'value'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> stats_notes</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>stats_notes <span class="op">=</span> compute_stats_grades(openfood_notes, indices_synthetiques)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="import-et-traitement-des-données-avec-duckdb-et" class="level2">
+<h2 class="anchored" data-anchor-id="import-et-traitement-des-données-avec-duckdb-et">2.4. Import et traitement des données avec <code>DuckDB</code> (🔴 et ⚫)</h2>
+<p>Cette partie propose pour les parcours 🔴 et ⚫ de reproduire l’analyse faite par les parcours 🟡,🟢 et 🔵 via <code>Pandas</code>.</p>
+<p><code>DuckDB</code> va être utilisé pour lire et agréger les données. Pour lire directement depuis un système de stockage distant, sans pré-télécharger les données, vous pouvez utiliser la configuration suivante de <code>DuckDB</code>:</p>
+<div class="cell" data-execution_count="46">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> duckdb</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> duckdb.<span class="ex">connect</span>(database<span class="op">=</span><span class="st">':memory:'</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"""</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="st">    INSTALL httpfs;</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="st">    LOAD httpfs;</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="st">    SET s3_endpoint='minio.lab.sspcloud.fr'</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Et voici un exemple minimal de lecture de données à partir du chemin <code>INPUT_OPENFOOD</code> défini précédemment.</p>
+<div class="cell" data-execution_count="47">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>duckdb_data <span class="op">=</span> con.sql(</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"SELECT product_name, preprocessed_labels, coicop, energy_100g FROM read_parquet('s3://</span><span class="sc">{</span>INPUT_OPENFOOD<span class="sc">}</span><span class="ss">') LIMIT 10"</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>duckdb_data.df() <span class="co">#conversion en pandas dataframe</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Nous proposons de créer une unique requête SQL qui, dans une clause <code>SELECT</code>, pour chaque classe de produit (notre variable de COICOP), compte le nombre de produits qui partagent une même note.</p>
+<div class="cell markdown">
+<!----- boite ⚫ ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #424242;">
+<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Distribution des notes par catégorie de produit (⚫)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<ul>
+<li>Créer une fonction <code>count_one_variable_sql</code> prenant un argument nommé <code>con</code> (connexion DuckDB), un argument <code>variable</code> (par défaut égal à <code>nova_group</code>) et un chemin de lecture des données dans le système <code>S3</code>. Cette fonction agrège calcule la statistique descriptive désirée pour <code>variable</code>.</li>
+<li>Créer le <code>DataFrame</code> qui combine toutes ces statistiques pour les variables <code>["nutriscore_grade", "ecoscore_grade", "nova_group"]</code>. Celui-ci comporte quatre variables: <code>coicop</code>, <code>note</code>, <code>value</code> et <code>variable</code>.</li>
 </ul>
 </details>
 </div>
 <!----- end ⚫ ----->
 </div>
-</section>
-<section id="déploiement-sur-le-ssp-cloud" class="level2">
-<h2 class="anchored" data-anchor-id="déploiement-sur-le-ssp-cloud">Déploiement sur le <code>SSP Cloud</code></h2>
-<p>Maintenant que l’image de notre application est disponible sur le <code>DockerHub</code>, elle peut à présent être récupérée (<em>pull</em>) et déployée sur n’importe quel environnement. Dans notre cas, on va la déployer sur un cluster <code>Kubernetes</code>, l’infrastructure sous-jacente du <code>SSP Cloud</code>. Le fonctionnement de <code>Kubernetes</code> est assez technique, mais l’on pourra s’abstraire de certaines parties selon le niveau de difficulté choisi.</p>
 <div class="cell markdown">
-<!----- boite 🔴,⚫ ----->
+<!----- boite 🔴 ----->
 
-<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #9c9797;">
-<h3 class="alert-heading anchored"><i class="fa fa-pencil"></i> Déploiement de l'application à partir du `DockerHub` `InseeFrLab` (🔴,⚫)</h3>
 
 
 <details>
 <summary>Dérouler pour révéler les instructions</summary>
-<p>En amont de ce projet, nous avons construit une image <code>Docker</code> fonctionnelle de l’application, disponible sur le <code>DockerHub</code> dans l’espace <a href="https://hub.docker.com/repository/docker/inseefrlab/funathon2023_sujet4">inseefrlab</a>. Nous avons également créés dans le répertoire <code>deployment/</code> à la racine du projet les trois fichiers standards nécessaires au déploiement d’une application sur <code>Kubernetes</code>.</p>
-<p>Afin de déployer l’application, suivre les instructions suivantes :</p>
+<p>Créer une fonction <code>count_one_variable_sql</code> prenant un argument nommé <code>con</code> (connexion DuckDB), un argument <code>variable</code> (par défaut égal à <code>nova_group</code>) et un chemin de lecture des données dans le système <code>S3</code>.</p>
+<p>Cette fonction effectue les opérations suivantes:</p>
 <ul>
-<li>inspecter les fichiers <code>deployment.yml</code>, <code>service.yml</code> et <code>ingress.yml</code> et repérer les éléments suivants :
+<li>Créer un <code>DataFrame</code> <code>Pandas</code> après avoir agrégé les données via <code>DuckDB</code> grâce au modèle de requête</li>
+</ul>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ss">f"SELECT coicop, </span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss"> AS note, COUNT(</span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss">) AS value FROM read_parquet('s3://</span><span class="sc">{</span>path_within_s3<span class="sc">}</span><span class="ss">') GROUP BY coicop, </span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
-<li>où est spécifiée l’image que l’on va déployer. Pour la difficulté ⚫: remplacer l’image actuelle par celle que vous avez construite et envoyée sur le <code>DockerHub</code> dans la partie précédente</li>
-<li>où sont spécifiées les ressources computationnelles que l’on va allouer à l’application</li>
-<li>où est défini le port que l’on a exposé dans le <code>Dockerfile</code>. Pour la difficulté ⚫: si vous n’avez pas exposé l’application sur le port <code>8000</code>, modifier cette ligne</li>
-<li>où est défini le port sur lequel on va exposer l’application sur le cluster <code>Kubernetes</code></li>
-<li>où est définie l’URL à laquelle on va exposer l’application pour que les utilisateurs puissent s’y connecter. La modifier (à 2 reprises) pour y indiquer une adresse personalisée pour votre déploiement. Seule contrainte : elle doit être de la forme : <code>*.lab.sspcloud.fr</code></li>
-</ul></li>
-<li>ouvrir un terminal dans le service <code>Jupyter</code></li>
-<li>se placer dans le projet du funathon : <code>cd funathon2023_sujet4</code></li>
-<li>appliquer les contrats de déploiement : <code>kubernetes apply -f deployment/</code></li>
-<li>vérifier le lancement du conteneur : <code>watch kubernetes get pods</code>. Le nom associé devrait être de la forme <code>funathon2023-sujet4-****-*****</code></li>
-<li>une fois que le conteneur est indiqué comme <code>Running</code>, entrer dans un navigateur l’URL que vous avez spécifié dans le fichier <code>ingress.yml</code>, et vérifier que l’application fonctionne correctement</li>
+<li><p>Crée une variable <code>variable</code> égale à la valeur de l’argument <code>variable</code></p></li>
+<li><p>Créer le <code>DataFrame</code> qui combine toutes ces statistiques de la manière suivante en appliquant la fonction de manière répétée :</p></li>
+</ul>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>grades <span class="op">=</span> [<span class="st">"nutriscore_grade"</span>, <span class="st">"ecoscore_grade"</span>, <span class="st">"nova_group"</span>]</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>stats_notes_sql <span class="op">=</span> [count_one_variable_sql(con, note, INPUT_OPENFOOD) <span class="cf">for</span> note <span class="kw">in</span> grades]</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>stats_notes_sql <span class="op">=</span> pd.concat(stats_notes_sql)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<!----- end 🔴 ----->
+</section></main></div>
+<div class="cell" data-execution_count="50">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution à la voie 🔴 et ⚫ pour les curieux de la voie 🟡, 🟢 et 🔵</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_one_variable_sql(con, variable, path_within_s3 <span class="op">=</span> <span class="st">"temp.parquet"</span>):</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    query <span class="op">=</span> <span class="ss">f"SELECT coicop, </span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss"> AS note, COUNT(</span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss">) AS value FROM read_parquet('s3://</span><span class="sc">{</span>path_within_s3<span class="sc">}</span><span class="ss">') GROUP BY coicop, </span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    stats_one_variable <span class="op">=</span> con.sql(query).df().dropna()</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    stats_one_variable[<span class="st">'variable'</span>] <span class="op">=</span> variable</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> stats_one_variable</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>grades <span class="op">=</span> [<span class="st">"nutriscore_grade"</span>, <span class="st">"ecoscore_grade"</span>, <span class="st">"nova_group"</span>]</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>stats_notes_sql <span class="op">=</span> [count_one_variable_sql(con, note, INPUT_OPENFOOD) <span class="cf">for</span> note <span class="kw">in</span> grades]</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>stats_notes_sql <span class="op">=</span> pd.concat(stats_notes_sql)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Ceci nous donne donc le <code>DataFrame</code> suivant:</p>
+<div class="cell" data-execution_count="51">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>stats_notes_sql.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+
+<section id="sauvegarde-dans-lespace-de-stockage-distant" class="level2">
+<h2 data-anchor-id="sauvegarde-dans-lespace-de-stockage-distant">2.5. Sauvegarde dans l’espace de stockage distant (🟡,🟢,🔵,🔴,⚫)</h2>
+<p>Ces statistiques descriptives sont à écrire dans l’espace de stockage distant pour ne plus avoir à les calculer.</p>
+<div class="cell" data-execution_count="52">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> write_stats_to_s3(data, destination):</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ecriture au format parquet sur l'espace de stockage distant</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> fs.<span class="bu">open</span>(destination, <span class="st">"wb"</span>) <span class="im">as</span> file_location:</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>        data.to_parquet(file_location)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>write_stats_to_s3(stats_notes, <span class="ss">f"</span><span class="sc">{</span>config[<span class="st">'BUCKET'</span>]<span class="sc">}{</span>config[<span class="st">'DESTINATION_DATA_S3'</span>]<span class="sc">}</span><span class="ss">/stats_notes_pandas.parquet"</span>)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>write_stats_to_s3(stats_notes_sql, <span class="ss">f"</span><span class="sc">{</span>config[<span class="st">'BUCKET'</span>]<span class="sc">}{</span>config[<span class="st">'DESTINATION_DATA_S3'</span>]<span class="sc">}</span><span class="ss">/stats_notes_sql.parquet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>⚠️ <strong>Il faut avoir modifié la valeur de <code>BUCKET</code> dans le fichier <code>config.yaml</code> pour que cette commande fonctionne</strong>.</p>
+</section>
+<section id="création-dun-modèle-de-graphiques" class="level2">
+<h2 data-anchor-id="création-dun-modèle-de-graphiques">2.6. Création d’un modèle de graphiques (🟡,🟢,🔵,🔴,⚫)</h2>
+<p>On va utiliser <code>Plotly</code> pour créer des graphiques et, ultérieurement, les afficher sur notre page web. Cela permettra d’avoir un peu de réactivité, c’est l’intérêt de faire un format <em>web</em> plutôt qu’une publication figée comme un <code>PDF</code>.</p>
+<div class="cell markdown">
+<!----- boite ⚫ ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #424242;">
+<h3 class="alert-heading"><i class="fa fa-pencil"></i> Modèle de figure pour les notes (⚫)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<p>Créer une fonction standardisée dont l’<em>output</em> est un objet <code>Plotly</code> respectant le cahier des charges suivant, pour chaque classe de produit :</p>
+<ul>
+<li>Diagramme en barre présentant le nombre de produits ayant telle ou telle note</li>
+<li>Prévoir un argument pour mettre en surbrillance une valeur donnée (par exemple la note <code>B</code>).</li>
+<li>Prévoir un argument pour le titre du graphique</li>
 </ul>
 </details>
 </div>
-<!----- end 🔴,⚫ ----->
+<!----- end ⚫ ----->
 </div>
-<p>Votre application est maintenant déployée, vous pouvez partager cette URL avec n’importe quel utilisateur dans le monde !</p>
+<div class="cell markdown">
+<!----- boite 🔴 ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #f44336;">
+<h3 class="alert-heading"><i class="fa fa-pencil"></i> Modèle de figure pour les notes (🔴)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<p>Créer une fonction standardisée dont les arguments sont</p>
+<ul>
+<li>Un jeu de données nommé <code>data</code></li>
+<li>Une caractéristique nutritionnelle nommée <code>variable_note</code> par défaut égale à <code>nutriscore_grade</code></li>
+<li>Une catégorie nommée <code>coicop</code>, par défaut égale à <code>01.1.7.3.2</code></li>
+<li>Une note pour le produit dans une variable nommée <code>note_produit</code> par défaut égal à <code>B</code></li>
+<li>Un titre par défaut égal à <code>Nutriscore</code></li>
+</ul>
+<p>Cette fonction effectue les tâches suivantes:</p>
+<ul>
+<li>Ne conserver, dans notre ensemble de valeurs agrégées, que celles relatives à la COICOP et à la caractéristique nutritionnelle qu’on recherche ;</li>
+<li>Représenter sous forme de diagramme en barre les valeurs nutritionnelles pour chaque décile de la distribution avec, en rouge, celle de notre produit (<code>valeur_produit</code>)</li>
+<li>N’hésitez pas à utiliser les options de <code>Plotly</code> pour personnaliser la figure</li>
+</ul>
+</details>
+</div>
+<!----- end 🔴 ----->
+</div>
+<div class="cell markdown">
+<!----- boite 🔵 ----->
+
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<p>Pour préparer cet exercice, créer les objets suivants:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> stats_nutritionnelles.copy()</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>variable_note <span class="op">=</span> <span class="st">'nutriscore_grade'</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>coicop <span class="op">=</span> <span class="st">"01.1.7.3.2"</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>note_produit <span class="op">=</span> <span class="st">"B"</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>titre <span class="op">=</span> <span class="st">"Nutriscore"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li>Ne conserver que les observations où <code>data['variable']</code> est égale à la valeur <code>variable_note</code> et où la variable <code>coicop</code> est égale à la valeur <code>coicop</code>. A l’issue de ces filtres, nommer le dataframe obtenu <code>example_coicop</code></li>
+<li>Créer une colonne stockant les couleurs de notre graphique. Nommer cette variable <code>color</code>.</li>
+<li>Créer un diagramme en barre avec: + sur l’axe des <em>x</em> les quantiles + sur l’axe des <em>y</em>, la valeur à représenter + la couleur à partir de la variable <code>color</code> + Les <em>labels</em> : pour l’axe des <em>x</em> ne rien mettre et pour l’axe des <em>y</em> : <em>“Note”</em> + Masquer la légende + Le titre à partir de la variable <code>titre</code></li>
+<li>Encapsuler ce code dans une fonction nommée <code>figure_infos_notes</code> dont les arguments sont les variables précédemment crées.</li>
+</ol>
+</details>
+</div>
+<!----- end 🔵 ----->
+
+<div class="cell markdown">
+<!----- boite 🟢 ----->
+
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<p>Pour préparer cet exercice, créer les objets suivants:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> stats_nutritionnelles.copy()</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>variable_note <span class="op">=</span> <span class="st">'nutriscore_grade'</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>coicop <span class="op">=</span> <span class="st">"01.1.7.3.2"</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>note_produit <span class="op">=</span> <span class="st">"B"</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>titre <span class="op">=</span> <span class="st">"Nutriscore"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li>Utiliser la méthode <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html"><code>loc</code></a> pour ne conserver que les observations où <code>data['variable']</code> est égale à la valeur <code>variable_note</code> et où la variable <code>coicop</code> est égale à la valeur <code>coicop</code> (qu’on a fixé à <code>"01.1.7.3.2"</code>). A l’issue de ces filtres, nommer le dataframe obtenu <code>example_coicop</code></li>
+<li>Utiliser <a href="https://numpy.org/doc/stable/reference/generated/numpy.where.html"><code>np.where</code></a> pour créer une colonne stockant les couleurs de notre graphique. On utilisera le rouge (<em>red</em>) lorsque la variable quantile est égale à <code>note_produit</code> et du bleu (<em>royalblue</em>) sinon. Nommer cette variable <code>color</code>.</li>
+<li>Créer un diagramme en barre avec: + sur l’axe des <em>x</em> les notes (stockés dans la variable <code>note</code>) + sur l’axe des <em>y</em>, la valeur à représenter (stockée dans la variable <code>value</code>) + la couleur à partir de la variable <code>color</code> + Les <em>labels</em> : pour l’axe des <em>x</em> ne rien mettre et pour l’axe des <em>y</em> : <em>“Note”</em> + Masquer la légende via l’argument <code>showlegend</code> de la méthode <code>update_layout</code> + Le titre à partir de la variable <code>titre</code></li>
+<li>Encapsuler ce code dans une fonction nommée <code>figure_infos_nutritionnelles</code> dont les arguments sont <code>data</code>, <code>variable_nutritionnelle = 'nutriscore_grade'</code>, <code>coicop = "01.1.7.3.2"</code> et <code>valeur_produit = "B"</code>.</li>
+</ol>
+</details>
+</div>
+<!----- end 🟢 ----->
+
+<p>Voici un exemple de fonction qui répond aux cahiers des charges ci-dessus:</p>
+<div class="cell" data-execution_count="57">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&nbsp;Solution pour voie 🟡</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> figure_infos_notes(</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    data, variable_note <span class="op">=</span> <span class="st">'nutriscore_grade'</span>,</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    coicop <span class="op">=</span> <span class="st">"01.1.7.3.2"</span>, note_produit <span class="op">=</span> <span class="st">"B"</span>,</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    title <span class="op">=</span> <span class="st">"Nutriscore"</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>    example_coicop <span class="op">=</span> data.loc[data[<span class="st">'variable'</span>] <span class="op">==</span> variable_note]</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    example_coicop <span class="op">=</span> example_coicop.loc[example_coicop[<span class="st">'coicop'</span>]<span class="op">==</span>coicop]</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>    example_coicop[<span class="st">'color'</span>] <span class="op">=</span> np.where(example_coicop[<span class="st">'note'</span>] <span class="op">==</span> note_produit, <span class="st">"Note du produit"</span>, <span class="st">"Autres produits"</span>)</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> px.bar(</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>        example_coicop,</span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="st">'note'</span>, y<span class="op">=</span><span class="st">'value'</span>, color <span class="op">=</span> <span class="st">"color"</span>, template <span class="op">=</span> <span class="st">"simple_white"</span>,</span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span>title,</span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>        color_discrete_map<span class="op">=</span>{<span class="st">"Note produit"</span>: <span class="st">"red"</span>, <span class="st">"Autres produits"</span>: <span class="st">"royalblue"</span>},</span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>        labels<span class="op">=</span>{</span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>            <span class="st">"note"</span>: <span class="st">"Note"</span>,</span>
+<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>            <span class="st">"value"</span>: <span class="st">""</span></span>
+<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb43-25"><a href="#cb43-25" aria-hidden="true" tabindex="-1"></a>    fig.update_xaxes(</span>
+<span id="cb43-26"><a href="#cb43-26" aria-hidden="true" tabindex="-1"></a>        categoryorder<span class="op">=</span><span class="st">'array'</span>,</span>
+<span id="cb43-27"><a href="#cb43-27" aria-hidden="true" tabindex="-1"></a>        categoryarray<span class="op">=</span> [<span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span>, <span class="st">'D'</span>, <span class="st">'E'</span>])</span>
+<span id="cb43-28"><a href="#cb43-28" aria-hidden="true" tabindex="-1"></a>    fig.update_layout(showlegend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb43-29"><a href="#cb43-29" aria-hidden="true" tabindex="-1"></a>    fig.update_layout(hovermode<span class="op">=</span><span class="st">"x"</span>)</span>
+<span id="cb43-30"><a href="#cb43-30" aria-hidden="true" tabindex="-1"></a>    fig.update_traces(</span>
+<span id="cb43-31"><a href="#cb43-31" aria-hidden="true" tabindex="-1"></a>        hovertemplate<span class="op">=</span><span class="st">"&lt;br&gt;"</span>.join([</span>
+<span id="cb43-32"><a href="#cb43-32" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Note %</span><span class="sc">{x}</span><span class="st">"</span>,</span>
+<span id="cb43-33"><a href="#cb43-33" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f"</span><span class="sc">{</span>variable_note<span class="sc">}</span><span class="ss">: "</span> <span class="op">+</span><span class="st">" %</span><span class="sc">{y}</span><span class="st"> produits"</span></span>
+<span id="cb43-34"><a href="#cb43-34" aria-hidden="true" tabindex="-1"></a>        ])</span>
+<span id="cb43-35"><a href="#cb43-35" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb43-36"><a href="#cb43-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-37"><a href="#cb43-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Voici un exemple d’utilisation</p>
+<div class="cell" data-execution_count="58">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils.construct_figures <span class="im">import</span> figure_infos_notes</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> figure_infos_notes(stats_notes)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>fig.update_layout(width<span class="op">=</span><span class="dv">800</span>, height<span class="op">=</span><span class="dv">400</span>)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="comparer-un-produit-à-un-groupe-similaire" class="level1">
+<h1>3️⃣ Comparer un produit à un groupe similaire</h1>
+<p>Tout ce travail préliminaire nous permettra d’afficher sur notre application des statistiques propres à chaque catégorie.</p>
+<p>On propose d’utiliser le jeu de données préparé précedemment</p>
+<div class="cell" data-execution_count="59">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>indices_synthetiques <span class="op">=</span> [</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nutriscore_grade"</span>, <span class="st">"ecoscore_grade"</span>, <span class="st">"nova_group"</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>principales_infos <span class="op">=</span> [<span class="st">'product_name'</span>, <span class="st">'code'</span>, <span class="st">'preprocessed_labels'</span>, <span class="st">'coicop'</span>]</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>liste_colonnes <span class="op">=</span> principales_infos <span class="op">+</span> indices_synthetiques</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>liste_colonnes_sql <span class="op">=</span> [<span class="ss">f"</span><span class="ch">\"</span><span class="sc">{</span>s<span class="sc">}</span><span class="ch">\"</span><span class="ss">"</span> <span class="cf">for</span> s <span class="kw">in</span> liste_colonnes]</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>liste_colonnes_sql <span class="op">=</span> <span class="st">', '</span>.join(liste_colonnes_sql)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>On va aussi utiliser la nomenclature COICOP qui peut être importée via le code ci-dessous:</p>
+<div class="cell" data-execution_count="60">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils.download_pb <span class="im">import</span> import_coicop_labels</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>coicop <span class="op">=</span> import_coicop_labels(</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://www.insee.fr/fr/statistiques/fichier/2402696/coicop2016_liste_n5.xls"</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="détection-de-code-barre" class="level2">
+<h2 data-anchor-id="détection-de-code-barre">3.1. Détection de code barre (🟡,🟢,🔵,🔴,⚫)</h2>
+<p>La première brique de notre application consiste à repérer un produit par le scan du code-barre. Nous allons partir pour le moment d’un produit d’exemple, ci-dessous:</p>
+<p><img src="https://images.openfoodfacts.org/images/products/500/011/260/2791/front_fr.4.400.jpg" class="img-fluid"></p>
+<div class="cell" data-execution_count="61">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>url_image <span class="op">=</span> <span class="st">"https://images.openfoodfacts.org/images/products/500/011/260/2791/front_fr.4.400.jpg"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Dans le cadre de notre application, on permettra aux utilisateurs d’<em>uploader</em> la photo d’un produit, ce sera plus <em>fun</em>. En attendant notre application, partir d’un produit standardisé permet déjà de mettre en oeuvre la logique à ré-appliquer plus tard.</p>
+<p>Pour se simplifier la vie, le plus simple pour repérer un code-barre est d’utiliser le <em>package</em> <a href="https://pypi.org/project/pyzbar/"><code>pyzbar</code></a>. Pour transformer une image en matrice <code>Numpy</code> (l’objet attendu par <a href="https://pypi.org/project/pyzbar/"><code>pyzbar</code></a>), on peut utiliser le module <code>skimage</code> de la manière suivante:</p>
+<div class="cell" data-execution_count="62">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> skimage <span class="im">import</span> io</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>io.imread(url_image)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Grâce à <code>sklearn.image</code>, on peut utiliser l’URL d’une page web ou le chemin d’un fichier de manière indifférente pour la valeur de <code>url_image</code>.</p>
+<div class="cell markdown">
+<!----- boite 🟢🔵🔴 et ⚫ ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #9c9797;">
+<h3 class="alert-heading"><i class="fa fa-pencil"></i> Extraire le code-barre à partir d'une image (🟢🔵🔴 et ⚫)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+<ol type="1">
+<li>Après avoir importé l’image via <code>io.imread</code>, utiliser <code>pyzbar.decode</code> pour extraire les informations voulues, notamment le code-barre.</li>
+<li>Si vous avez nommé l’objet généré, vérifier le code-barre avec <code>obj[0].data.decode()</code>.</li>
+<li>A partir de cela, créer une fonction <code>extract_ean</code> pour décoder l’image (en retournant l’objet généré par <code>pyzbar</code>)</li>
+</ol>
+</details>
+</div>
+<!----- end 🟢🔵🔴 et ⚫ ----->
+</div>
+<div id="get-openfood-parquet" class="cell yellow-code" data-execution_count="64">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution pour voie 🟡</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyzbar <span class="im">import</span> pyzbar</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_ean(url, verbose<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    img <span class="op">=</span> io.imread(url)</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    decoded_objects <span class="op">=</span> pyzbar.decode(img)</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> verbose <span class="kw">is</span> <span class="va">True</span>:</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> obj <span class="kw">in</span> decoded_objects:</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>            <span class="co"># draw the barcode</span></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"detected barcode:"</span>, obj)</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>            <span class="co"># print barcode type &amp; data</span></span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Type:"</span>, obj.<span class="bu">type</span>)</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Data:"</span>, obj.data)</span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> decoded_objects</span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>obj <span class="op">=</span> extract_ean(url_image, verbose <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a>obj[<span class="dv">0</span>].data.decode()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>On obtient bien un code identifiant notre produit. Il s’agit de l’EAN qui est un identifiant unique, partagé quelque soit le point de vente d’un produit. Il s’agit d’un identifiant présent sur tout code-barre, utilisé dans les systèmes d’information des grandes enseignes mais aussi dans les bases produits qui peuvent être utilisées de manière annexe (par exemple l’<code>OpenFoodFacts</code>).</p>
+</section>
+<section id="association-dun-code-barre-à-un-produit-dopenfoodfacts" class="level2">
+<h2 data-anchor-id="association-dun-code-barre-à-un-produit-dopenfoodfacts">3.2. Association d’un code barre à un produit d’<code>OpenFoodFacts</code> (🟡,🟢,🔵,🔴,⚫)</h2>
+<p>Maintenant qu’on dispose d’un code-barre (le numéro EAN), on va trouver le produit dans <code>OpenFoodFacts</code> à partir de ce code-barre.</p>
+<p>Cependant, comme il peut arriver qu’un produit dispose d’informations incomplètes, il peut être utile de faire non seulement de l’appariement exact (trouver le produit avec le même code EAN) mais aussi de l’appariement flou (trouver un produit avec un nom proche de celui qu’on veut).</p>
+<p>Ceci est un exercice pour les parcours 🔴 et ⚫, les autres voies pouvant prendre cette fonction comme donnée.</p>
+<p>Pour aller plus loin sur cette question des appariements flous, il pourrait être utile d’aller vers <code>ElasticSearch</code>. C’est néanmoins un sujet en soi, nous proposons donc aux curieux de consulter <a href="https://pythonds.linogaliana.fr/elastic/">cette ressource</a>.</p>
+<p>Voici l’EAN d’exemple :</p>
+<div class="cell" data-execution_count="66">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>ean <span class="op">=</span> <span class="st">"5000112602999"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Pour avoir un outil performant, on propose d’utiliser <code>DuckDB</code> pour lire et filtrer les données. Cela sera plus performant que lire, à chaque fois que l’utilisateur de notre application <em>upload</em> une image, un gros fichier (2 millions de ligne) pour n’en garder qu’une.</p>
+<p>Voici la configuration à mettre en oeuvre:</p>
+<div class="cell" data-execution_count="67">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> duckdb</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> duckdb.<span class="ex">connect</span>(database<span class="op">=</span><span class="st">':memory:'</span>)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"""</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="st">    INSTALL httpfs;</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="st">    LOAD httpfs;</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="st">    SET s3_endpoint='minio.lab.sspcloud.fr'</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>url_data <span class="op">=</span> <span class="st">"https://projet-funathon.minio.lab.sspcloud.fr/2023/sujet4/diffusion/openfood.parquet"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Pour commencer, effectuons une requête SQL pour récupérer le produit correspondant au code-barre qu’on a scanné:</p>
+<div class="cell markdown">
+<!----- boite 🟢🔵 ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #9c9797;">
+<h3 class="alert-heading"><i class="fa fa-pencil"></i> Lire les données avec <code>DuckDB</code> (🟢 et 🔵)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+
+Pour exécuter une requête SQL, on utilise la structure suivante avec `DuckDB`
+
+```python
+data_pandas_from_duckdb = con.sql(REQUETE).df()
+<p>La requête que nous proposons d’utiliser est à structurer à partir des éléments suivants :</p>
+<ul>
+<li>Pour la clause <code>SELECT</code>, la liste des colonnes à utiliser est pré-formattée dans l’objet <code>liste_colonnes_sql</code></li>
+<li>Pour la clause <code>FROM</code>, l’instruction <code>read_parquet</code> peut être utilisée avec l’URL stocké dans <code>url_data</code></li>
+<li>Pour la clause <code>WHERE</code>, vous pouvez utiliser la syntaxe suivante pour normaliser les code-barres des deux côtés en retirant les 0 initiaux: <code>CAST(ltrim(code, '0') AS STRING) = CAST(ltrim({ean}) AS STRING)</code></li>
+</ul>
+</details>
+</div>
+<!----- end 🟢🔵 ----->
+</div>
+<div class="cell markdown">
+<!----- boite 🔴 et ⚫ ----->
+
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #9c9797;">
+<h3 class="alert-heading"><i class="fa fa-pencil"></i> Lire les données avec <code>DuckDB</code> (🔴 et ⚫)</h3>
+
+
+<details>
+<summary>Dérouler pour révéler les instructions</summary>
+
+La requête que nous proposons d'utiliser est à structurer à partir des éléments suivants :
+
+- Ne garder que les variables présentes dans `liste_colonnes_sql`
+- Lire les données directement depuis `url_data`
+- Filtrer les données pour ne garder que celle dans l'OpenFood avec notre code-barre
+
+Aide pour la voie 🔴
+
+Il faut normaliser les code-barres des deux côtés avant d'essayer
+de comparer. Cela se fait de la manière suivante: `CAST(ltrim({ean}) AS STRING)`
+A vous de mettre en oeuvre cela pour faire de la comparaison entre notre EAN et la
+variable `code`.
+
+
+
+```{=html}
+</details>
+</div>
+<!----- end 🔴 et ⚫ ----->
+</div>
+<p>Voici la solution:</p>
+<div class="cell" data-execution_count="70">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution pour voie 🟡</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_product_ean(con, ean, url_data, liste_colonnes_sql):</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    openfood_produit <span class="op">=</span> con.sql(</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f"SELECT </span><span class="sc">{</span>liste_colonnes_sql<span class="sc">}</span><span class="ss"> FROM read_parquet('</span><span class="sc">{</span>url_data<span class="sc">}</span><span class="ss">') WHERE CAST(ltrim(code, '0') AS STRING) = CAST(ltrim(</span><span class="sc">{</span>ean<span class="sc">}</span><span class="ss">) AS STRING)"</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>        ).df()</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> openfood_produit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>On va néanmoins intégrer ceci dans un <em>pipeline</em> plus général:</p>
+<ol type="1">
+<li>On cherche le produit à partir du code barre</li>
+<li>Si les infos sont manquantes, on récupère les produits dont le nom ressemble par distance de Jaro-Winkler.</li>
+</ol>
+<p>Voici la fonction qui permet d’implémenter la deuxième partie:</p>
+<div class="cell" data-execution_count="71">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution pour voie 🟡</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils.pipeline <span class="im">import</span> clean_note</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fuzzy_matching_product(openfood_produit, product_name, con, url_data, liste_colonnes_sql, indices_synthetiques):</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>    out_textual <span class="op">=</span> con.sql(<span class="ss">f"SELECT </span><span class="sc">{</span>liste_colonnes_sql<span class="sc">}</span><span class="ss"> from read_parquet('</span><span class="sc">{</span>url_data<span class="sc">}</span><span class="ss">') WHERE jaro_winkler_similarity('</span><span class="sc">{</span>product_name<span class="sc">}</span><span class="ss">',product_name) &gt; 0.9 AND </span><span class="ch">\"</span><span class="ss">energy-kcal_100g</span><span class="ch">\"</span><span class="ss"> IS NOT NULL"</span>)</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>    out_textual <span class="op">=</span> out_textual.df()</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>    out_textual_imputed <span class="op">=</span> pd.concat(</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>        [</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>            openfood_produit.loc[:, [<span class="st">"code"</span>, <span class="st">"product_name"</span>, <span class="st">"coicop"</span>]].reset_index(drop <span class="op">=</span> <span class="va">True</span>),</span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>            pd.DataFrame(out_textual.loc[:, indices_synthetiques].replace(<span class="st">"NONE"</span>,<span class="st">""</span>).replace(<span class="st">''</span>,np.nan).mode(dropna<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>        ], ignore_index<span class="op">=</span><span class="va">True</span>, axis<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>    out_textual_imputed.columns <span class="op">=</span> [<span class="st">"code"</span>, <span class="st">"product_name"</span>, <span class="st">"coicop"</span>] <span class="op">+</span> indices_synthetiques</span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out_textual_imputed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Voici finalement le <em>pipeline</em> mis en oeuvre par une fonction :</p>
+<div class="cell" data-execution_count="72">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution pour voie 🟡</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_product_openfood(con, liste_colonnes_sql, url_data, ean):</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    openfood_produit <span class="op">=</span> con.sql(</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"SELECT </span><span class="sc">{</span>liste_colonnes_sql<span class="sc">}</span><span class="ss"> FROM read_parquet('</span><span class="sc">{</span>url_data<span class="sc">}</span><span class="ss">') WHERE CAST(ltrim(code, '0') AS STRING) = CAST(ltrim(</span><span class="sc">{</span>ean<span class="sc">}</span><span class="ss">) AS STRING)"</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>    ).df()</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>    product_name <span class="op">=</span> openfood_produit[<span class="st">"product_name"</span>].iloc[<span class="dv">0</span>]</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> openfood_produit[<span class="st">'nutriscore_grade'</span>].isin([<span class="st">'NONE'</span>,<span class="st">''</span>]).iloc[<span class="dv">0</span>]:</span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>        openfood_produit <span class="op">=</span> fuzzy_matching_product(</span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>            openfood_produit, product_name, con, url_data,</span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>            liste_colonnes_sql, indices_synthetiques)</span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>        openfood_produit <span class="op">=</span> openfood_produit.merge(coicop, left_on <span class="op">=</span> <span class="st">"coicop"</span>, right_on <span class="op">=</span> <span class="st">"Code"</span>)</span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> openfood_produit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Qui peut être finalisé de la manière suivante:</p>
+<div class="cell" data-execution_count="73">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>openfood_produit <span class="op">=</span> find_product_openfood(</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    con, liste_colonnes_sql,</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    url_data, ean</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>openfood_produit.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="production-automatique-dun-graphique" class="level2">
+<h2 data-anchor-id="production-automatique-dun-graphique">Production automatique d’un graphique (🟡,🟢,🔵,🔴,⚫)</h2>
+<p>La dernière partie du prototypage consiste à enrober nos fonctions de production de graphiques dans une fonction plus générique.</p>
+<p>Pour rappel, l’import des données se fait de la manière suivante:</p>
+<div class="cell" data-execution_count="74">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>stats_notes <span class="op">=</span> pd.read_parquet(</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://minio.lab.sspcloud.fr/projet-funathon/2023/sujet4/diffusion/stats_notes_pandas.parquet"</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Dans notre application, nous allons utiliser cette fonction:</p>
+<div class="cell" data-execution_count="75">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils.construct_figures <span class="im">import</span> figure_infos_notes</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>variable <span class="op">=</span> <span class="st">'nutriscore_grade'</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_product_info(</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    data, variable,</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>    stats_notes):</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> figure_infos_notes(</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>        stats_notes,</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>        variable_note <span class="op">=</span> variable,</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>        coicop <span class="op">=</span> data[<span class="st">'coicop'</span>].iloc[<span class="dv">0</span>],</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>        note_produit <span class="op">=</span> data[variable].iloc[<span class="dv">0</span>],</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>        title <span class="op">=</span> variable.split(<span class="st">"_"</span>)[<span class="dv">0</span>].capitalize()</span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="76">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_product_info(openfood_produit, variable, stats_notes)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>fig.update_layout(width<span class="op">=</span><span class="dv">800</span>, height<span class="op">=</span><span class="dv">400</span>)</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="77">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_product_info(openfood_produit, <span class="st">"ecoscore_grade"</span>, stats_notes)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>fig.update_layout(width<span class="op">=</span><span class="dv">800</span>, height<span class="op">=</span><span class="dv">400</span>)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 </section>
 
-</main>
+
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -409,7 +1819,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-</div> <!-- /content -->
+ <!-- /content -->
 
 
 
