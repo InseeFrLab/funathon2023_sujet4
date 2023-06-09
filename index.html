@@ -849,14 +849,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 <p>⚠️ <strong>Il faut avoir modifié la valeur de <code>BUCKET</code> dans le fichier <code>config.yaml</code> pour que cette commande fonctionne</strong>.</p>
-<p>Enfin, pour rendre ce fichier accessible à votre future application, il est nécessaire d’éditer la cellule ci-dessous pour remplacer <code>&lt;USERNAME_SSPCLOUD&gt;</code> par votre nom d’utilisateur sur le <code>SSPCloud</code> puis d’exécuter la cellule suivante:</p>
+<p>Enfin, pour rendre ce fichier accessible à votre future application, il est nécessaire d’éditer la cellule ci-dessous pour remplacer <code>&lt;USERNAME_SSPCLOUD&gt;</code> par votre nom d’utilisateur sur le <code>SSPCloud</code> puis d’exécuter la cellule suivante qui va permettre de rendre ce fichier public. :</p>
 <div class="cell" data-execution_count="34">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>mc anonymous <span class="bu">set</span> download s3<span class="op">/&lt;</span>USERNAME_SSPCLOUD<span class="op">&gt;/</span><span class="dv">2023</span><span class="op">/</span>sujet4<span class="op">/</span>diffusion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ⚠️ modifier ci-dessous pour remplacer USERNAME_SSPCLOUD par votre nom d'utilisateur sur le SSPCloud</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>mc anonymous <span class="bu">set</span> download s3<span class="op">/&lt;</span>USERNAME_SSPCLOUD<span class="op">&gt;/</span><span class="dv">2023</span><span class="op">/</span>sujet4<span class="op">/</span>diffusion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>qui rend ce fichier public.</p>
+<p>⚠️ <strong>Il faut avoir modifié la valeur de <code>USERNAME_SSPCLOUD</code> dans la commande pour que cela fonctionne</strong>.</p>
 <p>Le fichier sera ainsi disponible en téléchargement directement depuis un URL de la forme:</p>
 <blockquote class="blockquote">
 <p>https://minio.lab.sspcloud.fr/<username_sspcloud>/2023/sujet4/diffusion/openfood.parquet</username_sspcloud></p>
@@ -1164,12 +1165,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    query <span class="op">=</span> <span class="ss">f"SELECT coicop, </span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss"> AS note, COUNT(</span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss">) AS value FROM read_parquet('s3://</span><span class="sc">{</span>path_within_s3<span class="sc">}</span><span class="ss">') GROUP BY coicop, </span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss">"</span></span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    stats_one_variable <span class="op">=</span> con.sql(query).df().dropna()</span>
 <span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    stats_one_variable[<span class="st">'variable'</span>] <span class="op">=</span> variable</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> stats_one_variable</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>grades <span class="op">=</span> [<span class="st">"nutriscore_grade"</span>, <span class="st">"ecoscore_grade"</span>, <span class="st">"nova_group"</span>]</span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>stats_notes_sql <span class="op">=</span> [count_one_variable_sql(con, note, INPUT_OPENFOOD) <span class="cf">for</span> note <span class="kw">in</span> grades]</span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>stats_notes_sql <span class="op">=</span> pd.concat(stats_notes_sql)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    stats_one_variable <span class="op">=</span> stats_one_variable.replace(<span class="st">''</span>, <span class="st">'NONE'</span>)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> stats_one_variable</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>grades <span class="op">=</span> [<span class="st">"nutriscore_grade"</span>, <span class="st">"ecoscore_grade"</span>, <span class="st">"nova_group"</span>]</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>stats_notes_sql <span class="op">=</span> [count_one_variable_sql(con, note, INPUT_OPENFOOD) <span class="cf">for</span> note <span class="kw">in</span> grades]</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>stats_notes_sql <span class="op">=</span> pd.concat(stats_notes_sql)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Ceci nous donne donc le <code>DataFrame</code> suivant:</p>
