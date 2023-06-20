@@ -154,7 +154,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Cet exercice est proposé dans le cadre du <code>Funathon</code> (hackathon non compétitif) organisé en 2023 par l’Insee et le Ministère de l’Agriculture sur le thème <em>“Du champ à l’assiette”</em>. Les autres sujets sont disponibles sur le <a href="https://github.com/InseeFrLab/funathon2023"><code>Github InseeFrLab</code></a>.</p>
 <p>Pour les personnes bénéficiant d’un compte sur l’infrastructure <a href="https://www.onyxia.sh/"><code>SSP Cloud</code></a> vous pouvez cliquer sur le lien ci-dessous pour lancer un environnement <code>Jupyter</code> prêt-à-l’emploi <a href="https://datalab.sspcloud.fr/launcher/ide/jupyter-python?autoLaunch=true&amp;kubernetes.role=%C2%ABadmin%C2%BB&amp;networking.user.enabled=true&amp;git.cache=%C2%AB36000%C2%BB&amp;init.personalInit=%C2%ABhttps%3A%2F%2Fraw.githubusercontent.com%2FInseeFrLab%2Ffunathon2023_sujet4%2Fmain%2Finit.sh%C2%BB"><img src="https://img.shields.io/badge/SSPcloud-Tester%20via%20SSP--cloud-informational&amp;color=yellow?logo=Python.png" class="img-fluid" alt="Onyxia"></a></p>
 <p>Si vous ne disposez pas d’un tel environnement, il est possible de consulter cette page à travers un <em>notebook</em> depuis <code>Google Colab</code> <a href="http://colab.research.google.com/github/InseeFrLab/funathon2023_sujet4/blob/main/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Colab"></a>. Néanmoins, tous les exemples ne seront pas reproductibles puisque, par exemple, certains nécessitent d’être en mesure de lancer une application <em>web</em> depuis <code>Python</code>, ce qui n’est pas possible sur <code>Google Colab</code>.</p>
-<p>En amont de l’exécution de ce notebook, il est recommandé d’installer l’ensemble des packages utilisés dans ce projet avec la commande suivante:</p>
+<p>En amont de l’exécution de ce notebook, il est recommandé d’installer l’ensemble des packages utilisés dans ce projet avec la commande suivante :</p>
 <div class="cell" data-execution_count="1">
 <details>
 <summary>Code</summary>
@@ -164,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="objectif-et-approche-pédagogique" class="level1">
 <h1>Objectif et approche pédagogique</h1>
 <p>L’objectif de ce projet est d’apprendre à utiliser <code>Python</code> pour créer des applications réactives avec <code>Streamlit</code> mais aussi de se familiariser à la manipulation de données avec <code>Python</code> et, au passage, à quelques bonnes pratiques utiles pour obtenir des projets plus lisibles et reproductibles.</p>
-<p>Pour parvenir à cet objectif, il est possible d’emprunter plusieurs voies, plus ou moins guidées. Celles-ci sont là pour permettre que ce sujet soit réalisable. Elles sont balisées de la manière suivante:</p>
+<p>Pour parvenir à cet objectif, il est possible d’emprunter plusieurs voies, plus ou moins guidées. Celles-ci sont là pour permettre que ce sujet soit réalisable. Elles sont balisées de la manière suivante :</p>
 <table class="table">
 <colgroup>
 <col style="width: 15%">
@@ -209,7 +209,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>⚫</td>
 <td>Autonomie</td>
 <td>Bonne maîtrise de <code>Python</code> et de la ligne de commande ̀<code>Linux</code></td>
-<td>S’initier au déploiement d’une application ou à l’ingénieurie de données&nbsp;</td>
+<td>S’initier au déploiement d’une application ou à l’ingénierie de données&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -248,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <!----- end 🔵 ----->
 </div>
-<p>La solution associée, visible pour les personnes sur la voie 🟡, sera:</p>
+<p>La solution associée, visible pour les personnes sur la voie 🟡, sera :</p>
 <div class="cell" data-execution_count="4">
 <details>
 <summary>Code</summary>
@@ -258,7 +258,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="etapes-du-projet" class="level2">
 <h2 class="anchored" data-anchor-id="etapes-du-projet">Etapes du projet</h2>
-<p>Le projet est séquencé de la manière suivante:</p>
+<p>Le projet est séquencé de la manière suivante :</p>
 <table class="table">
 <colgroup>
 <col style="width: 47%">
@@ -294,11 +294,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>Le développement à proprement parler de l’application est donc assez tardif car un certain nombre d’étapes préalables sont nécessaires pour ne pas avoir une application monolithique (ce qui est une bonne pratique). Si vous n’êtes intéressés que par développer une application <code>Streamlit</code>, vous pouvez directement passer aux étapes concernées (à partir de la partie 3️).</p>
-<p>La première étape (1️⃣ <em>Récupération et nettoyage de la base <code>OpenFoodFacts</code></em>) peut être assez chronophage. Cela est assez représentatif des projets de <em>data science</em> où la majorité du temps est consacrée à la structuration et la manipulation de données. La deuxième étape (2️ <em>“Faire des statistiques agrégées par catégories”</em>) est la moins centrale de ce sujet: si vous manquez de temps vous pouvez la passer et utiliser directement les morceaux de code mis à disposition.</p>
+<p>La première étape (1️⃣ <em>Récupération et nettoyage de la base <code>OpenFoodFacts</code></em>) peut être assez chronophage. Cela est assez représentatif des projets de <em>data science</em> où la majorité du temps est consacrée à la structuration et la manipulation de données. La deuxième étape (2️ <em>“Faire des statistiques agrégées par catégories”</em>) est la moins centrale de ce sujet : si vous manquez de temps vous pouvez la passer et utiliser directement les morceaux de code mis à disposition.</p>
 </section>
 <section id="remarques" class="level2">
 <h2 class="anchored" data-anchor-id="remarques">Remarques</h2>
-<p>Cette page peut être consultée par différents canaux:</p>
+<p>Cette page peut être consultée par différents canaux :</p>
 <ul>
 <li>Sur un site web, les codes faisant office de solution sont, par défauts, cachés. Cela peut être pratique de consulter cette page si vous êtes sur un parcours de couleur différente que le jaune et ne voulez pas voir la solution sans le vouloir ;</li>
 <li>Sur un notebook <code>Jupyter</code>, les solutions de la voie 🟡 sont affichées par défaut. Elles peuvent être cachées en faisant <code>View</code> &gt; <code>Collapse All Code</code></li>
@@ -2595,7 +2595,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb69-33"><a href="#cb69-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-34"><a href="#cb69-34" aria-hidden="true" tabindex="-1"></a>En amont de l'exécution de ce notebook, il est recommandé d'installer </span>
 <span id="cb69-35"><a href="#cb69-35" aria-hidden="true" tabindex="-1"></a>l'ensemble des packages utilisés dans ce projet avec la commande</span>
-<span id="cb69-36"><a href="#cb69-36" aria-hidden="true" tabindex="-1"></a>suivante:</span>
+<span id="cb69-36"><a href="#cb69-36" aria-hidden="true" tabindex="-1"></a>suivante :</span>
 <span id="cb69-37"><a href="#cb69-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-40"><a href="#cb69-40" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
 <span id="cb69-41"><a href="#cb69-41" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
@@ -2612,7 +2612,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb69-52"><a href="#cb69-52" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-53"><a href="#cb69-53" aria-hidden="true" tabindex="-1"></a>Pour parvenir à cet objectif, il est possible d'emprunter plusieurs voies,</span>
 <span id="cb69-54"><a href="#cb69-54" aria-hidden="true" tabindex="-1"></a>plus ou moins guidées. Celles-ci sont là pour permettre que ce sujet </span>
-<span id="cb69-55"><a href="#cb69-55" aria-hidden="true" tabindex="-1"></a>soit réalisable. Elles sont balisées de la manière suivante:</span>
+<span id="cb69-55"><a href="#cb69-55" aria-hidden="true" tabindex="-1"></a>soit réalisable. Elles sont balisées de la manière suivante :</span>
 <span id="cb69-56"><a href="#cb69-56" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-57"><a href="#cb69-57" aria-hidden="true" tabindex="-1"></a>| Balisage | Approche | Prérequis de niveau | Objectif pédagogique |</span>
 <span id="cb69-58"><a href="#cb69-58" aria-hidden="true" tabindex="-1"></a>|--------|---------|----------------|-------------------|</span>
@@ -2620,7 +2620,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb69-60"><a href="#cb69-60" aria-hidden="true" tabindex="-1"></a>| 🟢 | Des instructions détaillées sur la manière de procéder sont proposées | Connaître quelques manipulations avec <span class="in">`Pandas`</span> | Apprendre à utiliser certains _packages_ avec un projet guidé, se familiariser avec les projets `Python` plus conséquents que les _notebooks_ <span class="in">`Jupyter`</span> |</span>
 <span id="cb69-61"><a href="#cb69-61" aria-hidden="true" tabindex="-1"></a>| 🔵 | Instructions moins détaillées | Capacité à manipuler des données avec <span class="in">`Pandas`</span> | Apprendre à modulariser du code pour faciliter sa réutilisation dans une application, découvrir la récupation de données via des API |</span>
 <span id="cb69-62"><a href="#cb69-62" aria-hidden="true" tabindex="-1"></a>| 🔴 | Peu d'instructions | Expérience en développement de code <span class="in">`Python`</span> | Découvrir la création d'application ou se familiariser avec l'écosystème <span class="in">`DuckDB`</span> |</span>
-<span id="cb69-63"><a href="#cb69-63" aria-hidden="true" tabindex="-1"></a>| ⚫ | Autonomie | Bonne maîtrise de <span class="in">`Python`</span> et de la ligne de commande ̀<span class="in">`Linux`</span> | S'initier au déploiement d'une application ou à l'ingénieurie de données&nbsp;|</span>
+<span id="cb69-63"><a href="#cb69-63" aria-hidden="true" tabindex="-1"></a>| ⚫ | Autonomie | Bonne maîtrise de <span class="in">`Python`</span> et de la ligne de commande ̀<span class="in">`Linux`</span> | S'initier au déploiement d'une application ou à l'ingénierie de données&nbsp;|</span>
 <span id="cb69-64"><a href="#cb69-64" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-65"><a href="#cb69-65" aria-hidden="true" tabindex="-1"></a>Le parcours vers la mise en oeuvre d'une application fonctionnelle se fait par étapes, en séquençant le projet</span>
 <span id="cb69-66"><a href="#cb69-66" aria-hidden="true" tabindex="-1"></a>pour permettre d'avoir un projet lisible, reproductible et modulaire. </span>
@@ -2693,7 +2693,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb69-137"><a href="#cb69-137" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb69-138"><a href="#cb69-138" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-139"><a href="#cb69-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-140"><a href="#cb69-140" aria-hidden="true" tabindex="-1"></a>La solution associée, visible pour les personnes sur la voie 🟡, sera:</span>
+<span id="cb69-140"><a href="#cb69-140" aria-hidden="true" tabindex="-1"></a>La solution associée, visible pour les personnes sur la voie 🟡, sera :</span>
 <span id="cb69-141"><a href="#cb69-141" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-144"><a href="#cb69-144" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
 <span id="cb69-145"><a href="#cb69-145" aria-hidden="true" tabindex="-1"></a><span class="co">#&nbsp;Solution pour voie 🟡</span></span>
@@ -2703,7 +2703,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb69-149"><a href="#cb69-149" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-150"><a href="#cb69-150" aria-hidden="true" tabindex="-1"></a><span class="fu">## Etapes du projet</span></span>
 <span id="cb69-151"><a href="#cb69-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-152"><a href="#cb69-152" aria-hidden="true" tabindex="-1"></a>Le projet est séquencé de la manière suivante: </span>
+<span id="cb69-152"><a href="#cb69-152" aria-hidden="true" tabindex="-1"></a>Le projet est séquencé de la manière suivante : </span>
 <span id="cb69-153"><a href="#cb69-153" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-154"><a href="#cb69-154" aria-hidden="true" tabindex="-1"></a>| Etape | Objectif |</span>
 <span id="cb69-155"><a href="#cb69-155" aria-hidden="true" tabindex="-1"></a>|--------|---------|</span>
@@ -2717,13 +2717,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb69-163"><a href="#cb69-163" aria-hidden="true" tabindex="-1"></a>Le développement à proprement parler de l'application est donc assez tardif car un certain nombre d'étapes préalables sont nécessaires pour ne pas avoir une application monolithique (ce qui est une bonne pratique). Si vous n'êtes intéressés que par développer une application <span class="in">`Streamlit`</span>, vous pouvez directement passer aux étapes concernées (à partir de la partie 3️). </span>
 <span id="cb69-164"><a href="#cb69-164" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-165"><a href="#cb69-165" aria-hidden="true" tabindex="-1"></a>La première étape (1️⃣ _Récupération et nettoyage de la base `OpenFoodFacts`_) peut être assez chronophage. Cela est assez représentatif des projets de _data science_ où la majorité du temps est consacrée</span>
-<span id="cb69-166"><a href="#cb69-166" aria-hidden="true" tabindex="-1"></a>à la structuration et la manipulation de données. La deuxième étape (2️ _"Faire des statistiques agrégées par catégories"_) est la moins centrale de ce sujet: si vous manquez de temps vous pouvez la passer</span>
+<span id="cb69-166"><a href="#cb69-166" aria-hidden="true" tabindex="-1"></a>à la structuration et la manipulation de données. La deuxième étape (2️ _"Faire des statistiques agrégées par catégories"_) est la moins centrale de ce sujet : si vous manquez de temps vous pouvez la passer</span>
 <span id="cb69-167"><a href="#cb69-167" aria-hidden="true" tabindex="-1"></a>et utiliser directement les morceaux de code mis à disposition. </span>
 <span id="cb69-168"><a href="#cb69-168" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-169"><a href="#cb69-169" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-170"><a href="#cb69-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## Remarques</span></span>
 <span id="cb69-171"><a href="#cb69-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-172"><a href="#cb69-172" aria-hidden="true" tabindex="-1"></a>Cette page peut être consultée par différents canaux:</span>
+<span id="cb69-172"><a href="#cb69-172" aria-hidden="true" tabindex="-1"></a>Cette page peut être consultée par différents canaux :</span>
 <span id="cb69-173"><a href="#cb69-173" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-174"><a href="#cb69-174" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sur un site web, les codes</span>
 <span id="cb69-175"><a href="#cb69-175" aria-hidden="true" tabindex="-1"></a>faisant office de solution sont, par défauts, cachés. Cela peut être pratique</span>
