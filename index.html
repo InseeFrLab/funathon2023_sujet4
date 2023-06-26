@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.361">
+<meta name="generator" content="quarto-1.3.427">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -152,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>Ce notebook vise à présenter pas à pas comment créer une application interactive avec <code>Streamlit</code> reproduisant celle proposée sur <a href="https://myyuka.lab.sspcloud.fr/">myyuka.lab.sspcloud.fr</a>.</p>
 <p>Cet exercice est proposé dans le cadre du <code>Funathon</code> (hackathon non compétitif) organisé en 2023 par l’Insee et le Ministère de l’Agriculture sur le thème <em>“Du champ à l’assiette”</em>. Les autres sujets sont disponibles sur le <a href="https://github.com/InseeFrLab/funathon2023"><code>Github InseeFrLab</code></a>.</p>
-<p>Pour les personnes bénéficiant d’un compte sur l’infrastructure <a href="https://www.onyxia.sh/"><code>SSP Cloud</code></a> vous pouvez cliquer sur le lien ci-dessous pour lancer un environnement <code>Jupyter</code> prêt-à-l’emploi <a href="https://datalab.sspcloud.fr/launcher/ide/jupyter-python?autoLaunch=true&amp;kubernetes.role=%C2%ABadmin%C2%BB&amp;networking.user.enabled=true&amp;git.cache=%C2%AB36000%C2%BB&amp;init.personalInit=%C2%ABhttps%3A%2F%2Fraw.githubusercontent.com%2FInseeFrLab%2Ffunathon2023_sujet4%2Fmain%2Finit.sh%C2%BB"><img src="https://img.shields.io/badge/SSPcloud-Tester%20via%20SSP--cloud-informational&amp;color=yellow?logo=Python.png" class="img-fluid" alt="Onyxia"></a></p>
+<p>Pour les personnes bénéficiant d’un compte sur l’infrastructure <a href="https://www.onyxia.sh/"><code>SSP Cloud</code></a> vous pouvez cliquer sur le lien ci-dessous pour lancer un environnement <code>Jupyter</code> prêt-à-l’emploi <a href="https://datalab.sspcloud.fr/launcher/ide/jupyter-python?autoLaunch=false&amp;kubernetes.role=%C2%ABadmin%C2%BB&amp;networking.user.enabled=true&amp;git.cache=%C2%AB36000%C2%BB&amp;init.personalInit=%C2%ABhttps%3A%2F%2Fraw.githubusercontent.com%2FInseeFrLab%2Ffunathon2023_sujet4%2Fmain%2Finit.sh%C2%BB&amp;git.token=%C2%AB%C2%BB&amp;git.repository=%C2%ABhttps%3A%2F%2Fgithub.com%2FInseeFrLab%2Ffunathon2023_sujet4.git%C2%BB"><img src="https://img.shields.io/badge/SSPcloud-Tester%20via%20SSP--cloud-informational&amp;color=yellow?logo=Python.png" class="img-fluid" alt="Onyxia"></a> Il s’agit de l’approche recommandée si vous avez un compte sur cette plateforme de l’Etat.</p>
 <p>Si vous ne disposez pas d’un tel environnement, il est possible de consulter cette page à travers un <em>notebook</em> depuis <code>Google Colab</code> <a href="http://colab.research.google.com/github/InseeFrLab/funathon2023_sujet4/blob/main/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Colab"></a>. Néanmoins, tous les exemples ne seront pas reproductibles puisque, par exemple, certains nécessitent d’être en mesure de lancer une application <em>web</em> depuis <code>Python</code>, ce qui n’est pas possible sur <code>Google Colab</code>.</p>
 <p>En amont de l’exécution de ce notebook, il est recommandé d’installer l’ensemble des packages utilisés dans ce projet avec la commande suivante :</p>
 <div class="cell" data-execution_count="1">
@@ -2582,189 +2582,192 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb69-20"><a href="#cb69-20" aria-hidden="true" tabindex="-1"></a>Pour les personnes bénéficiant d'un compte sur</span>
 <span id="cb69-21"><a href="#cb69-21" aria-hidden="true" tabindex="-1"></a>l'infrastructure <span class="co">[</span><span class="ot">`SSP Cloud`</span><span class="co">](https://www.onyxia.sh/)</span></span>
 <span id="cb69-22"><a href="#cb69-22" aria-hidden="true" tabindex="-1"></a>vous pouvez cliquer sur le lien ci-dessous pour lancer un </span>
-<span id="cb69-23"><a href="#cb69-23" aria-hidden="true" tabindex="-1"></a>environnement <span class="in">`Jupyter`</span> prêt-à-l'emploi <span class="co">[</span><span class="al">![Onyxia](https://img.shields.io/badge/SSPcloud-Tester%20via%20SSP--cloud-informational&amp;color=yellow?logo=Python)</span><span class="co">](https://datalab.sspcloud.fr/launcher/ide/jupyter-python?autoLaunch=true&amp;kubernetes.role=%C2%ABadmin%C2%BB&amp;networking.user.enabled=true&amp;git.cache=%C2%AB36000%C2%BB&amp;init.personalInit=%C2%ABhttps%3A%2F%2Fraw.githubusercontent.com%2FInseeFrLab%2Ffunathon2023_sujet4%2Fmain%2Finit.sh%C2%BB)</span></span>
-<span id="cb69-24"><a href="#cb69-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-25"><a href="#cb69-25" aria-hidden="true" tabindex="-1"></a>Si vous ne disposez pas d'un tel environnement, il est possible de consulter</span>
-<span id="cb69-26"><a href="#cb69-26" aria-hidden="true" tabindex="-1"></a>cette page à travers un _notebook_</span>
-<span id="cb69-27"><a href="#cb69-27" aria-hidden="true" tabindex="-1"></a>depuis <span class="in">`Google Colab`</span> <span class="co">[</span><span class="al">![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](http://colab.research.google.com/github/InseeFrLab/funathon2023_sujet4/blob/main/index.ipynb)</span>. Néanmoins, tous les exemples ne seront pas reproductibles</span>
-<span id="cb69-28"><a href="#cb69-28" aria-hidden="true" tabindex="-1"></a>puisque, par exemple, certains nécessitent d'être en mesure de lancer une application _web_</span>
-<span id="cb69-29"><a href="#cb69-29" aria-hidden="true" tabindex="-1"></a>depuis <span class="in">`Python`</span>,</span>
-<span id="cb69-30"><a href="#cb69-30" aria-hidden="true" tabindex="-1"></a>ce qui n'est pas possible sur <span class="in">`Google Colab`</span>.</span>
-<span id="cb69-31"><a href="#cb69-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-32"><a href="#cb69-32" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb69-33"><a href="#cb69-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-34"><a href="#cb69-34" aria-hidden="true" tabindex="-1"></a>En amont de l'exécution de ce notebook, il est recommandé d'installer </span>
-<span id="cb69-35"><a href="#cb69-35" aria-hidden="true" tabindex="-1"></a>l'ensemble des packages utilisés dans ce projet avec la commande</span>
-<span id="cb69-36"><a href="#cb69-36" aria-hidden="true" tabindex="-1"></a>suivante :</span>
-<span id="cb69-37"><a href="#cb69-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-40"><a href="#cb69-40" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb69-41"><a href="#cb69-41" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb69-42"><a href="#cb69-42" aria-hidden="true" tabindex="-1"></a>pip install <span class="op">-</span>r requirements.txt</span>
-<span id="cb69-43"><a href="#cb69-43" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb69-44"><a href="#cb69-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-45"><a href="#cb69-45" aria-hidden="true" tabindex="-1"></a><span class="fu"># Objectif et approche pédagogique</span></span>
-<span id="cb69-46"><a href="#cb69-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-47"><a href="#cb69-47" aria-hidden="true" tabindex="-1"></a>L'objectif de ce projet est d'apprendre à utiliser <span class="in">`Python`</span> pour créer des </span>
-<span id="cb69-48"><a href="#cb69-48" aria-hidden="true" tabindex="-1"></a>applications réactives avec <span class="in">`Streamlit`</span> mais aussi de se familiariser à</span>
-<span id="cb69-49"><a href="#cb69-49" aria-hidden="true" tabindex="-1"></a>la manipulation de données avec <span class="in">`Python`</span> et, au passage, à quelques bonnes</span>
-<span id="cb69-50"><a href="#cb69-50" aria-hidden="true" tabindex="-1"></a>pratiques utiles pour obtenir des projets plus lisibles et reproductibles. </span>
-<span id="cb69-51"><a href="#cb69-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-52"><a href="#cb69-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-53"><a href="#cb69-53" aria-hidden="true" tabindex="-1"></a>Pour parvenir à cet objectif, il est possible d'emprunter plusieurs voies,</span>
-<span id="cb69-54"><a href="#cb69-54" aria-hidden="true" tabindex="-1"></a>plus ou moins guidées. Celles-ci sont là pour permettre que ce sujet </span>
-<span id="cb69-55"><a href="#cb69-55" aria-hidden="true" tabindex="-1"></a>soit réalisable. Elles sont balisées de la manière suivante :</span>
-<span id="cb69-56"><a href="#cb69-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-57"><a href="#cb69-57" aria-hidden="true" tabindex="-1"></a>| Balisage | Approche | Prérequis de niveau | Objectif pédagogique |</span>
-<span id="cb69-58"><a href="#cb69-58" aria-hidden="true" tabindex="-1"></a>|--------|---------|----------------|-------------------|</span>
-<span id="cb69-59"><a href="#cb69-59" aria-hidden="true" tabindex="-1"></a>| 🟡 | Exécuter les cellules permet d'obtenir le résultat attendu | Capacité à installer des _packages_ | Découvrir de nouveaux _packages_ en suivant le fil conducteur du projet, découvrir les scripts <span class="in">`Python`</span>, se familiariser avec <span class="in">`Git`</span>  |</span>
-<span id="cb69-60"><a href="#cb69-60" aria-hidden="true" tabindex="-1"></a>| 🟢 | Des instructions détaillées sur la manière de procéder sont proposées | Connaître quelques manipulations avec <span class="in">`Pandas`</span> | Apprendre à utiliser certains _packages_ avec un projet guidé, se familiariser avec les projets `Python` plus conséquents que les _notebooks_ <span class="in">`Jupyter`</span> |</span>
-<span id="cb69-61"><a href="#cb69-61" aria-hidden="true" tabindex="-1"></a>| 🔵 | Instructions moins détaillées | Capacité à manipuler des données avec <span class="in">`Pandas`</span> | Apprendre à modulariser du code pour faciliter sa réutilisation dans une application, découvrir la récupation de données via des API |</span>
-<span id="cb69-62"><a href="#cb69-62" aria-hidden="true" tabindex="-1"></a>| 🔴 | Peu d'instructions | Expérience en développement de code <span class="in">`Python`</span> | Découvrir la création d'application ou se familiariser avec l'écosystème <span class="in">`DuckDB`</span> |</span>
-<span id="cb69-63"><a href="#cb69-63" aria-hidden="true" tabindex="-1"></a>| ⚫ | Autonomie | Bonne maîtrise de <span class="in">`Python`</span> et de la ligne de commande ̀<span class="in">`Linux`</span> | S'initier au déploiement d'une application ou à l'ingénierie de données&nbsp;|</span>
-<span id="cb69-64"><a href="#cb69-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-65"><a href="#cb69-65" aria-hidden="true" tabindex="-1"></a>Le parcours vers la mise en oeuvre d'une application fonctionnelle se fait par étapes, en séquençant le projet</span>
-<span id="cb69-66"><a href="#cb69-66" aria-hidden="true" tabindex="-1"></a>pour permettre d'avoir un projet lisible, reproductible et modulaire. </span>
+<span id="cb69-23"><a href="#cb69-23" aria-hidden="true" tabindex="-1"></a>environnement <span class="in">`Jupyter`</span> prêt-à-l'emploi</span>
+<span id="cb69-24"><a href="#cb69-24" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![Onyxia](https://img.shields.io/badge/SSPcloud-Tester%20via%20SSP--cloud-informational&amp;color=yellow?logo=Python)</span><span class="co">](https://datalab.sspcloud.fr/launcher/ide/jupyter-python?autoLaunch=false&amp;kubernetes.role=%C2%ABadmin%C2%BB&amp;networking.user.enabled=true&amp;git.cache=%C2%AB36000%C2%BB&amp;init.personalInit=%C2%ABhttps%3A%2F%2Fraw.githubusercontent.com%2FInseeFrLab%2Ffunathon2023_sujet4%2Fmain%2Finit.sh%C2%BB&amp;git.token=%C2%AB%C2%BB&amp;git.repository=%C2%ABhttps%3A%2F%2Fgithub.com%2FInseeFrLab%2Ffunathon2023_sujet4.git%C2%BB)</span></span>
+<span id="cb69-25"><a href="#cb69-25" aria-hidden="true" tabindex="-1"></a>Il s'agit de l'approche recommandée si vous avez un compte sur cette plateforme de l'Etat.</span>
+<span id="cb69-26"><a href="#cb69-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-27"><a href="#cb69-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-28"><a href="#cb69-28" aria-hidden="true" tabindex="-1"></a>Si vous ne disposez pas d'un tel environnement, il est possible de consulter</span>
+<span id="cb69-29"><a href="#cb69-29" aria-hidden="true" tabindex="-1"></a>cette page à travers un _notebook_</span>
+<span id="cb69-30"><a href="#cb69-30" aria-hidden="true" tabindex="-1"></a>depuis <span class="in">`Google Colab`</span> <span class="co">[</span><span class="al">![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](http://colab.research.google.com/github/InseeFrLab/funathon2023_sujet4/blob/main/index.ipynb)</span>. Néanmoins, tous les exemples ne seront pas reproductibles</span>
+<span id="cb69-31"><a href="#cb69-31" aria-hidden="true" tabindex="-1"></a>puisque, par exemple, certains nécessitent d'être en mesure de lancer une application _web_</span>
+<span id="cb69-32"><a href="#cb69-32" aria-hidden="true" tabindex="-1"></a>depuis <span class="in">`Python`</span>,</span>
+<span id="cb69-33"><a href="#cb69-33" aria-hidden="true" tabindex="-1"></a>ce qui n'est pas possible sur <span class="in">`Google Colab`</span>.</span>
+<span id="cb69-34"><a href="#cb69-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-35"><a href="#cb69-35" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb69-36"><a href="#cb69-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-37"><a href="#cb69-37" aria-hidden="true" tabindex="-1"></a>En amont de l'exécution de ce notebook, il est recommandé d'installer </span>
+<span id="cb69-38"><a href="#cb69-38" aria-hidden="true" tabindex="-1"></a>l'ensemble des packages utilisés dans ce projet avec la commande</span>
+<span id="cb69-39"><a href="#cb69-39" aria-hidden="true" tabindex="-1"></a>suivante :</span>
+<span id="cb69-40"><a href="#cb69-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-43"><a href="#cb69-43" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb69-44"><a href="#cb69-44" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb69-45"><a href="#cb69-45" aria-hidden="true" tabindex="-1"></a>pip install <span class="op">-</span>r requirements.txt</span>
+<span id="cb69-46"><a href="#cb69-46" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb69-47"><a href="#cb69-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-48"><a href="#cb69-48" aria-hidden="true" tabindex="-1"></a><span class="fu"># Objectif et approche pédagogique</span></span>
+<span id="cb69-49"><a href="#cb69-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-50"><a href="#cb69-50" aria-hidden="true" tabindex="-1"></a>L'objectif de ce projet est d'apprendre à utiliser <span class="in">`Python`</span> pour créer des </span>
+<span id="cb69-51"><a href="#cb69-51" aria-hidden="true" tabindex="-1"></a>applications réactives avec <span class="in">`Streamlit`</span> mais aussi de se familiariser à</span>
+<span id="cb69-52"><a href="#cb69-52" aria-hidden="true" tabindex="-1"></a>la manipulation de données avec <span class="in">`Python`</span> et, au passage, à quelques bonnes</span>
+<span id="cb69-53"><a href="#cb69-53" aria-hidden="true" tabindex="-1"></a>pratiques utiles pour obtenir des projets plus lisibles et reproductibles. </span>
+<span id="cb69-54"><a href="#cb69-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-55"><a href="#cb69-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-56"><a href="#cb69-56" aria-hidden="true" tabindex="-1"></a>Pour parvenir à cet objectif, il est possible d'emprunter plusieurs voies,</span>
+<span id="cb69-57"><a href="#cb69-57" aria-hidden="true" tabindex="-1"></a>plus ou moins guidées. Celles-ci sont là pour permettre que ce sujet </span>
+<span id="cb69-58"><a href="#cb69-58" aria-hidden="true" tabindex="-1"></a>soit réalisable. Elles sont balisées de la manière suivante :</span>
+<span id="cb69-59"><a href="#cb69-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-60"><a href="#cb69-60" aria-hidden="true" tabindex="-1"></a>| Balisage | Approche | Prérequis de niveau | Objectif pédagogique |</span>
+<span id="cb69-61"><a href="#cb69-61" aria-hidden="true" tabindex="-1"></a>|--------|---------|----------------|-------------------|</span>
+<span id="cb69-62"><a href="#cb69-62" aria-hidden="true" tabindex="-1"></a>| 🟡 | Exécuter les cellules permet d'obtenir le résultat attendu | Capacité à installer des _packages_ | Découvrir de nouveaux _packages_ en suivant le fil conducteur du projet, découvrir les scripts <span class="in">`Python`</span>, se familiariser avec <span class="in">`Git`</span>  |</span>
+<span id="cb69-63"><a href="#cb69-63" aria-hidden="true" tabindex="-1"></a>| 🟢 | Des instructions détaillées sur la manière de procéder sont proposées | Connaître quelques manipulations avec <span class="in">`Pandas`</span> | Apprendre à utiliser certains _packages_ avec un projet guidé, se familiariser avec les projets `Python` plus conséquents que les _notebooks_ <span class="in">`Jupyter`</span> |</span>
+<span id="cb69-64"><a href="#cb69-64" aria-hidden="true" tabindex="-1"></a>| 🔵 | Instructions moins détaillées | Capacité à manipuler des données avec <span class="in">`Pandas`</span> | Apprendre à modulariser du code pour faciliter sa réutilisation dans une application, découvrir la récupation de données via des API |</span>
+<span id="cb69-65"><a href="#cb69-65" aria-hidden="true" tabindex="-1"></a>| 🔴 | Peu d'instructions | Expérience en développement de code <span class="in">`Python`</span> | Découvrir la création d'application ou se familiariser avec l'écosystème <span class="in">`DuckDB`</span> |</span>
+<span id="cb69-66"><a href="#cb69-66" aria-hidden="true" tabindex="-1"></a>| ⚫ | Autonomie | Bonne maîtrise de <span class="in">`Python`</span> et de la ligne de commande ̀<span class="in">`Linux`</span> | S'initier au déploiement d'une application ou à l'ingénierie de données&nbsp;|</span>
 <span id="cb69-67"><a href="#cb69-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-68"><a href="#cb69-68" aria-hidden="true" tabindex="-1"></a>Les étapes ne sont</span>
-<span id="cb69-69"><a href="#cb69-69" aria-hidden="true" tabindex="-1"></a>pas forcément de difficulté graduelle, il s'agit plutôt de séquencer de manière logique le projet</span>
-<span id="cb69-70"><a href="#cb69-70" aria-hidden="true" tabindex="-1"></a>pour vous faciliter la prise en main.</span>
-<span id="cb69-71"><a href="#cb69-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-72"><a href="#cb69-72" aria-hidden="true" tabindex="-1"></a>Il est donc tout à fait possible de passer, selon les parties, d'une voie 🟢 à une voie 🔵 ou bien de tester les codes proposés dans la voie 🟡 d'abord puis, une fois que la logique a été comprise, essayer de les faire soit-même via la voie 🟢 ou encore essayer via la voie 🔵, ne pas y parvenir du fait du caractère plus succinct des instructions et regarder les instructions de la voie 🟢 ou la solution de la voie 🟡.</span>
-<span id="cb69-73"><a href="#cb69-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-74"><a href="#cb69-74" aria-hidden="true" tabindex="-1"></a>Il est même tout à fait possible de sauter une étape et reprendre à partir de la suivante grâce aux _checkpoints_ proposés. </span>
-<span id="cb69-75"><a href="#cb69-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-76"><a href="#cb69-76" aria-hidden="true" tabindex="-1"></a>Les consignes sont encapsulées dans des boites dédiées, afin d'être séparées des explications générales. </span>
-<span id="cb69-77"><a href="#cb69-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-78"><a href="#cb69-78" aria-hidden="true" tabindex="-1"></a>Par exemple, la boite verte prendra l'aspect suivant:</span>
-<span id="cb69-79"><a href="#cb69-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-80"><a href="#cb69-80" aria-hidden="true" tabindex="-1"></a>::: {.cell .markdown}</span>
-<span id="cb69-81"><a href="#cb69-81" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!----- boite 🟢 -----&gt;</span></span>
+<span id="cb69-68"><a href="#cb69-68" aria-hidden="true" tabindex="-1"></a>Le parcours vers la mise en oeuvre d'une application fonctionnelle se fait par étapes, en séquençant le projet</span>
+<span id="cb69-69"><a href="#cb69-69" aria-hidden="true" tabindex="-1"></a>pour permettre d'avoir un projet lisible, reproductible et modulaire. </span>
+<span id="cb69-70"><a href="#cb69-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-71"><a href="#cb69-71" aria-hidden="true" tabindex="-1"></a>Les étapes ne sont</span>
+<span id="cb69-72"><a href="#cb69-72" aria-hidden="true" tabindex="-1"></a>pas forcément de difficulté graduelle, il s'agit plutôt de séquencer de manière logique le projet</span>
+<span id="cb69-73"><a href="#cb69-73" aria-hidden="true" tabindex="-1"></a>pour vous faciliter la prise en main.</span>
+<span id="cb69-74"><a href="#cb69-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-75"><a href="#cb69-75" aria-hidden="true" tabindex="-1"></a>Il est donc tout à fait possible de passer, selon les parties, d'une voie 🟢 à une voie 🔵 ou bien de tester les codes proposés dans la voie 🟡 d'abord puis, une fois que la logique a été comprise, essayer de les faire soit-même via la voie 🟢 ou encore essayer via la voie 🔵, ne pas y parvenir du fait du caractère plus succinct des instructions et regarder les instructions de la voie 🟢 ou la solution de la voie 🟡.</span>
+<span id="cb69-76"><a href="#cb69-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-77"><a href="#cb69-77" aria-hidden="true" tabindex="-1"></a>Il est même tout à fait possible de sauter une étape et reprendre à partir de la suivante grâce aux _checkpoints_ proposés. </span>
+<span id="cb69-78"><a href="#cb69-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-79"><a href="#cb69-79" aria-hidden="true" tabindex="-1"></a>Les consignes sont encapsulées dans des boites dédiées, afin d'être séparées des explications générales. </span>
+<span id="cb69-80"><a href="#cb69-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-81"><a href="#cb69-81" aria-hidden="true" tabindex="-1"></a>Par exemple, la boite verte prendra l'aspect suivant:</span>
 <span id="cb69-82"><a href="#cb69-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-83"><a href="#cb69-83" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
-<span id="cb69-86"><a href="#cb69-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb69-87"><a href="#cb69-87" aria-hidden="true" tabindex="-1"></a><span class="in">#| echo: false</span></span>
-<span id="cb69-88"><a href="#cb69-88" aria-hidden="true" tabindex="-1"></a><span class="in">#| output: asis</span></span>
-<span id="cb69-89"><a href="#cb69-89" aria-hidden="true" tabindex="-1"></a><span class="in">#| eval: true</span></span>
-<span id="cb69-90"><a href="#cb69-90" aria-hidden="true" tabindex="-1"></a><span class="in">from utils_notebook import create_box_level</span></span>
-<span id="cb69-91"><a href="#cb69-91" aria-hidden="true" tabindex="-1"></a><span class="in">create_box_level(color = "🟢", title = "Exemple (🟢)")</span></span>
-<span id="cb69-92"><a href="#cb69-92" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb69-93"><a href="#cb69-93" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;details&gt;</span></span>
-<span id="cb69-94"><a href="#cb69-94" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;summary&gt;</span>Dérouler pour révéler les instructions<span class="kw">&lt;/summary&gt;</span></span>
+<span id="cb69-83"><a href="#cb69-83" aria-hidden="true" tabindex="-1"></a>::: {.cell .markdown}</span>
+<span id="cb69-84"><a href="#cb69-84" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!----- boite 🟢 -----&gt;</span></span>
+<span id="cb69-85"><a href="#cb69-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-86"><a href="#cb69-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb69-89"><a href="#cb69-89" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb69-90"><a href="#cb69-90" aria-hidden="true" tabindex="-1"></a><span class="in">#| echo: false</span></span>
+<span id="cb69-91"><a href="#cb69-91" aria-hidden="true" tabindex="-1"></a><span class="in">#| output: asis</span></span>
+<span id="cb69-92"><a href="#cb69-92" aria-hidden="true" tabindex="-1"></a><span class="in">#| eval: true</span></span>
+<span id="cb69-93"><a href="#cb69-93" aria-hidden="true" tabindex="-1"></a><span class="in">from utils_notebook import create_box_level</span></span>
+<span id="cb69-94"><a href="#cb69-94" aria-hidden="true" tabindex="-1"></a><span class="in">create_box_level(color = "🟢", title = "Exemple (🟢)")</span></span>
 <span id="cb69-95"><a href="#cb69-95" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb69-96"><a href="#cb69-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-97"><a href="#cb69-97" aria-hidden="true" tabindex="-1"></a><span class="in">Utiliser la fonction `print` pour afficher le texte _"Toto"_</span></span>
-<span id="cb69-98"><a href="#cb69-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-99"><a href="#cb69-99" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
-<span id="cb69-100"><a href="#cb69-100" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/details&gt;</span></span>
-<span id="cb69-101"><a href="#cb69-101" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
-<span id="cb69-102"><a href="#cb69-102" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb69-103"><a href="#cb69-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-104"><a href="#cb69-104" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!----- end 🟢 -----&gt;</span></span>
-<span id="cb69-105"><a href="#cb69-105" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb69-96"><a href="#cb69-96" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;details&gt;</span></span>
+<span id="cb69-97"><a href="#cb69-97" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;summary&gt;</span>Dérouler pour révéler les instructions<span class="kw">&lt;/summary&gt;</span></span>
+<span id="cb69-98"><a href="#cb69-98" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb69-99"><a href="#cb69-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-100"><a href="#cb69-100" aria-hidden="true" tabindex="-1"></a><span class="in">Utiliser la fonction `print` pour afficher le texte _"Toto"_</span></span>
+<span id="cb69-101"><a href="#cb69-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-102"><a href="#cb69-102" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb69-103"><a href="#cb69-103" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/details&gt;</span></span>
+<span id="cb69-104"><a href="#cb69-104" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb69-105"><a href="#cb69-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb69-106"><a href="#cb69-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-107"><a href="#cb69-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-108"><a href="#cb69-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-109"><a href="#cb69-109" aria-hidden="true" tabindex="-1"></a>alors que sur le même exercice, si plusieurs voies peuvent emprunter le même chemin, on </span>
-<span id="cb69-110"><a href="#cb69-110" aria-hidden="true" tabindex="-1"></a>utilisera une délimitation grise :</span>
+<span id="cb69-107"><a href="#cb69-107" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!----- end 🟢 -----&gt;</span></span>
+<span id="cb69-108"><a href="#cb69-108" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb69-109"><a href="#cb69-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-110"><a href="#cb69-110" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-111"><a href="#cb69-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-112"><a href="#cb69-112" aria-hidden="true" tabindex="-1"></a>::: {.cell .markdown}</span>
-<span id="cb69-113"><a href="#cb69-113" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!----- boite 🔵 -----&gt;</span></span>
+<span id="cb69-112"><a href="#cb69-112" aria-hidden="true" tabindex="-1"></a>alors que sur le même exercice, si plusieurs voies peuvent emprunter le même chemin, on </span>
+<span id="cb69-113"><a href="#cb69-113" aria-hidden="true" tabindex="-1"></a>utilisera une délimitation grise :</span>
 <span id="cb69-114"><a href="#cb69-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-115"><a href="#cb69-115" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
-<span id="cb69-118"><a href="#cb69-118" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb69-119"><a href="#cb69-119" aria-hidden="true" tabindex="-1"></a><span class="in">#| echo: false</span></span>
-<span id="cb69-120"><a href="#cb69-120" aria-hidden="true" tabindex="-1"></a><span class="in">#| output: asis</span></span>
-<span id="cb69-121"><a href="#cb69-121" aria-hidden="true" tabindex="-1"></a><span class="in">#| eval: true</span></span>
-<span id="cb69-122"><a href="#cb69-122" aria-hidden="true" tabindex="-1"></a><span class="in">from utils_notebook import create_box_level</span></span>
-<span id="cb69-123"><a href="#cb69-123" aria-hidden="true" tabindex="-1"></a><span class="in">create_box_level(color = "grey", title = "Exemple (🔵,🔴,⚫)")</span></span>
-<span id="cb69-124"><a href="#cb69-124" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb69-125"><a href="#cb69-125" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;details&gt;</span></span>
-<span id="cb69-126"><a href="#cb69-126" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;summary&gt;</span>Dérouler pour révéler les instructions<span class="kw">&lt;/summary&gt;</span></span>
+<span id="cb69-115"><a href="#cb69-115" aria-hidden="true" tabindex="-1"></a>::: {.cell .markdown}</span>
+<span id="cb69-116"><a href="#cb69-116" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!----- boite 🔵 -----&gt;</span></span>
+<span id="cb69-117"><a href="#cb69-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-118"><a href="#cb69-118" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb69-121"><a href="#cb69-121" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb69-122"><a href="#cb69-122" aria-hidden="true" tabindex="-1"></a><span class="in">#| echo: false</span></span>
+<span id="cb69-123"><a href="#cb69-123" aria-hidden="true" tabindex="-1"></a><span class="in">#| output: asis</span></span>
+<span id="cb69-124"><a href="#cb69-124" aria-hidden="true" tabindex="-1"></a><span class="in">#| eval: true</span></span>
+<span id="cb69-125"><a href="#cb69-125" aria-hidden="true" tabindex="-1"></a><span class="in">from utils_notebook import create_box_level</span></span>
+<span id="cb69-126"><a href="#cb69-126" aria-hidden="true" tabindex="-1"></a><span class="in">create_box_level(color = "grey", title = "Exemple (🔵,🔴,⚫)")</span></span>
 <span id="cb69-127"><a href="#cb69-127" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb69-128"><a href="#cb69-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-129"><a href="#cb69-129" aria-hidden="true" tabindex="-1"></a><span class="in">Afficher le texte _"Toto"_</span></span>
-<span id="cb69-130"><a href="#cb69-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-131"><a href="#cb69-131" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
-<span id="cb69-132"><a href="#cb69-132" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/details&gt;</span></span>
-<span id="cb69-133"><a href="#cb69-133" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
-<span id="cb69-134"><a href="#cb69-134" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb69-135"><a href="#cb69-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-136"><a href="#cb69-136" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!----- end 🔵 -----&gt;</span></span>
-<span id="cb69-137"><a href="#cb69-137" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb69-128"><a href="#cb69-128" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;details&gt;</span></span>
+<span id="cb69-129"><a href="#cb69-129" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;summary&gt;</span>Dérouler pour révéler les instructions<span class="kw">&lt;/summary&gt;</span></span>
+<span id="cb69-130"><a href="#cb69-130" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb69-131"><a href="#cb69-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-132"><a href="#cb69-132" aria-hidden="true" tabindex="-1"></a><span class="in">Afficher le texte _"Toto"_</span></span>
+<span id="cb69-133"><a href="#cb69-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-134"><a href="#cb69-134" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb69-135"><a href="#cb69-135" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/details&gt;</span></span>
+<span id="cb69-136"><a href="#cb69-136" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb69-137"><a href="#cb69-137" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb69-138"><a href="#cb69-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-139"><a href="#cb69-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-140"><a href="#cb69-140" aria-hidden="true" tabindex="-1"></a>La solution associée, visible pour les personnes sur la voie 🟡, sera :</span>
+<span id="cb69-139"><a href="#cb69-139" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!----- end 🔵 -----&gt;</span></span>
+<span id="cb69-140"><a href="#cb69-140" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb69-141"><a href="#cb69-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-144"><a href="#cb69-144" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb69-145"><a href="#cb69-145" aria-hidden="true" tabindex="-1"></a><span class="co">#&nbsp;Solution pour voie 🟡</span></span>
-<span id="cb69-146"><a href="#cb69-146" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"toto"</span>)</span>
-<span id="cb69-147"><a href="#cb69-147" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb69-148"><a href="#cb69-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-149"><a href="#cb69-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-150"><a href="#cb69-150" aria-hidden="true" tabindex="-1"></a><span class="fu">## Etapes du projet</span></span>
+<span id="cb69-142"><a href="#cb69-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-143"><a href="#cb69-143" aria-hidden="true" tabindex="-1"></a>La solution associée, visible pour les personnes sur la voie 🟡, sera :</span>
+<span id="cb69-144"><a href="#cb69-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-147"><a href="#cb69-147" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb69-148"><a href="#cb69-148" aria-hidden="true" tabindex="-1"></a><span class="co">#&nbsp;Solution pour voie 🟡</span></span>
+<span id="cb69-149"><a href="#cb69-149" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"toto"</span>)</span>
+<span id="cb69-150"><a href="#cb69-150" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb69-151"><a href="#cb69-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-152"><a href="#cb69-152" aria-hidden="true" tabindex="-1"></a>Le projet est séquencé de la manière suivante : </span>
-<span id="cb69-153"><a href="#cb69-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-154"><a href="#cb69-154" aria-hidden="true" tabindex="-1"></a>| Etape | Objectif |</span>
-<span id="cb69-155"><a href="#cb69-155" aria-hidden="true" tabindex="-1"></a>|--------|---------|</span>
-<span id="cb69-156"><a href="#cb69-156" aria-hidden="true" tabindex="-1"></a>| Récupération et nettoyage de la base <span class="in">`OpenFoodFacts`</span> | Lire des données avec <span class="in">`Pandas`</span> depuis un site web (🟡,🟢,🔵,🔴,⚫), appliquer des nettoyages de champs textuels (🟡,🟢,🔵,🔴,⚫), catégoriser ces données avec un classifieur automatique (🟡,🟢,🔵,🔴,⚫) voire entrainer un classifieur _ad hoc_ (🔴,⚫), écrire ces données sur un système de stockage distant (🟡,🟢,🔵,🔴,⚫) |</span>
-<span id="cb69-157"><a href="#cb69-157" aria-hidden="true" tabindex="-1"></a>| Faire des statistiques agrégées par catégories | Utiliser <span class="in">`Pandas`</span> (🟡,🟢,🔵) ou ̀<span class="in">`DuckDB`</span> (🔴,⚫) pour faire des statistiques par groupe |</span>
-<span id="cb69-158"><a href="#cb69-158" aria-hidden="true" tabindex="-1"></a>| Trouver un produit dans <span class="in">`OpenFoodFacts`</span> à partir d'un code barre | Détection visuelle d'un code barre (🟡,🟢,🔵, 🔴,⚫), rechercher des données avec des critères d'appariement exact comme le code barre via <span class="in">`Pandas`</span> (🟡,🟢,🔵) ou ̀<span class="in">`DuckDB`</span> (🔴,⚫)  ou via des distances textuelles (🔴,⚫)|</span>
-<span id="cb69-159"><a href="#cb69-159" aria-hidden="true" tabindex="-1"></a>| Encapsuler ces étapes dans une application <span class="in">`Streamlit`</span> | Tester une application <span class="in">`Streamlit`</span> minimale (🟡,🟢,🔵, 🔴,⚫), personnaliser celle-ci (🔴,⚫ ou 🟡,🟢,🔵 désirant se focaliser sur <span class="in">`Streamlit`</span>) |</span>
-<span id="cb69-160"><a href="#cb69-160" aria-hidden="true" tabindex="-1"></a>| Mettre en production cette application | Déployer grâce à des serveurs standardisés une application <span class="in">`Streamlit`</span> (🔴,⚫) ou proposer une version sans serveur (⚫ voulant se familiariser à <span class="in">`Observable`</span>) |</span>
-<span id="cb69-161"><a href="#cb69-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-162"><a href="#cb69-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-163"><a href="#cb69-163" aria-hidden="true" tabindex="-1"></a>Le développement à proprement parler de l'application est donc assez tardif car un certain nombre d'étapes préalables sont nécessaires pour ne pas avoir une application monolithique (ce qui est une bonne pratique). Si vous n'êtes intéressés que par développer une application <span class="in">`Streamlit`</span>, vous pouvez directement passer aux étapes concernées (à partir de la partie 3️). </span>
+<span id="cb69-152"><a href="#cb69-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-153"><a href="#cb69-153" aria-hidden="true" tabindex="-1"></a><span class="fu">## Etapes du projet</span></span>
+<span id="cb69-154"><a href="#cb69-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-155"><a href="#cb69-155" aria-hidden="true" tabindex="-1"></a>Le projet est séquencé de la manière suivante : </span>
+<span id="cb69-156"><a href="#cb69-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-157"><a href="#cb69-157" aria-hidden="true" tabindex="-1"></a>| Etape | Objectif |</span>
+<span id="cb69-158"><a href="#cb69-158" aria-hidden="true" tabindex="-1"></a>|--------|---------|</span>
+<span id="cb69-159"><a href="#cb69-159" aria-hidden="true" tabindex="-1"></a>| Récupération et nettoyage de la base <span class="in">`OpenFoodFacts`</span> | Lire des données avec <span class="in">`Pandas`</span> depuis un site web (🟡,🟢,🔵,🔴,⚫), appliquer des nettoyages de champs textuels (🟡,🟢,🔵,🔴,⚫), catégoriser ces données avec un classifieur automatique (🟡,🟢,🔵,🔴,⚫) voire entrainer un classifieur _ad hoc_ (🔴,⚫), écrire ces données sur un système de stockage distant (🟡,🟢,🔵,🔴,⚫) |</span>
+<span id="cb69-160"><a href="#cb69-160" aria-hidden="true" tabindex="-1"></a>| Faire des statistiques agrégées par catégories | Utiliser <span class="in">`Pandas`</span> (🟡,🟢,🔵) ou ̀<span class="in">`DuckDB`</span> (🔴,⚫) pour faire des statistiques par groupe |</span>
+<span id="cb69-161"><a href="#cb69-161" aria-hidden="true" tabindex="-1"></a>| Trouver un produit dans <span class="in">`OpenFoodFacts`</span> à partir d'un code barre | Détection visuelle d'un code barre (🟡,🟢,🔵, 🔴,⚫), rechercher des données avec des critères d'appariement exact comme le code barre via <span class="in">`Pandas`</span> (🟡,🟢,🔵) ou ̀<span class="in">`DuckDB`</span> (🔴,⚫)  ou via des distances textuelles (🔴,⚫)|</span>
+<span id="cb69-162"><a href="#cb69-162" aria-hidden="true" tabindex="-1"></a>| Encapsuler ces étapes dans une application <span class="in">`Streamlit`</span> | Tester une application <span class="in">`Streamlit`</span> minimale (🟡,🟢,🔵, 🔴,⚫), personnaliser celle-ci (🔴,⚫ ou 🟡,🟢,🔵 désirant se focaliser sur <span class="in">`Streamlit`</span>) |</span>
+<span id="cb69-163"><a href="#cb69-163" aria-hidden="true" tabindex="-1"></a>| Mettre en production cette application | Déployer grâce à des serveurs standardisés une application <span class="in">`Streamlit`</span> (🔴,⚫) ou proposer une version sans serveur (⚫ voulant se familiariser à <span class="in">`Observable`</span>) |</span>
 <span id="cb69-164"><a href="#cb69-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-165"><a href="#cb69-165" aria-hidden="true" tabindex="-1"></a>La première étape (1️⃣ _Récupération et nettoyage de la base `OpenFoodFacts`_) peut être assez chronophage. Cela est assez représentatif des projets de _data science_ où la majorité du temps est consacrée</span>
-<span id="cb69-166"><a href="#cb69-166" aria-hidden="true" tabindex="-1"></a>à la structuration et la manipulation de données. La deuxième étape (2️ _"Faire des statistiques agrégées par catégories"_) est la moins centrale de ce sujet : si vous manquez de temps vous pouvez la passer</span>
-<span id="cb69-167"><a href="#cb69-167" aria-hidden="true" tabindex="-1"></a>et utiliser directement les morceaux de code mis à disposition. </span>
-<span id="cb69-168"><a href="#cb69-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-169"><a href="#cb69-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-170"><a href="#cb69-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## Remarques</span></span>
+<span id="cb69-165"><a href="#cb69-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-166"><a href="#cb69-166" aria-hidden="true" tabindex="-1"></a>Le développement à proprement parler de l'application est donc assez tardif car un certain nombre d'étapes préalables sont nécessaires pour ne pas avoir une application monolithique (ce qui est une bonne pratique). Si vous n'êtes intéressés que par développer une application <span class="in">`Streamlit`</span>, vous pouvez directement passer aux étapes concernées (à partir de la partie 3️). </span>
+<span id="cb69-167"><a href="#cb69-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-168"><a href="#cb69-168" aria-hidden="true" tabindex="-1"></a>La première étape (1️⃣ _Récupération et nettoyage de la base `OpenFoodFacts`_) peut être assez chronophage. Cela est assez représentatif des projets de _data science_ où la majorité du temps est consacrée</span>
+<span id="cb69-169"><a href="#cb69-169" aria-hidden="true" tabindex="-1"></a>à la structuration et la manipulation de données. La deuxième étape (2️ _"Faire des statistiques agrégées par catégories"_) est la moins centrale de ce sujet : si vous manquez de temps vous pouvez la passer</span>
+<span id="cb69-170"><a href="#cb69-170" aria-hidden="true" tabindex="-1"></a>et utiliser directement les morceaux de code mis à disposition. </span>
 <span id="cb69-171"><a href="#cb69-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-172"><a href="#cb69-172" aria-hidden="true" tabindex="-1"></a>Cette page peut être consultée par différents canaux :</span>
-<span id="cb69-173"><a href="#cb69-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-174"><a href="#cb69-174" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sur un site web, les codes</span>
-<span id="cb69-175"><a href="#cb69-175" aria-hidden="true" tabindex="-1"></a>faisant office de solution sont, par défauts, cachés. Cela peut être pratique</span>
-<span id="cb69-176"><a href="#cb69-176" aria-hidden="true" tabindex="-1"></a>de consulter cette page si vous êtes sur un parcours de couleur différente que le </span>
-<span id="cb69-177"><a href="#cb69-177" aria-hidden="true" tabindex="-1"></a>jaune et ne voulez pas voir la solution sans le vouloir ;</span>
-<span id="cb69-178"><a href="#cb69-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sur un notebook <span class="in">`Jupyter`</span>, les solutions de la voie 🟡 sont affichées par défaut.</span>
-<span id="cb69-179"><a href="#cb69-179" aria-hidden="true" tabindex="-1"></a>Elles peuvent être cachées en faisant <span class="in">`View`</span> &gt; <span class="in">`Collapse All Code`</span></span>
-<span id="cb69-180"><a href="#cb69-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-181"><a href="#cb69-181" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sources et packages utilisés</span></span>
-<span id="cb69-182"><a href="#cb69-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-183"><a href="#cb69-183" aria-hidden="true" tabindex="-1"></a>Notre source de référence sera <span class="co">[</span><span class="ot">`OpenFoodFacts`</span><span class="co">](https://fr.openfoodfacts.org/)</span>, une </span>
-<span id="cb69-184"><a href="#cb69-184" aria-hidden="true" tabindex="-1"></a>base contributive sur les produits alimentaires. </span>
+<span id="cb69-172"><a href="#cb69-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-173"><a href="#cb69-173" aria-hidden="true" tabindex="-1"></a><span class="fu">## Remarques</span></span>
+<span id="cb69-174"><a href="#cb69-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-175"><a href="#cb69-175" aria-hidden="true" tabindex="-1"></a>Cette page peut être consultée par différents canaux :</span>
+<span id="cb69-176"><a href="#cb69-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-177"><a href="#cb69-177" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sur un site web, les codes</span>
+<span id="cb69-178"><a href="#cb69-178" aria-hidden="true" tabindex="-1"></a>faisant office de solution sont, par défauts, cachés. Cela peut être pratique</span>
+<span id="cb69-179"><a href="#cb69-179" aria-hidden="true" tabindex="-1"></a>de consulter cette page si vous êtes sur un parcours de couleur différente que le </span>
+<span id="cb69-180"><a href="#cb69-180" aria-hidden="true" tabindex="-1"></a>jaune et ne voulez pas voir la solution sans le vouloir ;</span>
+<span id="cb69-181"><a href="#cb69-181" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sur un notebook <span class="in">`Jupyter`</span>, les solutions de la voie 🟡 sont affichées par défaut.</span>
+<span id="cb69-182"><a href="#cb69-182" aria-hidden="true" tabindex="-1"></a>Elles peuvent être cachées en faisant <span class="in">`View`</span> &gt; <span class="in">`Collapse All Code`</span></span>
+<span id="cb69-183"><a href="#cb69-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-184"><a href="#cb69-184" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sources et packages utilisés</span></span>
 <span id="cb69-185"><a href="#cb69-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-186"><a href="#cb69-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-187"><a href="#cb69-187" aria-hidden="true" tabindex="-1"></a>::: {.cell .markdown}</span>
-<span id="cb69-188"><a href="#cb69-188" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
-<span id="cb69-189"><a href="#cb69-189" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #ffc10780;"&gt;</span></span>
-<span id="cb69-190"><a href="#cb69-190" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;h3 class="alert-heading"&gt;&lt;i class="fa fa-lightbulb-o"&gt;&lt;/i&gt; Hint&lt;/h3&gt;</span></span>
-<span id="cb69-191"><a href="#cb69-191" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb69-192"><a href="#cb69-192" aria-hidden="true" tabindex="-1"></a>Nous utiliserons également un classifieur automatique issu du projet <span class="co">[</span><span class="ot">`predicat`</span><span class="co">](https://github.com/InseeFrLab/predicat)</span>.</span>
-<span id="cb69-193"><a href="#cb69-193" aria-hidden="true" tabindex="-1"></a>Il s'agit d'un modèle qui utilise des noms de produits pour leur associer des catégories de la</span>
-<span id="cb69-194"><a href="#cb69-194" aria-hidden="true" tabindex="-1"></a>nomenclature <span class="co">[</span><span class="ot">COICOP (Classification des fonctions de consommation des ménages)</span><span class="co">](https://www.insee.fr/fr/information/2408172)</span>.</span>
-<span id="cb69-195"><a href="#cb69-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-196"><a href="#cb69-196" aria-hidden="true" tabindex="-1"></a>Ce modèle est là à des fins de démonstration du principe de la classification automatique et de la manière dont celle-ci</span>
-<span id="cb69-197"><a href="#cb69-197" aria-hidden="true" tabindex="-1"></a>peut être intégrée à un processus de production de données. Il ne s'agit pas d'un modèle</span>
-<span id="cb69-198"><a href="#cb69-198" aria-hidden="true" tabindex="-1"></a>officiel de l'Insee. </span>
-<span id="cb69-199"><a href="#cb69-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-200"><a href="#cb69-200" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
-<span id="cb69-201"><a href="#cb69-201" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
-<span id="cb69-202"><a href="#cb69-202" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb69-203"><a href="#cb69-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-204"><a href="#cb69-204" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb69-205"><a href="#cb69-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-186"><a href="#cb69-186" aria-hidden="true" tabindex="-1"></a>Notre source de référence sera <span class="co">[</span><span class="ot">`OpenFoodFacts`</span><span class="co">](https://fr.openfoodfacts.org/)</span>, une </span>
+<span id="cb69-187"><a href="#cb69-187" aria-hidden="true" tabindex="-1"></a>base contributive sur les produits alimentaires. </span>
+<span id="cb69-188"><a href="#cb69-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-189"><a href="#cb69-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-190"><a href="#cb69-190" aria-hidden="true" tabindex="-1"></a>::: {.cell .markdown}</span>
+<span id="cb69-191"><a href="#cb69-191" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb69-192"><a href="#cb69-192" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #ffc10780;"&gt;</span></span>
+<span id="cb69-193"><a href="#cb69-193" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;h3 class="alert-heading"&gt;&lt;i class="fa fa-lightbulb-o"&gt;&lt;/i&gt; Hint&lt;/h3&gt;</span></span>
+<span id="cb69-194"><a href="#cb69-194" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb69-195"><a href="#cb69-195" aria-hidden="true" tabindex="-1"></a>Nous utiliserons également un classifieur automatique issu du projet <span class="co">[</span><span class="ot">`predicat`</span><span class="co">](https://github.com/InseeFrLab/predicat)</span>.</span>
+<span id="cb69-196"><a href="#cb69-196" aria-hidden="true" tabindex="-1"></a>Il s'agit d'un modèle qui utilise des noms de produits pour leur associer des catégories de la</span>
+<span id="cb69-197"><a href="#cb69-197" aria-hidden="true" tabindex="-1"></a>nomenclature <span class="co">[</span><span class="ot">COICOP (Classification des fonctions de consommation des ménages)</span><span class="co">](https://www.insee.fr/fr/information/2408172)</span>.</span>
+<span id="cb69-198"><a href="#cb69-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-199"><a href="#cb69-199" aria-hidden="true" tabindex="-1"></a>Ce modèle est là à des fins de démonstration du principe de la classification automatique et de la manière dont celle-ci</span>
+<span id="cb69-200"><a href="#cb69-200" aria-hidden="true" tabindex="-1"></a>peut être intégrée à un processus de production de données. Il ne s'agit pas d'un modèle</span>
+<span id="cb69-201"><a href="#cb69-201" aria-hidden="true" tabindex="-1"></a>officiel de l'Insee. </span>
+<span id="cb69-202"><a href="#cb69-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-203"><a href="#cb69-203" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb69-204"><a href="#cb69-204" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb69-205"><a href="#cb69-205" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb69-206"><a href="#cb69-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-207"><a href="#cb69-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb69-208"><a href="#cb69-208" aria-hidden="true" tabindex="-1"></a>{{&lt; include content/_1_recup.qmd &gt;}}</span>
-<span id="cb69-209"><a href="#cb69-209" aria-hidden="true" tabindex="-1"></a>{{&lt; include content/_2_statistics.qmd &gt;}}</span>
-<span id="cb69-210"><a href="#cb69-210" aria-hidden="true" tabindex="-1"></a>{{&lt; include content/_3_match_barcode.qmd &gt;}}</span>
-<span id="cb69-211"><a href="#cb69-211" aria-hidden="true" tabindex="-1"></a>{{&lt; include content/_4_app.qmd &gt;}}</span>
-<span id="cb69-212"><a href="#cb69-212" aria-hidden="true" tabindex="-1"></a>{{&lt; include content/_5_deployment.qmd &gt;}}</span>
-<span id="cb69-213"><a href="#cb69-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-207"><a href="#cb69-207" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb69-208"><a href="#cb69-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-209"><a href="#cb69-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-210"><a href="#cb69-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-211"><a href="#cb69-211" aria-hidden="true" tabindex="-1"></a>{{&lt; include content/_1_recup.qmd &gt;}}</span>
+<span id="cb69-212"><a href="#cb69-212" aria-hidden="true" tabindex="-1"></a>{{&lt; include content/_2_statistics.qmd &gt;}}</span>
+<span id="cb69-213"><a href="#cb69-213" aria-hidden="true" tabindex="-1"></a>{{&lt; include content/_3_match_barcode.qmd &gt;}}</span>
+<span id="cb69-214"><a href="#cb69-214" aria-hidden="true" tabindex="-1"></a>{{&lt; include content/_4_app.qmd &gt;}}</span>
+<span id="cb69-215"><a href="#cb69-215" aria-hidden="true" tabindex="-1"></a>{{&lt; include content/_5_deployment.qmd &gt;}}</span>
+<span id="cb69-216"><a href="#cb69-216" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
