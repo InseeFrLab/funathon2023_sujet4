@@ -322,14 +322,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="préliminaire">1.1. Préliminaire (🟡,🟢,🔵,🔴,⚫)</h2>
 <p>Comme nous allons utiliser fréquemment certains paramètres, une bonne pratique consiste à les stocker dans un fichier dédié, au format <code>YAML</code> et d’importer celui-ci via <code>Python</code>. Ceci est expliqué dans <a href="https://ensae-reproductibilite.github.io/website/chapters/application.html#etape-3-gestion-des-param%C3%A8tres">ce cours de l’ENSAE</a></p>
 <p>Nous proposons de créer le fichier suivant au nom <code>config.yaml</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">URL_OPENFOOD</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz"</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ENDPOINT_S3</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://minio.lab.sspcloud.fr"</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">BUCKET</span><span class="kw">:</span><span class="at"> </span><span class="st">"projet-funathon"</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">DESTINATION_DATA_S3</span><span class="kw">:</span><span class="at"> </span><span class="st">"/2023/sujet4/diffusion"</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">URL_FASTTEXT_MINIO</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://minio.lab.sspcloud.fr/projet-funathon/2023/sujet4/diffusion/model_coicop10.bin"</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">URL_COICOP_LABEL</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://www.insee.fr/fr/statistiques/fichier/2402696/coicop2016_liste_n5.xls"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">URL_OPENFOOD_RAW</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">URL_OPENFOOD</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://minio.lab.sspcloud.fr/projet-funathon/2023/sujet4/diffusion/openfood.csv.gz"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ENDPOINT_S3</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://minio.lab.sspcloud.fr"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">BUCKET</span><span class="kw">:</span><span class="at"> </span><span class="st">"projet-funathon"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">DESTINATION_DATA_S3</span><span class="kw">:</span><span class="at"> </span><span class="st">"/2023/sujet4/diffusion"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">URL_FASTTEXT_MINIO</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://minio.lab.sspcloud.fr/projet-funathon/2023/sujet4/diffusion/model_coicop10.bin"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">URL_COICOP_LABEL</span><span class="kw">:</span><span class="at"> </span><span class="st">"https://www.insee.fr/fr/statistiques/fichier/2402696/coicop2016_liste_n5.xls"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>⚠️ Si vous désirez pouvoir reproduire tous les exemples de ce fichier, vous devez changer la variable <code>BUCKET</code> pour mettre votre nom d’utilisateur sur le <code>SSPCloud</code>.</p>
-<p>Nous allons lire ce fichier avec le package adapté pour transformer ces instructions en variables <code>Python</code> (stockées dans un dictionnaire)!,</p>
+<div class="cell markdown">
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #ffc10780;">
+<h3 class="alert-heading anchored"><i class="fa fa-lightbulb-o"></i> Hint</h3>
+<p>La base de données <code>OpenFoodFacts</code> est assez volumineuse (<code>csv</code> compressé autour d’1Go). Nous avons donc mis à disposition celle-ci directement depuis l’espace de stockage du <code>SSPCloud</code> ce qui peut permettre d’accélérer les téléchargements pour les utilisateurs de la plateforme.</p>
+<p>C’est pour cette raison qu’il y a deux clés différentes dans le YAML : <code>URL_OPENFOOD_RAW</code> et <code>URL_OPENFOOD</code>. Les utilisateurs du <code>SSPCloud</code> pourront utiliser la seconde clé, les autres la première.</p>
+</div>
+</div>
+<p>Nous allons lire ce fichier avec le package adapté pour transformer ces instructions en variables <code>Python</code> (stockées dans un dictionnaire),</p>
 <div class="cell markdown">
 <!----- boite 🟢 ----->
 
@@ -507,7 +515,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution pour voie 🟡</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils.preprocess_openfood <span class="im">import</span> download_openfood, import_openfood</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>download_openfood(destination <span class="op">=</span> <span class="st">"openfood.csv.gz"</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>openfood <span class="op">=</span> import_openfood(<span class="st">"openfood.csv.gz"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>openfood <span class="op">=</span> import_openfood(<span class="st">"openfood.csv.gz"</span>, usecols <span class="op">=</span> config[<span class="st">'variables'</span>])</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>openfood.loc[:, [<span class="st">'code'</span>, <span class="st">'product_name'</span>, <span class="st">'energy-kcal_100g'</span>, <span class="st">'nutriscore_grade'</span>]].sample(<span class="dv">5</span>, random_state <span class="op">=</span> <span class="dv">12345</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
