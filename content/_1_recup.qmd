@@ -10,7 +10,8 @@ dédié, au format `YAML` et d'importer celui-ci via
 Nous proposons de créer le fichier suivant au nom `config.yaml`:
 
 ```yaml
-URL_OPENFOOD: "https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz"
+URL_OPENFOOD_RAW: "https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz"
+URL_OPENFOOD: "https://minio.lab.sspcloud.fr/projet-funathon/2023/sujet4/diffusion/openfood.csv.gz"
 ENDPOINT_S3: "https://minio.lab.sspcloud.fr"
 BUCKET: "projet-funathon"
 DESTINATION_DATA_S3: "/2023/sujet4/diffusion"
@@ -21,8 +22,30 @@ URL_COICOP_LABEL: "https://www.insee.fr/fr/statistiques/fichier/2402696/coicop20
 ⚠️ Si vous désirez pouvoir reproduire tous les exemples de ce fichier, vous devez
 changer la variable `BUCKET` pour mettre votre nom d'utilisateur sur le `SSPCloud`.
 
+::: {.cell .markdown}
+```{=html}
+<div class="alert alert-warning" role="alert" style="color: rgba(0,0,0,.8); background-color: white; margin-top: 1em; margin-bottom: 1em; margin:1.5625emauto; padding:0 .6rem .8rem!important;overflow:hidden; page-break-inside:avoid; border-radius:.25rem; box-shadow:0 .2rem .5rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1); transition:color .25s,background-color .25s,border-color .25s ; border-right: 1px solid #dee2e6 ; border-top: 1px solid #dee2e6 ; border-bottom: 1px solid #dee2e6 ; border-left:.2rem solid #ffc10780;">
+<h3 class="alert-heading"><i class="fa fa-lightbulb-o"></i> Hint</h3>
+```
+
+La base de données `OpenFoodFacts` est assez volumineuse (`csv` compressé autour d'1Go).
+Nous avons donc mis à disposition celle-ci directement depuis l'espace de stockage
+du `SSPCloud` ce qui peut permettre d'accélérer les téléchargements pour les utilisateurs
+de la plateforme.
+
+C'est pour cette raison qu'il y a deux clés différentes dans le YAML : `URL_OPENFOOD_RAW`
+et `URL_OPENFOOD`. Les utilisateurs du `SSPCloud` pourront utiliser la seconde clé, les
+autres la première. 
+
+
+```{=html}
+</div>
+```
+
+:::
+
 Nous allons lire ce fichier avec le package adapté pour transformer ces
-instructions en variables `Python` (stockées dans un dictionnaire)!,
+instructions en variables `Python` (stockées dans un dictionnaire),
 
 
 
@@ -303,7 +326,7 @@ utiliser également la librairie `tqdm`.
 # Solution pour voie 🟡
 from utils.preprocess_openfood import download_openfood, import_openfood
 download_openfood(destination = "openfood.csv.gz")
-openfood = import_openfood("openfood.csv.gz")
+openfood = import_openfood("openfood.csv.gz", usecols = config['variables'])
 openfood.loc[:, ['code', 'product_name', 'energy-kcal_100g', 'nutriscore_grade']].sample(5, random_state = 12345)
 ```
 

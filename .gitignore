@@ -6,3 +6,6 @@
 __pycache__/
 /.quarto/
 /.jupyter_cache/
+
+utils/.ipynb_checkpoints/
+.ipynb_checkpoints/

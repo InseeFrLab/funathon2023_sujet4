@@ -1,6 +1,18 @@
-URL_OPENFOOD: "https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz"
+URL_OPENFOOD_RAW: "https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz"
+URL_OPENFOOD: "https://minio.lab.sspcloud.fr/projet-funathon/2023/sujet4/diffusion/openfood.csv.gz"
 ENDPOINT_S3: "https://minio.lab.sspcloud.fr"
 BUCKET: "projet-funathon"
 DESTINATION_DATA_S3: "/2023/sujet4/diffusion"
 URL_FASTTEXT_MINIO: "https://minio.lab.sspcloud.fr/projet-funathon/2023/sujet4/diffusion/model_coicop10.bin"
 URL_COICOP_LABEL: "https://www.insee.fr/fr/statistiques/fichier/2402696/coicop2016_liste_n5.xls"
+variables:
+    - "nutriscore_grade"
+    - "ecoscore_grade"
+    - "nova_group"
+    - 'product_name'
+    - 'code'
+    - 'energy-kcal_100g'
+    - 'created_datetime'
+    - 'last_image_datetime'
+    - 'last_modified_datetime'
+    - 'energy-kcal_100g'

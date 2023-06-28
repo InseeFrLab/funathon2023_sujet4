@@ -23,20 +23,27 @@ fs = s3fs.S3FileSystem(
 def download_openfood(
         url: str = config["URL_OPENFOOD"],
         destination: str = "openfood.csv",
-        force: bool = False
+        force: bool = False,
+        method: str = "s3",
+        s3_filesystem = fs
     ):
     
     if os.path.exists(destination) is True and force is False:
         print(f"{destination} exists, if you want to override, add argument force=True")
         return None
-    
-    download_pb(url, destination)
 
-    
-def import_openfood(filename):
+    if method == "s3":
+        path_openfood = url.replace("https://minio.lab.sspcloud.fr/","")
+        fs.download(path_openfood, destination)
+    else:
+        download_pb(url, destination)
+
+
+def import_openfood(filename, usecols=None):
     openfood = pd.read_csv(
         filename,
         delimiter="\t",
+        usecols=usecols,
         encoding="utf-8",
         dtype={
             "code ": "str",
